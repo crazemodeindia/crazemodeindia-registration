@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | Registration</title>
-    <!-- Fonts -->
+    <title>CRAZE MODE | Tournament Registration</title>
+
+    <!-- Social Media Preview (Open Graph) -->
+    <meta property="og:title" content="CRAZE MODE | Join the Elite">
+    <meta property="og:description" content="Skill-based mobile tournaments. Register to get your Combat ID.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/username/repo/main/preview.jpg"> <!-- Change this to your actual image link later -->
+    <meta property="og:url" content="https://github.io/your-page">
+
+    <!-- High-End Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
         :root {
             --bg: #0a0a0a;
@@ -14,364 +22,383 @@
             --tg-blue: #0088cc;
             --dc-blurple: #5865f2;
             --white: #ffffff;
-            --gray: #666;
-            --error: #ff4b2b;
+            --gray: #777;
+            --neon-glow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg);
             color: var(--white);
             font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
             display: flex;
             justify-content: center;
-            align-items: center;
             min-height: 100vh;
+            padding: 20px 0;
         }
 
-        /* Scanline Overlay Effect */
-        body::before {
-            content: " ";
-            display: block;
+        /* Subtle scanline effect for gaming feel */
+        body::after {
+            content: "";
             position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 999;
-            background-size: 100% 2px, 3px 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
             pointer-events: none;
+            z-index: 100;
         }
 
         .container {
-            width: 100%;
-            max-width: 450px;
-            padding: 20px;
-            text-align: center;
+            width: 90%;
+            max-width: 420px;
             z-index: 10;
         }
 
-        /* LOGO - RETRO PIXEL SOUL */
+        /* Brand Logo Style */
+        .header { text-align: center; margin-bottom: 30px; }
         .logo {
             font-family: 'Press Start 2P', cursive;
-            font-size: 24px;
+            font-size: 26px;
             letter-spacing: 2px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
-            animation: flicker 3s infinite;
+            margin-bottom: 8px;
+            text-shadow: 0 0 12px rgba(255,255,255,0.4);
+            animation: flicker 4s infinite;
         }
-
-        .sub-logo {
-            font-size: 12px;
+        .sub-text {
+            font-size: 11px;
             letter-spacing: 3px;
             color: var(--gray);
-            margin-bottom: 30px;
             text-transform: uppercase;
         }
 
-        /* Progress Bar */
-        .progress-container {
+        /* Progress Tracker */
+        .progress-wrap {
             width: 100%;
-            height: 4px;
+            height: 3px;
             background: #222;
-            margin-bottom: 30px;
-            border-radius: 2px;
+            margin-bottom: 40px;
+            border-radius: 10px;
             overflow: hidden;
         }
-        .progress-bar {
+        .bar {
             width: 0%;
             height: 100%;
             background: var(--white);
-            box-shadow: 0 0 10px var(--white);
-            transition: width 0.4s ease;
+            box-shadow: 0 0 15px var(--white);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Form Styling */
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 12px;
+        /* Form Controls */
+        .section-title {
+            font-size: 14px;
             font-weight: 700;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--gray);
-        }
-
-        input, select {
-            width: 100%;
-            background: var(--card-bg);
-            border: 1px solid #333;
-            padding: 15px;
-            color: var(--white);
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 16px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        /* Brand Colors for Borders */
-        .tg-border { border-color: var(--tg-blue) !important; }
-        .ff-border { border-color: var(--ff-orange) !important; }
-        .dc-border { border-color: var(--dc-blurple) !important; opacity: 0.8; }
-
-        .mobile-wrap {
-            display: flex;
-            align-items: center;
-        }
-        .prefix {
-            background: #222;
-            padding: 15px;
-            border: 1px solid #333;
-            border-right: none;
-            color: var(--gray);
-            font-weight: bold;
-        }
-        .mobile-input { border-left: none; border-radius: 0 4px 4px 0; }
-
-        .helper-btn {
-            position: absolute;
-            right: 10px;
-            top: 35px;
-            color: var(--tg-blue);
-            font-size: 12px;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .checkbox-wrap {
+            margin-bottom: 20px;
+            color: #444;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            color: #ccc;
         }
-        .checkbox-wrap input { width: auto; margin: 0; }
+        .section-title::after { content: ""; height: 1px; flex-grow: 1; background: #222; }
 
-        .btn-submit {
+        .field { margin-bottom: 25px; position: relative; }
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 10px;
+            color: var(--gray);
+        }
+
+        input {
             width: 100%;
-            padding: 18px;
+            background: var(--card-bg);
+            border: 1px solid #222;
+            padding: 16px;
+            color: var(--white);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 17px;
+            border-radius: 6px;
+            transition: 0.3s;
+        }
+        input:focus { border-color: #555; background: #161616; }
+
+        /* Color Coded Borders */
+        .ff-input { border-color: var(--ff-orange) !important; }
+        .tg-input { border-color: var(--tg-blue) !important; }
+        .dc-input { border-color: var(--dc-blurple) !important; }
+
+        /* Mobile Prefix Styling */
+        .mobile-container { display: flex; align-items: center; }
+        .prefix {
+            background: #1a1a1a;
+            padding: 16px;
+            border: 1px solid #222;
+            border-right: none;
+            color: #555;
+            font-weight: bold;
+            border-radius: 6px 0 0 6px;
+        }
+        .mobile-input { border-radius: 0 6px 6px 0; }
+
+        /* Telegram Helper */
+        .tg-help {
+            position: absolute;
+            right: 12px;
+            bottom: 16px;
+            cursor: pointer;
+            color: var(--tg-blue);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .checkbox-group { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px; cursor: pointer; }
+        .checkbox-group input { width: 20px; height: 20px; cursor: pointer; }
+        .checkbox-group label { text-transform: none; font-weight: 400; font-size: 14px; margin: 0; color: #ccc; }
+
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
             background: var(--white);
-            color: black;
+            color: #000;
             border: none;
             font-family: 'Press Start 2P', cursive;
-            font-size: 14px;
+            font-size: 13px;
             cursor: pointer;
             margin-top: 20px;
-            transition: transform 0.2s;
+            transition: 0.2s;
         }
-        .btn-submit:hover { transform: scale(1.02); background: #eee; }
+        .submit-btn:disabled { background: #444; color: #777; cursor: not-allowed; }
+        .submit-btn:active { transform: scale(0.98); }
 
         /* MODAL / SUMMARY DIALOGUE */
         #summaryModal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.98);
             z-index: 1000;
             justify-content: center;
             align-items: center;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
         }
 
-        .modal-content {
+        .modal-body {
+            width: 85%;
+            max-width: 380px;
             background: #111;
             border: 1px solid #333;
             padding: 30px;
-            width: 90%;
-            max-width: 400px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
             text-align: left;
-            position: relative;
         }
 
-        .modal-content h2 { font-family: 'Press Start 2P'; font-size: 16px; margin-bottom: 20px; color: var(--white); }
-        .summary-line { border-bottom: 1px solid #222; padding: 10px 0; font-size: 14px; display: flex; justify-content: space-between; }
-        .summary-line span { color: var(--gray); }
-        .summary-line b { color: var(--white); }
+        .modal-body h2 { font-family: 'Press Start 2P'; font-size: 15px; margin-bottom: 25px; color: #fff; text-align: center;}
+        
+        .line { border-bottom: 1px solid #222; padding: 12px 0; font-size: 15px; display: flex; justify-content: space-between; }
+        .line span { color: var(--gray); font-weight: 600; }
+        .line b { color: #fff; }
 
-        .generated-id {
+        .id-card {
             background: #1a1a1a;
-            border: 2px dashed var(--ff-orange);
-            padding: 15px;
+            border: 1px solid var(--ff-orange);
+            padding: 20px;
             text-align: center;
             font-family: 'Press Start 2P';
             font-size: 14px;
-            margin: 20px 0;
+            margin: 25px 0;
             color: var(--ff-orange);
+            box-shadow: inset 0 0 15px rgba(255, 140, 0, 0.1);
         }
 
-        .tg-join-btn {
+        .final-cta {
             display: block;
             width: 100%;
-            padding: 15px;
+            padding: 18px;
             background: var(--tg-blue);
             color: white;
             text-align: center;
             text-decoration: none;
             font-weight: bold;
-            text-transform: uppercase;
+            font-size: 16px;
+            letter-spacing: 1px;
             border-radius: 4px;
         }
 
         @keyframes flicker {
-            0% { opacity: 0.97; } 5% { opacity: 0.95; } 10% { opacity: 0.9; } 15% { opacity: 0.95; } 20% { opacity: 1; }
-            100% { opacity: 1; }
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+            20%, 24%, 55% { opacity: 0.7; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="logo">CRAZE MODE</div>
-        <div class="sub-logo">SKILL-BASED MOBILE TOURNAMENTS</div>
-
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
+        <div class="header">
+            <div class="logo">CRAZE MODE</div>
+            <div class="sub-text">SKILL-BASED COMMUNITY</div>
         </div>
 
-        <form id="regForm">
-            <!-- Email -->
-            <div class="input-group">
+        <div class="progress-wrap">
+            <div class="bar" id="progressBar"></div>
+        </div>
+
+        <form id="registrationForm">
+            <div class="section-title">COMMUNICATION</div>
+            
+            <div class="field">
                 <label>Gmail / Email</label>
-                <input type="email" id="email" required placeholder="example@gmail.com">
+                <input type="email" name="email" id="email" required placeholder="name@gmail.com">
             </div>
 
-            <!-- Mobile -->
-            <div class="input-group">
+            <div class="field">
                 <label>Mobile Number</label>
-                <div class="mobile-wrap">
+                <div class="mobile-container">
                     <div class="prefix">+91</div>
-                    <input type="text" id="phone" class="mobile-input" maxlength="10" placeholder="10 Digit Number" required>
+                    <input type="text" name="phone" id="phone" class="mobile-input" maxlength="10" placeholder="00000 00000" required>
                 </div>
             </div>
 
-            <!-- Name -->
-            <div class="input-group">
+            <div class="section-title">PLAYER IDENTITY</div>
+
+            <div class="field">
                 <label>Actual Name</label>
-                <input type="text" id="name" required placeholder="John Doe">
+                <input type="text" name="name" id="name" required placeholder="Enter full name">
             </div>
 
-            <!-- IGN & UID -->
-            <div class="input-group">
+            <div class="field">
                 <label>In-Game Name (IGN) *</label>
-                <input type="text" id="ign" class="ff-border" required placeholder="ProPlayer_69">
+                <input type="text" name="ign" id="ign" class="ff-input" required placeholder="Free Fire Username">
             </div>
 
-            <div class="input-group">
+            <div class="field">
                 <label>Player UID *</label>
-                <input type="text" id="uid" class="ff-border" required placeholder="87654321">
+                <input type="text" name="uid" id="uid" class="ff-input" required placeholder="Game UID Number">
             </div>
 
-            <!-- Experience -->
-            <div class="input-group">
-                <label>Experience (Rank/Level)</label>
-                <input type="text" id="exp" required placeholder="e.g. Heroic / Lv. 60">
+            <div class="field">
+                <label>Experience (Rank / Level)</label>
+                <input type="text" name="exp" id="exp" required placeholder="e.g. Grandmaster / Lv. 75">
             </div>
 
-            <!-- Telegram -->
-            <div class="input-group">
+            <div class="section-title">SOCIAL LINKING</div>
+
+            <div class="field">
                 <label>Telegram Username</label>
-                <input type="text" id="telegram" class="tg-border" required placeholder="@username">
-                <span class="helper-btn" onclick="window.open('https://t.me/settings', '_blank')">Get Name</span>
+                <input type="text" name="telegram" id="telegram" class="tg-input" required placeholder="@username">
+                <span class="tg-help" onclick="window.open('https://t.me/settings', '_blank')">?</span>
             </div>
 
-            <!-- Discord -->
-            <div class="input-group">
+            <div class="field">
                 <label>Discord (Optional)</label>
-                <input type="text" id="discord" class="dc-border" placeholder="username#0000">
+                <input type="text" name="discord" id="discord" class="dc-input" placeholder="User#1234">
             </div>
 
-            <!-- Checkboxes -->
-            <div class="checkbox-wrap">
+            <div class="checkbox-group">
                 <input type="checkbox" id="tc" required>
-                <label for="tc">I accept Terms & Conditions</label>
-            </div>
-            <div class="checkbox-wrap">
-                <input type="checkbox" id="age" required>
-                <label for="age">I am 18+ Years Old</label>
+                <label for="tc">I agree to the Tournament Rules & Regulations</label>
             </div>
 
-            <button type="submit" class="btn-submit">GET GAME ID</button>
+            <div class="checkbox-group">
+                <input type="checkbox" id="age" required>
+                <label for="age">I confirm I am 18 years of age or older</label>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">GET GAME ID</button>
         </form>
     </div>
 
-    <!-- MODAL -->
+    <!-- SUMMARY OVERLAY -->
     <div id="summaryModal">
-        <div class="modal-content">
-            <h2>SYNC COMPLETE_</h2>
-            <div id="summaryDetails"></div>
-            <div class="generated-id" id="displayID">GENERATING...</div>
-            <a href="https://t.me/+ulWO6jBK3uRiNjE1" class="tg-join-btn" id="finalBtn">DEPLOY TO TELEGRAM</a>
+        <div class="modal-body">
+            <h2>SYNCING DATA... DONE_</h2>
+            <div id="summaryList"></div>
+            <div class="id-card" id="finalGameID">GENERATING...</div>
+            <a href="https://t.me/+ulWO6jBK3uRiNjE1" class="final-cta">REQUEST ACCESS TO GROUP</a>
         </div>
     </div>
 
     <script>
-        const form = document.getElementById('regForm');
-        const progressBar = document.getElementById('progressBar');
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby_CFurqEcKrMiV-1t4qpAINLWuM5N-HuMyXhR68D9EO6zOKBVxF_8_KbCU1VvZ_Q5P/exec';
+        const form = document.getElementById('registrationForm');
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwp0FzRgCLaPMKZIyAwb2Cby_5b7GotW95wXyUBnhmG7hIkh14kP7X5bX7Cinwiep7g/exec';
 
-        // Update Progress Bar
+        // Progress bar logic
         form.addEventListener('input', () => {
-            const inputs = form.querySelectorAll('input[required]');
-            let filled = 0;
-            inputs.forEach(input => { if(input.value) filled++; });
-            progressBar.style.width = (filled / inputs.length * 100) + '%';
+            const requiredFields = form.querySelectorAll('input[required]');
+            let completed = 0;
+            requiredFields.forEach(f => { if(f.value.trim() !== "" && f.checked !== false) completed++; });
+            const progress = (completed / (requiredFields.length)) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
         });
 
-        // Mobile Number Logic (+91 check & 10 digits only)
-        const phoneInput = document.getElementById('phone');
-        phoneInput.addEventListener('input', (e) => {
+        // Mobile validation (Number only)
+        document.getElementById('phone').addEventListener('input', (e) => {
             e.target.value = e.target.value.replace(/[^0-9]/g, '');
         });
 
-        // ID Generator CM-XXXX-0000
-        function generateID() {
-            const alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            const segment1 = alpha[Math.floor(Math.random()*26)] + alpha[Math.floor(Math.random()*26)] + Math.floor(Math.random()*10) + alpha[Math.floor(Math.random()*26)];
-            const segment2 = Math.floor(1000 + Math.random() * 9000);
-            return `CM-${segment1}-${segment2}`;
+        // ID Generator CM-AB7X-4821
+        function generateBrandedID() {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let seg1 = "";
+            for (let i = 0; i < 4; i++) seg1 += chars.charAt(Math.floor(Math.random() * chars.length));
+            let seg2 = Math.floor(1000 + Math.random() * 9000);
+            return `CM-${seg1}-${seg2}`;
         }
 
-        // Form Submit
+        // Form Submit Logic
         form.addEventListener('submit', e => {
             e.preventDefault();
-            
-            if(phoneInput.value.length !== 10) {
-                alert("Mobile number must be exactly 10 digits.");
+            const btn = document.getElementById('submitBtn');
+            const phone = document.getElementById('phone').value;
+
+            if (phone.length !== 10) {
+                alert("SYSTEM ERROR: Mobile number must be exactly 10 digits.");
                 return;
             }
 
-            const gameID = generateID();
-            const formData = new FormData(form);
-            formData.append('Generated_ID', gameID);
+            btn.disabled = true;
+            btn.innerText = "AUTHENTICATING...";
 
-            // Tech Interaction
-            document.querySelector('.btn-submit').innerText = "UPLOADING...";
-            
+            const generatedID = generateBrandedID();
+            const formData = new FormData(form);
+            formData.append('Generated_ID', generatedID);
+
             fetch(scriptURL, { method: 'POST', body: formData})
-                .then(response => {
-                    showSummary(gameID);
+                .then(response => response.text())
+                .then(result => {
+                    if (result === "SUCCESS") {
+                        showSuccessScreen(generatedID);
+                    } else if (result === "DUPLICATE_EMAIL") {
+                        alert("DENIED: This Email is already in our database.");
+                        btn.disabled = false; btn.innerText = "GET GAME ID";
+                    } else if (result === "DUPLICATE_PHONE") {
+                        alert("DENIED: This Mobile Number is already in our database.");
+                        btn.disabled = false; btn.innerText = "GET GAME ID";
+                    } else {
+                        alert("DATABASE ERROR. Please contact admin.");
+                        btn.disabled = false; btn.innerText = "GET GAME ID";
+                    }
                 })
-                .catch(error => console.error('Error!', error.message));
+                .catch(error => {
+                    alert("CONNECTION FAILED. Check internet.");
+                    btn.disabled = false; btn.innerText = "GET GAME ID";
+                });
         });
 
-        function showSummary(id) {
+        function showSuccessScreen(id) {
             document.getElementById('summaryModal').style.display = 'flex';
-            document.getElementById('displayID').innerText = id;
+            document.getElementById('finalGameID').innerText = id;
             
-            const details = `
-                <div class="summary-line"><span>NAME</span> <b>${document.getElementById('name').value}</b></div>
-                <div class="summary-line"><span>OPERATOR</span> <b>${document.getElementById('ign').value}</b></div>
-                <div class="summary-line"><span>UID</span> <b>${document.getElementById('uid').value}</b></div>
-                <div class="summary-line"><span>MOBILE</span> <b>+91 ${document.getElementById('phone').value}</b></div>
+            const summaryData = `
+                <div class="line"><span>NAME</span> <b>${document.getElementById('name').value}</b></div>
+                <div class="line"><span>IGN</span> <b>${document.getElementById('ign').value}</b></div>
+                <div class="line"><span>UID</span> <b>${document.getElementById('uid').value}</b></div>
+                <div class="line"><span>CONTACT</span> <b>+91 ${document.getElementById('phone').value}</b></div>
             `;
-            document.getElementById('summaryDetails').innerHTML = details;
+            document.getElementById('summaryList').innerHTML = summaryData;
         }
     </script>
 </body>
