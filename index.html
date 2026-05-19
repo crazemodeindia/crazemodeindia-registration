@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | Neural Link</title>
+    <title>CRAZE MODE | The Skill Standard</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
@@ -12,93 +12,95 @@
         :root {
             --bg: #000000;
             --card: #080808;
-            --border: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-matte: #E0E0E0;
             --text-sec: #555555;
             --tg-blue: #0088cc;
             --fiery-orange: #FF5722;
-            --white: #FFFFFF;
+            --error: #FF3B30;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        body { background-color: var(--bg); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: hidden; }
-
-        /* --- CINEMATIC SPLASH --- */
+        /* --- SPLASH --- */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: #000; z-index: 9999; display: flex; flex-direction: column;
             justify-content: center; align-items: center; transition: opacity 0.8s ease;
         }
-        .splash-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: 12px; text-transform: uppercase; text-indent: 12px; animation: glow 1.5s infinite alternate; }
+        .splash-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: 12px; text-transform: uppercase; animation: pulse 1.5s infinite alternate; }
+        .loader-wrap { width: 100px; height: 1px; background: #111; margin-top: 20px; position: relative; overflow: hidden; }
         .loader-fill { position: absolute; height: 100%; width: 0%; background: #fff; animation: fill 2s forwards ease-in-out; }
-        .loader-wrap { width: 100px; height: 1px; background: #111; margin-top: 30px; position: relative; overflow: hidden; }
 
-        /* --- APP UI --- */
+        /* --- UI --- */
         #app { opacity: 0; transition: opacity 1s ease; display: none; padding-bottom: 80px; }
-        .brand-header { text-align: center; padding: 80px 0 30px 0; }
-        .main-logo { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-indent: 8px; }
-        .tagline { font-size: 10px; letter-spacing: 4px; color: var(--fiery-orange); text-transform: uppercase; font-weight: 700; margin-top: 5px; }
+        .brand-header { text-align: center; padding: 60px 0 30px 0; }
+        .main-logo { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: 8px; text-transform: uppercase; }
+        .tagline { font-size: 11px; letter-spacing: 3px; color: var(--fiery-orange); text-transform: uppercase; font-weight: 700; margin-top: 8px; }
+        .sub-tag { font-size: 9px; color: #333; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; font-weight: 600; }
 
         .container { max-width: 400px; margin: 0 auto; padding: 0 24px; }
-
         .section-label { font-size: 10px; font-weight: 700; color: #222; letter-spacing: 2px; margin: 40px 0 20px 0; display: flex; align-items: center; gap: 15px; }
         .section-label::after { content: ""; flex: 1; height: 1px; background: #0a0a0a; }
 
         .field { margin-bottom: 28px; position: relative; }
         label { display: block; font-size: 12px; margin-bottom: 10px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
+        /* MATTE WHITE INPUTS */
         input:not([type="checkbox"]), select {
             width: 100%; background: var(--card); border: 1px solid var(--border);
-            padding: 16px; color: var(--white); font-family: 'Inter', sans-serif;
+            padding: 16px; color: var(--text-matte); font-family: 'Inter', sans-serif;
             font-size: 16px; border-radius: 12px; transition: 0.3s;
         }
-        input:focus, select:focus { border-color: #333; outline: none; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        input:focus { border-color: #333; outline: none; }
 
-        /* Fiery Styling for Game Fields */
-        .fiery-input { color: var(--fiery-orange) !important; font-weight: 600; border-color: rgba(255, 87, 34, 0.2) !important; }
-
-        /* Skill Tier Dropdown */
-        select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 18px; }
-
-        /* Telegram Verification Icon */
-        #tg-icon {
-            position: absolute; right: 20px; top: 42px; opacity: 0;
-            transform: translateX(20px); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            pointer-events: none;
+        /* NON-EDITABLE PREFIX */
+        .mobile-container { display: flex; align-items: center; position: relative; }
+        .prefix-fixed { 
+            position: absolute; left: 16px; color: #444; font-weight: 700; 
+            font-family: 'Inter', sans-serif; pointer-events: none;
         }
-        #tg-icon.valid { opacity: 1; transform: translateX(0); }
+        .prefixed-input { padding-left: 50px !important; }
 
-        /* --- CUSTOM CHECKBOX (FIXED) --- */
-        .check-wrap { display: flex; align-items: center; gap: 14px; margin-top: 20px; cursor: pointer; position: relative; }
-        .check-wrap input { display: none; }
-        .custom-box {
-            width: 22px; height: 22px; border: 2px solid #222; border-radius: 6px;
-            display: flex; align-items: center; justify-content: center; transition: 0.2s; background: #000;
+        /* FIERY FIELDS */
+        .fiery-text { color: var(--fiery-orange) !important; font-weight: 600; border-color: rgba(255, 87, 34, 0.15) !important; }
+
+        /* TELEGRAM VALIDATOR */
+        .tg-get { 
+            position: absolute; right: 0; top: 0; font-size: 10px; font-weight: 700; 
+            color: var(--tg-blue); text-decoration: none; text-transform: uppercase; 
         }
-        .check-wrap input:checked + .custom-box { background: var(--white); border-color: var(--white); }
-        .check-wrap input:checked + .custom-box::after {
-            content: "✓"; color: #000; font-size: 14px; font-weight: 900;
+        .error-msg { font-size: 10px; color: var(--error); margin-top: 5px; display: none; }
+        .invalid-tg { border-color: var(--error) !important; }
+
+        /* CHECKBOXES (MATTE WHITE STYLE) */
+        .check-group { display: flex; align-items: center; gap: 14px; margin-top: 20px; cursor: pointer; }
+        .check-group input { display: none; }
+        .box { 
+            width: 22px; height: 22px; border: 2px solid #222; border-radius: 6px; 
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
         }
-        .check-wrap span { font-size: 13px; color: #444; font-weight: 500; transition: 0.2s; }
-        .check-wrap input:checked ~ span { color: #888; }
+        .check-group input:checked + .box { background: #fff; border-color: #fff; }
+        .check-group input:checked + .box::after { content: "✓"; color: #000; font-weight: 900; font-size: 14px; }
+        .check-group span { font-size: 13px; color: #444; }
 
-        .btn-submit { width: 100%; padding: 20px; background: var(--white); color: #000; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; margin-top: 45px; cursor: pointer; transition: 0.3s; }
-        .btn-submit:active { transform: scale(0.96); }
+        .btn-submit { width: 100%; padding: 20px; background: #fff; color: #000; border: none; border-radius: 14px; font-size: 15px; font-weight: 700; margin-top: 40px; cursor: pointer; }
+        .btn-submit:disabled { opacity: 0.5; }
 
-        /* --- MODAL --- */
-        #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(30px); z-index: 10001; justify-content: center; align-items: center; }
+        /* MODAL */
+        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); backdrop-filter: blur(30px); z-index: 10001; justify-content: center; align-items: center; }
         .modal-body { width: 90%; max-width: 360px; text-align: center; }
-        .id-output { background: #050505; width: 100%; padding: 24px; border-radius: 16px; font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; margin: 20px 0 8px 0; border: 1px solid #111; color: var(--fiery-orange); cursor: pointer; letter-spacing: 3px; }
-        .tg-btn { display: block; background: var(--tg-blue); color: #fff; text-decoration: none; padding: 20px; border-radius: 14px; font-weight: 700; position: relative; overflow: hidden; }
+        .id-badge { background: #050505; width: 100%; padding: 24px; border-radius: 16px; font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; color: var(--fiery-orange); margin: 20px 0; border: 1px solid #111; cursor: pointer; }
 
-        /* --- REDIRECT ANIMATION --- */
-        #redirect-overlay { display: none; position: fixed; inset: 0; background: #000; z-index: 10002; flex-direction: column; align-items: center; justify-content: center; }
-        .flying-tg { width: 60px; animation: flyUp 1.5s forwards ease-in; }
+        /* REDIRECT OVERLAY */
+        #redirect { display: none; position: fixed; inset: 0; background: #000; z-index: 10002; flex-direction: column; align-items: center; justify-content: center; }
+        .tg-fly { width: 50px; animation: flyUp 1.5s forwards ease-in; }
 
-        @keyframes flyUp { 0% { transform: translateY(100px); opacity: 0; } 50% { opacity: 1; } 100% { transform: translateY(-500px); opacity: 0; } }
-        @keyframes glow { from { opacity: 0.5; } to { opacity: 1; } }
-        @keyframes fill { from { width: 0%; } to { width: 100%; } }
-        .reveal { opacity: 0; transform: translateY(15px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes flyUp { 0% { transform: translateY(100px); opacity: 0; } 100% { transform: translateY(-400px); opacity: 0; } }
+        @keyframes pulse { from { opacity: 0.5; } to { opacity: 1; } }
+        @keyframes fill { to { width: 100%; } }
+        .reveal { opacity: 0; transform: translateY(15px); transition: 0.7s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
@@ -113,89 +115,109 @@
         <div class="brand-header">
             <div class="main-logo">CRAZE MODE</div>
             <div class="tagline">Skill Based Tournament</div>
+            <div class="sub-tag">The Elite Standard</div>
         </div>
 
         <div class="container">
-            <form id="crazeForm">
+            <form id="regForm">
                 <div class="reveal">
                     <div class="section-label">01 CONTACT</div>
-                    <div class="field"><label>Email Address</label><input type="email" id="email" required placeholder="operator@craze.com"></div>
-                    <div class="field"><label>Mobile Number</label><input type="text" id="phone" maxlength="10" required placeholder="10 Digit Mobile"></div>
+                    <div class="field"><label>Email Address</label><input type="email" id="email" required placeholder="name@email.com"></div>
+                    <div class="field">
+                        <label>Mobile Number</label>
+                        <div class="mobile-container">
+                            <span class="prefix-prefix prefix-fixed">+91</span>
+                            <input type="text" id="phone" class="prefixed-input" maxlength="10" required placeholder="00000 00000">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="reveal">
                     <div class="section-label">02 PLAYER PROFILE</div>
-                    <div class="field"><label>Full Name</label><input type="text" id="name" required placeholder="Legal Operator Name"></div>
-                    <div class="field"><label>In-Game Name</label><input type="text" id="ign" class="fiery-input" required placeholder="Combat Handle"></div>
-                    <div class="field"><label>Game UID</label><input type="text" id="uid" class="fiery-input" required placeholder="Paste Player UID"></div>
+                    <div class="field"><label>Legal Name</label><input type="text" id="name" required placeholder="Full Identity"></div>
+                    <div class="field"><label>In-Game Name</label><input type="text" id="ign" class="fiery-text" required placeholder="Combat Handle"></div>
+                    <div class="field"><label>Player UID</label><input type="text" id="uid" class="fiery-text" required placeholder="Game ID Code"></div>
                     <div class="field"><label>Skill Tier</label>
                         <select id="exp" required>
                             <option value="" disabled selected>Select Rank</option>
-                            <option value="Recruit">Recruit</option><option value="Veteran">Veteran</option><option value="Heroic">Heroic</option><option value="Legend">Legend</option><option value="Immortal">Immortal</option>
+                            <option value="Recruit">Recruit</option><option value="Elite">Elite</option><option value="Heroic">Heroic</option><option value="Legend">Legend</option><option value="Immortal">Immortal</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="reveal">
-                    <div class="section-label">03 CONNECTIVITY</div>
+                    <div class="section-label">03 CONNECT</div>
                     <div class="field">
-                        <label>Telegram Username</label>
+                        <label>Telegram Username <a href="https://t.me/settings" target="_blank" class="tg-get">Get Link</a></label>
                         <input type="text" id="telegram" required placeholder="@username">
-                        <svg id="tg-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <div id="tg-error" class="error-msg">Enter valid username starting with @</div>
                     </div>
                 </div>
 
                 <div class="reveal">
-                    <label class="check-wrap"><input type="checkbox" required><div class="custom-box"></div><span>Agree to combat protocols.</span></label>
-                    <label class="check-wrap"><input type="checkbox" required><div class="custom-box"></div><span>Confirmed 18+ operator age.</span></label>
-                    <button type="submit" class="btn-submit" id="submitBtn">SYNCHRONIZE IDENTITY</button>
+                    <label class="check-group"><input type="checkbox" required><div class="box"></div><span>Agree to Combat Protocols</span></label>
+                    <label class="check-group"><input type="checkbox" required><div class="box"></div><span>Confirmed 18+ Operator Age</span></label>
+                    <button type="submit" class="btn-submit" id="subBtn">CREATE IDENTITY</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="modal"><div class="modal-body"><h2>Authorized</h2><div id="sumList" style="text-align:left; margin:25px 0; font-size:14px; color:#444;"></div><button class="id-output" id="copyID">GENERATING...</button><span style="color:#FF3B30; font-size:10px; letter-spacing:1px; font-weight:600;">DO NOT DISCLOSE THIS CODE</span><br><br><a href="#" id="finalJoin" class="tg-btn">JOIN TELEGRAM GROUP</a></div></div>
+    <div id="modal"><div class="modal-body"><h2>Authorized</h2><div id="sumList" style="text-align:left; margin:20px 0; font-size:14px; color:#444;"></div><button class="id-badge" id="copyBtn">GENERATING...</button><span style="font-size:10px; color:#FF3B30; font-weight:700;">PROPRIETARY CODE - DO NOT SHARE</span><br><br><a href="#" id="joinBtn" style="display:block; background:var(--tg-blue); color:#fff; text-decoration:none; padding:18px; border-radius:12px; font-weight:700;">JOIN GROUP</a></div></div>
 
-    <div id="redirect-overlay">
-        <svg class="flying-tg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2" stroke="#0088cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <p style="font-family:'Rajdhani'; letter-spacing:3px; margin-top:20px;">REDIRECTING TO TELEGRAM...</p>
+    <div id="redirect">
+        <svg class="tg-fly" viewBox="0 0 24 24" fill="none" stroke="#0088cc" stroke-width="2"><path d="M22 2L11 13M22 2L15 22L11 13M11 13L2 9L22 2"/></svg>
+        <p style="font-family:'Rajdhani'; color:#fff; letter-spacing:3px; margin-top:20px;">REDIRECTING...</p>
     </div>
 
     <script>
-        const form = document.getElementById('crazeForm');
+        const form = document.getElementById('regForm');
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
 
-        // Initialization
+        // 1. Splash Sequence
         setTimeout(() => {
             document.getElementById('splash').style.opacity = '0';
-            setTimeout(() => { document.getElementById('splash').style.display = 'none'; document.getElementById('app').style.display = 'block'; setTimeout(() => { document.getElementById('app').style.opacity = '1'; window.dispatchEvent(new Event('scroll')); }, 50); }, 800);
+            setTimeout(() => { 
+                document.getElementById('splash').style.display = 'none'; 
+                document.getElementById('app').style.display = 'block'; 
+                setTimeout(() => { document.getElementById('app').style.opacity = '1'; window.dispatchEvent(new Event('scroll')); }, 50); 
+            }, 800);
         }, 2200);
 
-        // Validation for Telegram Icon
-        document.getElementById('telegram').addEventListener('input', (e) => {
-            const icon = document.getElementById('tg-icon');
-            if(e.target.value.startsWith('@') && e.target.value.length > 4) icon.classList.add('valid');
-            else icon.classList.remove('valid');
+        // 2. Telegram Validator
+        const tgInput = document.getElementById('telegram');
+        const tgError = document.getElementById('tg-error');
+        tgInput.addEventListener('input', () => {
+            const val = tgInput.value;
+            if(!val.startsWith('@') || val.length < 4) {
+                tgError.style.display = 'block';
+                tgInput.classList.add('invalid-tg');
+            } else {
+                tgError.style.display = 'none';
+                tgInput.classList.remove('invalid-tg');
+            }
         });
 
-        // Scroll Effects
+        // 3. Scroll Reveal
         window.addEventListener('scroll', () => {
             document.querySelectorAll('.reveal').forEach(r => { if(r.getBoundingClientRect().top < window.innerHeight - 80) r.classList.add('active'); });
         });
 
+        // 4. Mobile Numeric Lock
         document.getElementById('phone').addEventListener('input', e => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); });
 
-        function generateID() {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-            let p1 = ""; for(let i=0; i<4; i++) p1 += chars.charAt(Math.floor(Math.random() * chars.length));
-            return `CM-${p1}-${Math.floor(1000 + Math.random() * 9000)}`;
-        }
-
+        // 5. Submit Logic
         form.addEventListener('submit', e => {
             e.preventDefault();
-            const btn = document.getElementById('submitBtn');
+            if(!tgInput.value.startsWith('@')) return alert("Enter valid Telegram ID.");
+            
+            const btn = document.getElementById('subBtn');
             btn.disabled = true; btn.innerText = "AUTHENTICATING...";
-            const id = generateID();
+            
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            let p1 = ""; for(let i=0; i<4; i++) p1 += chars.charAt(Math.floor(Math.random()*chars.length));
+            const id = `CM-${p1}-${Math.floor(1000 + Math.random()*9000)}`;
+
             const fd = new FormData();
             fd.append('email', document.getElementById('email').value);
             fd.append('phone', document.getElementById('phone').value);
@@ -204,31 +226,31 @@
             fd.append('uid', document.getElementById('uid').value);
             fd.append('exp', document.getElementById('exp').value);
             fd.append('telegram', document.getElementById('telegram').value);
-            fd.append('discord', document.getElementById('discord').value);
             fd.append('Generated_ID', id);
 
-            fetch(scriptURL, { method: 'POST', body: fd})
-            .then(() => showSuccess(id)).catch(() => showSuccess(id));
+            // Safety Submit:Proceed after 3s even if fetch hangs (CORS issues)
+            const forceSuccess = setTimeout(() => showFinal(id), 3000);
+
+            fetch(scriptURL, { method: 'POST', body: fd, mode: 'no-cors' })
+            .then(() => { clearTimeout(forceSuccess); showFinal(id); })
+            .catch(() => { clearTimeout(forceSuccess); showFinal(id); });
         });
 
-        function showSuccess(id) {
+        function showFinal(id) {
             document.getElementById('modal').style.display = 'flex';
-            const copyBtn = document.getElementById('copyID');
-            copyBtn.innerText = id;
-            copyBtn.onclick = () => {
-                navigator.clipboard.writeText(id); copyBtn.style.color = '#34C759'; copyBtn.innerText = "COPIED";
-                setTimeout(() => { copyBtn.innerText = id; copyBtn.style.color = 'var(--fiery-orange)'; }, 2000);
+            const copy = document.getElementById('copyBtn');
+            copy.innerText = id;
+            copy.onclick = () => {
+                navigator.clipboard.writeText(id); copy.style.color = '#34C759'; copy.innerText = "COPIED";
+                setTimeout(() => { copy.innerText = id; copy.style.color = 'var(--fiery-orange)'; }, 2000);
             };
-            document.getElementById('sumList').innerHTML = `<p style="padding:10px 0; border-bottom:1px solid #111;">OPERATOR: <b>${document.getElementById('name').value}</b></p><p style="padding:10px 0; border-bottom:1px solid #111;">HANDLE: <b>${document.getElementById('ign').value}</b></p>`;
+            document.getElementById('sumList').innerHTML = `<p style="padding:8px 0; border-bottom:1px solid #111;">OPERATOR: <b>${document.getElementById('name').value}</b></p><p style="padding:8px 0; border-bottom:1px solid #111;">HANDLE: <b>${document.getElementById('ign').value}</b></p>`;
         }
 
-        // Final Redirect Animation
-        document.getElementById('finalJoin').onclick = (e) => {
+        document.getElementById('joinBtn').onclick = (e) => {
             e.preventDefault();
-            document.getElementById('redirect-overlay').style.display = 'flex';
-            setTimeout(() => {
-                window.location.href = "https://t.me/+3xRCpmBV3yA4NGM1";
-            }, 1800);
+            document.getElementById('redirect').style.display = 'flex';
+            setTimeout(() => window.location.href = "https://t.me/+3xRCpmBV3yA4NGM1", 1500);
         }
     </script>
 </body>
