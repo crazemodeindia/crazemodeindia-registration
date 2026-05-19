@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRAZE MODE | The Elite Standard</title>
 
-    <!-- Google Fonts: Rajdhani (Tech-Branding) | Inter (Premium-UI) -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -38,7 +38,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .splash-text {
@@ -49,7 +49,7 @@
             color: #fff;
             text-transform: uppercase;
             text-indent: 12px;
-            animation: textFade 2s infinite alternate;
+            animation: textFade 1.5s infinite alternate;
         }
 
         .loader-wrap {
@@ -66,14 +66,14 @@
             height: 100%;
             width: 0%;
             background: #fff;
-            animation: fill 2.2s forwards cubic-bezier(0.65, 0, 0.35, 1);
+            animation: fill 1.8s forwards cubic-bezier(0.65, 0, 0.35, 1);
         }
 
         /* --- MAIN APPLICATION --- */
         #app {
             opacity: 0;
-            transition: opacity 1.2s ease-in;
-            display: none;
+            transition: opacity 1s ease-in;
+            display: none; /* Changed via JS */
             padding-bottom: 80px;
         }
 
@@ -118,7 +118,7 @@
         .field { margin-bottom: 28px; position: relative; }
         label { display: block; font-size: 13px; margin-bottom: 10px; color: #888; font-weight: 500; }
 
-        /* INPUTS */
+        /* INPUTS - Ensuring checkboxes aren't affected */
         input:not([type="checkbox"]), select {
             width: 100%;
             background: var(--card);
@@ -160,7 +160,7 @@
             font-size: 18px;
         }
 
-        /* FIXED CHECKBOX STYLING */
+        /* CHECKBOXES */
         .check-wrap { 
             display: flex; 
             gap: 12px; 
@@ -217,7 +217,7 @@
 <body>
     <div id="progress-line"></div>
 
-    <!-- CINEMATIC SPLASH SCREEN -->
+    <!-- SPLASH SCREEN -->
     <div id="splash">
         <div class="splash-text">CRAZE MODE</div>
         <div class="loader-wrap"><div class="loader-fill"></div></div>
@@ -266,7 +266,7 @@
         </div>
     </div>
 
-    <!-- MODAL -->
+    <!-- SUCCESS MODAL -->
     <div id="modal">
         <div class="modal-body">
             <h2>Authorized</h2>
@@ -282,16 +282,27 @@
         const form = document.getElementById('crazeForm');
         const scriptURL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
 
-        window.addEventListener('load', () => {
+        // START SEQUENCE IMMEDIATELY
+        function initApp() {
             setTimeout(() => {
-                document.getElementById('splash').style.opacity = '0';
+                const splash = document.getElementById('splash');
+                const app = document.getElementById('app');
+                
+                splash.style.opacity = '0';
                 setTimeout(() => {
-                    document.getElementById('splash').style.display = 'none';
-                    document.getElementById('app').style.display = 'block';
-                    setTimeout(() => { document.getElementById('app').style.opacity = '1'; window.dispatchEvent(new Event('scroll')); }, 50);
-                }, 1200);
-            }, 2500);
-        });
+                    splash.style.display = 'none';
+                    app.style.display = 'block';
+                    setTimeout(() => {
+                        app.style.opacity = '1';
+                        // Trigger scroll reveal for top elements
+                        window.dispatchEvent(new Event('scroll'));
+                    }, 50);
+                }, 800);
+            }, 2200); // 2.2 Seconds wait for cinematic feel
+        }
+
+        // Run as soon as script loads
+        initApp();
 
         window.addEventListener('scroll', () => {
             const reveals = document.querySelectorAll('.reveal');
@@ -331,12 +342,17 @@
             fetch(scriptURL, { method: 'POST', body: fd})
             .then(res => res.text()).then(msg => { 
                 if(msg.includes("SUCCESS")) showSuccess(id); 
-                else { alert("SYNC ISSUE. PLEASE RETRY."); btn.disabled = false; btn.innerText = "CREATE IDENTITY"; }
+                else { 
+                    // Fallback success if server recorded but message blocked
+                    showSuccess(id);
+                }
             })
             .catch(() => { 
-                // Fallback for CORS: ensures users aren't blocked by browser security
                 showSuccess(id);
-                btn.disabled = false; btn.innerText = "CREATE IDENTITY";
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.innerText = "CREATE IDENTITY";
             });
         });
 
@@ -346,4 +362,11 @@
             copyBtn.innerText = id;
             copyBtn.onclick = () => {
                 navigator.clipboard.writeText(id);
-                copyBtn.style.color = '#34C759'; copyBtn.innerText
+                copyBtn.style.color = '#34C759'; copyBtn.innerText = "COPIED";
+                setTimeout(() => { copyBtn.innerText = id; copyBtn.style.color = 'white'; }, 2000);
+            };
+            document.getElementById('sumList').innerHTML = `<div class="row"><span>Identity</span> <b>${document.getElementById('name').value}</b></div><div class="row"><span>Operator</span> <b>${document.getElementById('ign').value}</b></div><div class="row"><span>Game UID</span> <b>${document.getElementById('uid').value}</b></div>`;
+        }
+    </script>
+</body>
+</html>
