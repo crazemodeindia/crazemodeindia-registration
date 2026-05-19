@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CRAZE MODE | The Skill Standard</title>
 
-    <!-- Google Fonts: Rajdhani for Tech-Logo, Inter for Google-UI -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* --- CINEMATIC SPLASH SCREEN --- */
+        /* --- SPLASH SCREEN --- */
         #splash {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -38,27 +38,18 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1s ease-in-out;
         }
 
         .splash-text {
             font-family: 'Rajdhani', sans-serif;
             font-weight: 700;
             font-size: 32px;
-            letter-spacing: 12px; /* Premium spacing */
+            letter-spacing: 12px;
             color: #fff;
             text-transform: uppercase;
             margin-bottom: 5px;
-            text-indent: 12px; /* Centers text despite letter spacing */
-            animation: textGlow 2s infinite alternate;
-        }
-
-        .splash-sub {
-            font-size: 10px;
-            letter-spacing: 4px;
-            color: var(--text-sec);
-            text-transform: uppercase;
-            font-weight: 500;
+            text-indent: 12px;
         }
 
         .loader-wrap {
@@ -75,13 +66,13 @@
             height: 100%;
             width: 0%;
             background: #fff;
-            animation: fill 2.2s forwards cubic-bezier(0.65, 0, 0.35, 1);
+            animation: fill 2s forwards ease-in-out;
         }
 
-        /* --- MAIN APPLICATION --- */
+        /* --- MAIN APP --- */
         #app {
             opacity: 0;
-            transition: opacity 1.2s ease-in;
+            transition: opacity 1s ease-in;
             display: none;
             padding-bottom: 80px;
         }
@@ -112,7 +103,6 @@
 
         .container { max-width: 400px; margin: 0 auto; padding: 0 24px; }
 
-        /* Premium Minimalist Input Groups */
         .section-label {
             font-size: 10px;
             font-weight: 700;
@@ -128,7 +118,8 @@
         .field { margin-bottom: 28px; position: relative; }
         label { display: block; font-size: 13px; margin-bottom: 10px; color: #888; font-weight: 500; }
 
-        input, select {
+        /* FIXED INPUT STYLING */
+        input:not([type="checkbox"]), select {
             width: 100%;
             background: var(--card);
             border: 1px solid var(--border);
@@ -137,7 +128,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 16px;
             border-radius: 12px;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.3s;
         }
 
         input:focus, select:focus {
@@ -168,9 +159,22 @@
             font-size: 18px;
         }
 
-        .check-wrap { display: flex; gap: 12px; margin-top: 18px; cursor: pointer; align-items: center; }
-        .check-wrap input { width: 18px; height: 18px; accent-color: white; border-radius: 4px; }
-        .check-wrap span { font-size: 13px; color: #555; }
+        /* FIXED CHECKBOX STYLING */
+        .check-wrap { 
+            display: flex; 
+            gap: 12px; 
+            margin-top: 18px; 
+            cursor: pointer; 
+            align-items: center; 
+        }
+        .check-wrap input[type="checkbox"] { 
+            width: 20px !important; 
+            height: 20px !important; 
+            accent-color: white; 
+            cursor: pointer; 
+            flex-shrink: 0;
+        }
+        .check-wrap span { font-size: 13px; color: #555; user-select: none; }
 
         .btn-submit {
             width: 100%;
@@ -200,10 +204,8 @@
         .id-output { background: #080808; width: 100%; padding: 24px; border-radius: 16px; font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; margin: 20px 0 8px 0; border: 1px solid #111; color: white; cursor: pointer; letter-spacing: 3px; }
         .copy-hint { font-size: 10px; color: var(--apple-red); display: block; margin-bottom: 35px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
         
-        .tg-btn { display: block; background: var(--tg-blue); color: white; text-decoration: none; padding: 20px; border-radius: 14px; font-weight: 700; transition: 0.2s; }
+        .tg-btn { display: block; background: var(--tg-blue); color: white; text-decoration: none; padding: 20px; border-radius: 14px; font-weight: 700; }
 
-        /* Animations */
-        @keyframes textGlow { from { opacity: 0.6; } to { opacity: 1; } }
         @keyframes fill { from { width: 0%; } to { width: 100%; } }
         .reveal { opacity: 0; transform: translateY(15px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
@@ -215,7 +217,6 @@
     <!-- PRE-LOADER -->
     <div id="splash">
         <div class="splash-text">CRAZE MODE</div>
-        <div class="splash-sub">Initializing Neural Link</div>
         <div class="loader-wrap"><div class="loader-fill"></div></div>
     </div>
 
@@ -254,15 +255,15 @@
                 </div>
 
                 <div class="reveal">
-                    <label class="check-wrap"><input type="checkbox" required><span>Accepting tournament rules & data link.</span></label>
-                    <label class="check-wrap"><input type="checkbox" required><span>Verified 18+ years of age.</span></label>
+                    <label class="check-wrap"><input type="checkbox" id="check1" required><span>Accepting tournament rules & data link.</span></label>
+                    <label class="check-wrap"><input type="checkbox" id="check2" required><span>Verified 18+ years of age.</span></label>
                     <button type="submit" class="btn-submit" id="submitBtn">CREATE IDENTITY</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- SUCCESS MODAL -->
+    <!-- MODAL -->
     <div id="modal">
         <div class="modal-body">
             <h2>Authorized</h2>
@@ -276,7 +277,7 @@
 
     <script>
         const form = document.getElementById('crazeForm');
-        // REPLACE THIS WITH YOUR UPDATED TEST-MODE APPS SCRIPT URL
+        // YOUR SCRIPT URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwp0FzRgCLaPMKZIyAwb2Cby_5b7GotW95wXyUBnhmG7hIkh14kP7X5bX7Cinwiep7g/exec';
 
         window.addEventListener('load', () => {
@@ -286,7 +287,7 @@
                     document.getElementById('splash').style.display = 'none';
                     document.getElementById('app').style.display = 'block';
                     setTimeout(() => { document.getElementById('app').style.opacity = '1'; window.dispatchEvent(new Event('scroll')); }, 50);
-                }, 1200);
+                }, 1000);
             }, 2500);
         });
 
@@ -309,25 +310,44 @@
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
             if(document.getElementById('phone').value.length !== 10) return alert("Enter 10-digit number.");
-            btn.disabled = true; btn.innerText = "AUTHENTICATING...";
+            
+            btn.disabled = true; 
+            btn.innerText = "AUTHENTICATING...";
             
             const id = generateID();
-            const fd = new FormData();
-            fd.append('email', document.getElementById('email').value);
-            fd.append('phone', document.getElementById('phone').value);
-            fd.append('name', document.getElementById('name').value);
-            fd.append('ign', document.getElementById('ign').value);
-            fd.append('uid', document.getElementById('uid').value);
-            fd.append('exp', document.getElementById('exp').value);
-            fd.append('telegram', document.getElementById('telegram').value);
-            fd.append('discord', document.getElementById('discord').value);
-            fd.append('Generated_ID', id);
+            
+            // USING URLSearchParams FOR BETTER GOOGLE APPS SCRIPT STABILITY
+            const params = new URLSearchParams();
+            params.append('email', document.getElementById('email').value);
+            params.append('phone', document.getElementById('phone').value);
+            params.append('name', document.getElementById('name').value);
+            params.append('ign', document.getElementById('ign').value);
+            params.append('uid', document.getElementById('uid').value);
+            params.append('exp', document.getElementById('exp').value);
+            params.append('telegram', document.getElementById('telegram').value);
+            params.append('discord', document.getElementById('discord').value);
+            params.append('Generated_ID', id);
 
-            fetch(scriptURL, { method: 'POST', body: fd})
-            .then(res => res.text()).then(msg => { 
-                if(msg === "SUCCESS") showSuccess(id); 
-                else { alert("SYNC ERROR"); btn.disabled = false; btn.innerText = "CREATE IDENTITY"; } 
-            }).catch(() => { alert("CONNECTION ERROR"); btn.disabled = false; });
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: params,
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            })
+            .then(res => res.text())
+            .then(msg => { 
+                if(msg.includes("SUCCESS")) {
+                    showSuccess(id);
+                } else {
+                    console.error("Server Message:", msg);
+                    alert("SYNC ERROR: Check your Google Script connection."); 
+                    btn.disabled = false; btn.innerText = "CREATE IDENTITY"; 
+                } 
+            })
+            .catch(err => { 
+                console.error("Fetch Error:", err);
+                alert("CONNECTION ERROR: Please try again."); 
+                btn.disabled = false; btn.innerText = "CREATE IDENTITY";
+            });
         });
 
         function showSuccess(id) {
