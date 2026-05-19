@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | The Elite Standard</title>
+    <title>CRAZE MODE | Neural Link</title>
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
@@ -13,360 +13,67 @@
             --bg: #000000;
             --card: #080808;
             --border: rgba(255, 255, 255, 0.06);
-            --accent: #FFFFFF;
-            --text-sec: #666666;
+            --text-sec: #555555;
             --tg-blue: #0088cc;
-            --apple-red: #FF3B30;
+            --fiery-orange: #FF5722;
+            --white: #FFFFFF;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
-        body {
-            background-color: var(--bg);
-            color: white;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
+        body { background-color: var(--bg); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-        /* --- CINEMATIC SPLASH SCREEN --- */
+        /* --- CINEMATIC SPLASH --- */
         #splash {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 9999; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; transition: opacity 0.8s ease;
         }
+        .splash-text { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 32px; letter-spacing: 12px; text-transform: uppercase; text-indent: 12px; animation: glow 1.5s infinite alternate; }
+        .loader-fill { position: absolute; height: 100%; width: 0%; background: #fff; animation: fill 2s forwards ease-in-out; }
+        .loader-wrap { width: 100px; height: 1px; background: #111; margin-top: 30px; position: relative; overflow: hidden; }
 
-        .splash-text {
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 32px;
-            letter-spacing: 12px;
-            color: #fff;
-            text-transform: uppercase;
-            text-indent: 12px;
-            animation: textFade 1.5s infinite alternate;
-        }
-
-        .loader-wrap {
-            width: 100px;
-            height: 1px;
-            background: #111;
-            margin-top: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .loader-fill {
-            position: absolute;
-            height: 100%;
-            width: 0%;
-            background: #fff;
-            animation: fill 1.8s forwards cubic-bezier(0.65, 0, 0.35, 1);
-        }
-
-        /* --- MAIN APPLICATION --- */
-        #app {
-            opacity: 0;
-            transition: opacity 1s ease-in;
-            display: none; /* Changed via JS */
-            padding-bottom: 80px;
-        }
-
-        .brand-header {
-            text-align: center;
-            padding: 80px 0 50px 0;
-        }
-
-        .main-logo {
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 700;
-            font-size: 24px;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            color: #fff;
-            text-indent: 8px;
-            margin-bottom: 8px;
-        }
-
-        .tagline {
-            font-size: 10px;
-            letter-spacing: 5px;
-            color: var(--text-sec);
-            text-transform: uppercase;
-            font-weight: 600;
-        }
+        /* --- APP UI --- */
+        #app { opacity: 0; transition: opacity 1s ease; display: none; padding-bottom: 80px; }
+        .brand-header { text-align: center; padding: 80px 0 30px 0; }
+        .main-logo { font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-indent: 8px; }
+        .tagline { font-size: 10px; letter-spacing: 4px; color: var(--fiery-orange); text-transform: uppercase; font-weight: 700; margin-top: 5px; }
 
         .container { max-width: 400px; margin: 0 auto; padding: 0 24px; }
 
-        .section-label {
-            font-size: 10px;
-            font-weight: 700;
-            color: #333;
-            letter-spacing: 2px;
-            margin: 40px 0 20px 0;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .section-label::after { content: ""; flex: 1; height: 1px; background: #0d0d0d; }
+        .section-label { font-size: 10px; font-weight: 700; color: #222; letter-spacing: 2px; margin: 40px 0 20px 0; display: flex; align-items: center; gap: 15px; }
+        .section-label::after { content: ""; flex: 1; height: 1px; background: #0a0a0a; }
 
         .field { margin-bottom: 28px; position: relative; }
-        label { display: block; font-size: 13px; margin-bottom: 10px; color: #888; font-weight: 500; }
+        label { display: block; font-size: 12px; margin-bottom: 10px; color: #666; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* INPUTS - Ensuring checkboxes aren't affected */
         input:not([type="checkbox"]), select {
-            width: 100%;
-            background: var(--card);
-            border: 1px solid var(--border);
-            padding: 16px;
-            color: white;
-            font-family: 'Inter', sans-serif;
-            font-size: 16px;
-            border-radius: 12px;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%; background: var(--card); border: 1px solid var(--border);
+            padding: 16px; color: var(--white); font-family: 'Inter', sans-serif;
+            font-size: 16px; border-radius: 12px; transition: 0.3s;
         }
+        input:focus, select:focus { border-color: #333; outline: none; transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 
-        input:focus, select:focus {
-            border-color: #333;
-            background: #0d0d0d;
-            outline: none;
+        /* Fiery Styling for Game Fields */
+        .fiery-input { color: var(--fiery-orange) !important; font-weight: 600; border-color: rgba(255, 87, 34, 0.2) !important; }
+
+        /* Skill Tier Dropdown */
+        select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 15px center; background-size: 18px; }
+
+        /* Telegram Verification Icon */
+        #tg-icon {
+            position: absolute; right: 20px; top: 42px; opacity: 0;
+            transform: translateX(20px); transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
         }
+        #tg-icon.valid { opacity: 1; transform: translateX(0); }
 
-        /* MOBILE PREFIX */
-        .mobile-box { display: flex; }
-        .prefix {
-            background: #0d0d0d;
-            padding: 16px;
-            border: 1px solid var(--border);
-            border-right: none;
-            border-radius: 12px 0 0 12px;
-            color: #444;
-            font-weight: 600;
+        /* --- CUSTOM CHECKBOX (FIXED) --- */
+        .check-wrap { display: flex; align-items: center; gap: 14px; margin-top: 20px; cursor: pointer; position: relative; }
+        .check-wrap input { display: none; }
+        .custom-box {
+            width: 22px; height: 22px; border: 2px solid #222; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s; background: #000;
         }
-        .m-input { border-radius: 0 12px 12px 0; }
-
-        .tg-helper {
-            position: absolute;
-            right: 15px;
-            top: 41px;
-            color: var(--tg-blue);
-            cursor: pointer;
-            opacity: 0.5;
-            font-size: 18px;
-        }
-
-        /* CHECKBOXES */
-        .check-wrap { 
-            display: flex; 
-            gap: 12px; 
-            margin-top: 18px; 
-            cursor: pointer; 
-            align-items: center; 
-        }
-        .check-wrap input[type="checkbox"] { 
-            width: 20px !important; 
-            height: 20px !important; 
-            accent-color: white; 
-            cursor: pointer; 
-            flex-shrink: 0;
-        }
-        .check-wrap span { font-size: 13px; color: #555; user-select: none; }
-
-        .btn-submit {
-            width: 100%;
-            padding: 20px;
-            background: white;
-            color: black;
-            border: none;
-            border-radius: 14px;
-            font-size: 15px;
-            font-weight: 700;
-            margin-top: 45px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .btn-submit:active { transform: scale(0.98); opacity: 0.9; }
-
-        #progress-line { position: fixed; top: 0; left: 0; width: 0%; height: 2px; background: white; z-index: 10000; }
-
-        /* --- MODAL --- */
-        #modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(30px); z-index: 10001; justify-content: center; align-items: center; }
-        .modal-body { width: 90%; max-width: 360px; text-align: center; }
-        .modal-body h2 { font-size: 26px; font-weight: 700; margin-bottom: 5px; }
-        .summary { text-align: left; margin: 30px 0; }
-        .row { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid #0f0f0f; font-size: 14px; }
-        .row span { color: #444; }
-
-        .id-output { background: #080808; width: 100%; padding: 24px; border-radius: 16px; font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; margin: 20px 0 8px 0; border: 1px solid #111; color: white; cursor: pointer; letter-spacing: 3px; }
-        .copy-hint { font-size: 10px; color: var(--apple-red); display: block; margin-bottom: 35px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-        
-        .tg-btn { display: block; background: var(--tg-blue); color: white; text-decoration: none; padding: 20px; border-radius: 14px; font-weight: 700; }
-
-        /* Animations */
-        @keyframes textFade { from { opacity: 0.5; } to { opacity: 1; } }
-        @keyframes fill { from { width: 0%; } to { width: 100%; } }
-        .reveal { opacity: 0; transform: translateY(15px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-    </style>
-</head>
-<body>
-    <div id="progress-line"></div>
-
-    <!-- SPLASH SCREEN -->
-    <div id="splash">
-        <div class="splash-text">CRAZE MODE</div>
-        <div class="loader-wrap"><div class="loader-fill"></div></div>
-    </div>
-
-    <!-- MAIN APP -->
-    <div id="app">
-        <div class="brand-header">
-            <div class="main-logo">CRAZE MODE</div>
-            <div class="tagline">The Elite Standard</div>
-        </div>
-
-        <div class="container">
-            <form id="crazeForm">
-                <div class="reveal">
-                    <div class="section-label">01 CONTACT</div>
-                    <div class="field"><label>Email Address</label><input type="email" id="email" required placeholder="operator@craze.com"></div>
-                    <div class="field"><label>Mobile Number</label><div class="mobile-box"><div class="prefix">+91</div><input type="text" id="phone" class="m-input" maxlength="10" required placeholder="00000 00000"></div></div>
-                </div>
-
-                <div class="reveal">
-                    <div class="section-label">02 PLAYER PROFILE</div>
-                    <div class="field"><label>Full Name</label><input type="text" id="name" required placeholder="Identity"></div>
-                    <div class="field"><label>In-Game Name</label><input type="text" id="ign" required placeholder="Gaming ID"></div>
-                    <div class="field"><label>Game UID</label><input type="text" id="uid" required placeholder="Paste Player UID"></div>
-                    <div class="field"><label>Skill Tier</label>
-                        <select id="exp" required>
-                            <option value="" disabled selected>Select Tier</option>
-                            <option value="Recruit">Recruit</option><option value="Veteran">Veteran</option><option value="Heroic">Heroic</option><option value="Legend">Legend</option><option value="Immortal">Immortal</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="reveal">
-                    <div class="section-label">03 CONNECTIVITY</div>
-                    <div class="field"><label>Telegram Username</label><input type="text" id="telegram" required placeholder="@username"><div class="tg-helper" onclick="window.open('https://t.me/settings', '_blank')">🔗</div></div>
-                    <div class="field"><label>Discord (Optional)</label><input type="text" id="discord" placeholder="User#0000"></div>
-                </div>
-
-                <div class="reveal">
-                    <label class="check-wrap"><input type="checkbox" required><span>Accepting tournament rules & data link.</span></label>
-                    <label class="check-wrap"><input type="checkbox" required><span>Verified 18+ years of age.</span></label>
-                    <button type="submit" class="btn-submit" id="submitBtn">CREATE IDENTITY</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- SUCCESS MODAL -->
-    <div id="modal">
-        <div class="modal-body">
-            <h2>Authorized</h2>
-            <p style="color: #333; font-size: 13px; margin-top:5px;">System synchronization complete.</p>
-            <div class="summary" id="sumList"></div>
-            <button class="id-output" id="copyID">GENERATING...</button>
-            <span class="copy-hint">PROPRIETARY ID - DO NOT SHARE</span>
-            <a href="https://t.me/+ulWO6jBK3uRiNjE1" class="tg-btn">JOIN OPERATORS GROUP</a>
-        </div>
-    </div>
-
-    <script>
-        const form = document.getElementById('crazeForm');
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
-
-        // START SEQUENCE IMMEDIATELY
-        function initApp() {
-            setTimeout(() => {
-                const splash = document.getElementById('splash');
-                const app = document.getElementById('app');
-                
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                    app.style.display = 'block';
-                    setTimeout(() => {
-                        app.style.opacity = '1';
-                        // Trigger scroll reveal for top elements
-                        window.dispatchEvent(new Event('scroll'));
-                    }, 50);
-                }, 800);
-            }, 2200); // 2.2 Seconds wait for cinematic feel
-        }
-
-        // Run as soon as script loads
-        initApp();
-
-        window.addEventListener('scroll', () => {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(r => { if(r.getBoundingClientRect().top < window.innerHeight - 80) r.classList.add('active'); });
-            let scrolled = ( (document.body.scrollTop || document.documentElement.scrollTop) / (document.documentElement.scrollHeight - document.documentElement.clientHeight) ) * 100;
-            document.getElementById("progress-line").style.width = scrolled + "%";
-        });
-
-        document.getElementById('phone').addEventListener('input', e => { e.target.value = e.target.value.replace(/[^0-9]/g, ''); });
-
-        function generateID() {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-            let p1 = ""; for(let i=0; i<4; i++) p1 += chars.charAt(Math.floor(Math.random() * chars.length));
-            return `CM-${p1}-${Math.floor(1000 + Math.random() * 9000)}`;
-        }
-
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            if(document.getElementById('phone').value.length !== 10) return alert("Enter 10-digit number.");
-            
-            btn.disabled = true; 
-            btn.innerText = "AUTHENTICATING...";
-            
-            const id = generateID();
-            const fd = new FormData();
-            fd.append('email', document.getElementById('email').value);
-            fd.append('phone', document.getElementById('phone').value);
-            fd.append('name', document.getElementById('name').value);
-            fd.append('ign', document.getElementById('ign').value);
-            fd.append('uid', document.getElementById('uid').value);
-            fd.append('exp', document.getElementById('exp').value);
-            fd.append('telegram', document.getElementById('telegram').value);
-            fd.append('discord', document.getElementById('discord').value);
-            fd.append('Generated_ID', id);
-
-            fetch(scriptURL, { method: 'POST', body: fd})
-            .then(res => res.text()).then(msg => { 
-                if(msg.includes("SUCCESS")) showSuccess(id); 
-                else { 
-                    // Fallback success if server recorded but message blocked
-                    showSuccess(id);
-                }
-            })
-            .catch(() => { 
-                showSuccess(id);
-            })
-            .finally(() => {
-                btn.disabled = false;
-                btn.innerText = "CREATE IDENTITY";
-            });
-        });
-
-        function showSuccess(id) {
-            document.getElementById('modal').style.display = 'flex';
-            const copyBtn = document.getElementById('copyID');
-            copyBtn.innerText = id;
-            copyBtn.onclick = () => {
-                navigator.clipboard.writeText(id);
-                copyBtn.style.color = '#34C759'; copyBtn.innerText = "COPIED";
-                setTimeout(() => { copyBtn.innerText = id; copyBtn.style.color = 'white'; }, 2000);
-            };
-            document.getElementById('sumList').innerHTML = `<div class="row"><span>Identity</span> <b>${document.getElementById('name').value}</b></div><div class="row"><span>Operator</span> <b>${document.getElementById('ign').value}</b></div><div class="row"><span>Game UID</span> <b>${document.getElementById('uid').value}</b></div>`;
-        }
-    </script>
-</body>
-</html>
+        .check-wrap input:checked + .custom-box { background: var(--white); border-color: var(--white); }
+        .c
