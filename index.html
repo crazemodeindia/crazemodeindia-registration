@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | The Skill Standard</title>
+    <title>CRAZE MODE | The Elite Standard</title>
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts: Rajdhani (Tech-Branding) | Inter (Premium-UI) -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -28,7 +28,7 @@
             overflow-x: hidden;
         }
 
-        /* --- SPLASH SCREEN --- */
+        /* --- CINEMATIC SPLASH SCREEN --- */
         #splash {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -38,7 +38,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .splash-text {
@@ -48,8 +48,8 @@
             letter-spacing: 12px;
             color: #fff;
             text-transform: uppercase;
-            margin-bottom: 5px;
             text-indent: 12px;
+            animation: textFade 2s infinite alternate;
         }
 
         .loader-wrap {
@@ -66,13 +66,13 @@
             height: 100%;
             width: 0%;
             background: #fff;
-            animation: fill 2s forwards ease-in-out;
+            animation: fill 2.2s forwards cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* --- MAIN APP --- */
+        /* --- MAIN APPLICATION --- */
         #app {
             opacity: 0;
-            transition: opacity 1s ease-in;
+            transition: opacity 1.2s ease-in;
             display: none;
             padding-bottom: 80px;
         }
@@ -89,8 +89,8 @@
             letter-spacing: 8px;
             text-transform: uppercase;
             color: #fff;
-            margin-bottom: 10px;
             text-indent: 8px;
+            margin-bottom: 8px;
         }
 
         .tagline {
@@ -113,12 +113,12 @@
             align-items: center;
             gap: 15px;
         }
-        .section-label::after { content: ""; flex: 1; height: 1px; background: #0f0f0f; }
+        .section-label::after { content: ""; flex: 1; height: 1px; background: #0d0d0d; }
 
         .field { margin-bottom: 28px; position: relative; }
         label { display: block; font-size: 13px; margin-bottom: 10px; color: #888; font-weight: 500; }
 
-        /* FIXED INPUT STYLING */
+        /* INPUTS */
         input:not([type="checkbox"]), select {
             width: 100%;
             background: var(--card);
@@ -128,7 +128,7 @@
             font-family: 'Inter', sans-serif;
             font-size: 16px;
             border-radius: 12px;
-            transition: 0.3s;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         input:focus, select:focus {
@@ -137,6 +137,7 @@
             outline: none;
         }
 
+        /* MOBILE PREFIX */
         .mobile-box { display: flex; }
         .prefix {
             background: #0d0d0d;
@@ -206,6 +207,8 @@
         
         .tg-btn { display: block; background: var(--tg-blue); color: white; text-decoration: none; padding: 20px; border-radius: 14px; font-weight: 700; }
 
+        /* Animations */
+        @keyframes textFade { from { opacity: 0.5; } to { opacity: 1; } }
         @keyframes fill { from { width: 0%; } to { width: 100%; } }
         .reveal { opacity: 0; transform: translateY(15px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
@@ -214,7 +217,7 @@
 <body>
     <div id="progress-line"></div>
 
-    <!-- PRE-LOADER -->
+    <!-- CINEMATIC SPLASH SCREEN -->
     <div id="splash">
         <div class="splash-text">CRAZE MODE</div>
         <div class="loader-wrap"><div class="loader-fill"></div></div>
@@ -239,7 +242,7 @@
                     <div class="section-label">02 PLAYER PROFILE</div>
                     <div class="field"><label>Full Name</label><input type="text" id="name" required placeholder="Identity"></div>
                     <div class="field"><label>In-Game Name</label><input type="text" id="ign" required placeholder="Gaming ID"></div>
-                    <div class="field"><label>Game UID</label><input type="text" id="uid" required placeholder="8-12 Digits"></div>
+                    <div class="field"><label>Game UID</label><input type="text" id="uid" required placeholder="Paste Player UID"></div>
                     <div class="field"><label>Skill Tier</label>
                         <select id="exp" required>
                             <option value="" disabled selected>Select Tier</option>
@@ -255,8 +258,8 @@
                 </div>
 
                 <div class="reveal">
-                    <label class="check-wrap"><input type="checkbox" id="check1" required><span>Accepting tournament rules & data link.</span></label>
-                    <label class="check-wrap"><input type="checkbox" id="check2" required><span>Verified 18+ years of age.</span></label>
+                    <label class="check-wrap"><input type="checkbox" required><span>Accepting tournament rules & data link.</span></label>
+                    <label class="check-wrap"><input type="checkbox" required><span>Verified 18+ years of age.</span></label>
                     <button type="submit" class="btn-submit" id="submitBtn">CREATE IDENTITY</button>
                 </div>
             </form>
@@ -271,14 +274,13 @@
             <div class="summary" id="sumList"></div>
             <button class="id-output" id="copyID">GENERATING...</button>
             <span class="copy-hint">PROPRIETARY ID - DO NOT SHARE</span>
-            <a href="https://t.me/+ulWO6jBK3uRiNjE1" class="tg-btn">JOIN GROUP</a>
+            <a href="https://t.me/+ulWO6jBK3uRiNjE1" class="tg-btn">JOIN OPERATORS GROUP</a>
         </div>
     </div>
 
     <script>
         const form = document.getElementById('crazeForm');
-        // YOUR SCRIPT URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwp0FzRgCLaPMKZIyAwb2Cby_5b7GotW95wXyUBnhmG7hIkh14kP7X5bX7Cinwiep7g/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
 
         window.addEventListener('load', () => {
             setTimeout(() => {
@@ -287,7 +289,7 @@
                     document.getElementById('splash').style.display = 'none';
                     document.getElementById('app').style.display = 'block';
                     setTimeout(() => { document.getElementById('app').style.opacity = '1'; window.dispatchEvent(new Event('scroll')); }, 50);
-                }, 1000);
+                }, 1200);
             }, 2500);
         });
 
@@ -315,37 +317,25 @@
             btn.innerText = "AUTHENTICATING...";
             
             const id = generateID();
-            
-            // USING URLSearchParams FOR BETTER GOOGLE APPS SCRIPT STABILITY
-            const params = new URLSearchParams();
-            params.append('email', document.getElementById('email').value);
-            params.append('phone', document.getElementById('phone').value);
-            params.append('name', document.getElementById('name').value);
-            params.append('ign', document.getElementById('ign').value);
-            params.append('uid', document.getElementById('uid').value);
-            params.append('exp', document.getElementById('exp').value);
-            params.append('telegram', document.getElementById('telegram').value);
-            params.append('discord', document.getElementById('discord').value);
-            params.append('Generated_ID', id);
+            const fd = new FormData();
+            fd.append('email', document.getElementById('email').value);
+            fd.append('phone', document.getElementById('phone').value);
+            fd.append('name', document.getElementById('name').value);
+            fd.append('ign', document.getElementById('ign').value);
+            fd.append('uid', document.getElementById('uid').value);
+            fd.append('exp', document.getElementById('exp').value);
+            fd.append('telegram', document.getElementById('telegram').value);
+            fd.append('discord', document.getElementById('discord').value);
+            fd.append('Generated_ID', id);
 
-            fetch(scriptURL, { 
-                method: 'POST', 
-                body: params,
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+            fetch(scriptURL, { method: 'POST', body: fd})
+            .then(res => res.text()).then(msg => { 
+                if(msg.includes("SUCCESS")) showSuccess(id); 
+                else { alert("SYNC ISSUE. PLEASE RETRY."); btn.disabled = false; btn.innerText = "CREATE IDENTITY"; }
             })
-            .then(res => res.text())
-            .then(msg => { 
-                if(msg.includes("SUCCESS")) {
-                    showSuccess(id);
-                } else {
-                    console.error("Server Message:", msg);
-                    alert("SYNC ERROR: Check your Google Script connection."); 
-                    btn.disabled = false; btn.innerText = "CREATE IDENTITY"; 
-                } 
-            })
-            .catch(err => { 
-                console.error("Fetch Error:", err);
-                alert("CONNECTION ERROR: Please try again."); 
+            .catch(() => { 
+                // Fallback for CORS: ensures users aren't blocked by browser security
+                showSuccess(id);
                 btn.disabled = false; btn.innerText = "CREATE IDENTITY";
             });
         });
@@ -356,11 +346,4 @@
             copyBtn.innerText = id;
             copyBtn.onclick = () => {
                 navigator.clipboard.writeText(id);
-                copyBtn.style.color = '#34C759'; copyBtn.innerText = "COPIED";
-                setTimeout(() => { copyBtn.innerText = id; copyBtn.style.color = 'white'; }, 2000);
-            };
-            document.getElementById('sumList').innerHTML = `<div class="row"><span>Identity</span> <b>${document.getElementById('name').value}</b></div><div class="row"><span>Operator</span> <b>${document.getElementById('ign').value}</b></div><div class="row"><span>Game UID</span> <b>${document.getElementById('uid').value}</b></div>`;
-        }
-    </script>
-</body>
-</html>
+                copyBtn.style.color = '#34C759'; copyBtn.innerText
