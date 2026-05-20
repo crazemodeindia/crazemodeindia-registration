@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | Skill Based Community</title>
+    <title>CRAZE MODE | Registration</title>
     
-    <!-- High-End Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-    <!-- Animation Engines -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <style>
         :root {
@@ -17,13 +14,13 @@
             --white: #ffffff;
             --tg-blue: #0088cc;
             --success: #00ff88;
-            --border: rgba(255, 255, 255, 0.15);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
 
         body {
-            background-color: var(--black);
+            background: var(--black);
             color: var(--white);
             font-family: 'Inter', sans-serif;
             height: 100vh;
@@ -46,17 +43,18 @@
 
         .brand-text {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 5rem;
+            font-size: clamp(3rem, 10vw, 5rem);
             font-weight: 700;
-            letter-spacing: 10px;
+            letter-spacing: 20px;
             text-transform: uppercase;
             opacity: 0;
+            color: white;
         }
 
-        /* 2. FORM CONTAINER */
+        /* 2. FORM LAYOUT */
         .app-container {
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             padding: 30px;
             display: none;
             opacity: 0;
@@ -65,22 +63,18 @@
         .step { display: none; }
         .step.active { display: block; }
 
-        h2 { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+        h2 { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 40px; }
 
-        /* 3. INPUT STYLING */
-        .input-group { margin-bottom: 30px; position: relative; }
-        label { display: block; font-size: 11px; color: #444; margin-bottom: 10px; text-transform: uppercase; }
+        .input-group { margin-bottom: 35px; position: relative; }
+        label { display: block; font-size: 11px; color: #444; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;}
 
         .input-wrapper {
             display: flex;
             align-items: center;
             border-bottom: 1px solid var(--border);
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.4s;
         }
-
-        .input-wrapper:focus-within { border-color: var(--white); }
-
-        .prefix { color: #555; padding-right: 10px; font-size: 18px; user-select: none; }
+        .input-wrapper:focus-within { border-color: white; }
 
         input, select {
             width: 100%;
@@ -92,271 +86,242 @@
             outline: none;
         }
 
-        select option { background: #111; color: white; }
-
-        /* 4. TELEGRAM SECTION */
+        /* 3. TELEGRAM CUSTOMS */
         .tg-header { display: flex; justify-content: space-between; align-items: center; }
-        .get-btn { color: var(--tg-blue); font-size: 12px; text-decoration: none; font-weight: 700; cursor: pointer; }
+        .get-btn { color: var(--tg-blue); font-size: 11px; text-decoration: none; font-weight: 700; border: 1px solid var(--tg-blue); padding: 4px 10px; border-radius: 4px; }
         
-        .verify-box { margin-top: 15px; font-size: 12px; }
-        .verify-line { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; color: #444; }
+        .verify-box { margin-top: 20px; }
+        .verify-line { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: #333; font-size: 12px; transition: 0.3s; }
         .verify-line.valid { color: var(--success); }
-        .tick { display: none; color: var(--success); }
+        .tick { display: none; font-weight: bold; }
         .valid .tick { display: inline; }
 
-        /* 5. BUTTONS */
+        /* 4. BUTTONS */
         .nav-btn {
             width: 100%;
-            padding: 18px;
+            padding: 20px;
             background: white;
             color: black;
             border: none;
-            border-radius: 4px;
+            border-radius: 2px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
+            text-transform: uppercase;
             cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s;
+            margin-top: 10px;
         }
+        .nav-btn:disabled { background: #111; color: #333; cursor: not-allowed; }
 
-        .nav-btn:disabled { background: #222; color: #444; cursor: not-allowed; }
-
-        /* 6. GAME ID SHUFFLER */
-        #shuffler-container {
+        /* 5. SUCCESS SHUFFLER */
+        #shuffler-screen {
             display: none;
             text-align: center;
+            width: 100%;
         }
-
         .shuffle-text {
             font-family: 'Inter', sans-serif;
             font-size: 32px;
             font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--white);
+            letter-spacing: 1px;
+            height: 50px;
         }
-
-        .warning-text { color: #666; font-size: 12px; margin-top: 40px; cursor: pointer; }
-        .tg-join-btn {
+        .share-warning { color: #444; font-size: 12px; margin-top: 50px; text-decoration: underline; cursor: pointer; opacity: 0; }
+        .tg-join-link {
             display: inline-block;
             margin-top: 20px;
             background: var(--tg-blue);
             color: white;
-            padding: 15px 40px;
-            border-radius: 100px;
+            padding: 16px 35px;
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 700;
+            font-size: 14px;
             opacity: 0;
+            transform: translateY(20px);
         }
     </style>
 </head>
 <body>
 
-    <!-- INTRO ANIMATION -->
+    <!-- ANTIGRAVITY INTRO -->
     <div id="intro-screen">
         <div class="brand-text">CRAZE MODE</div>
     </div>
 
-    <!-- MAIN FORM -->
+    <!-- MAIN APP -->
     <div class="app-container">
-        <form id="masterForm">
-            <!-- Hidden inputs for automatic collection -->
-            <input type="hidden" name="google_email" id="g_email">
-            <input type="hidden" name="final_game_id" id="g_id">
+        <form id="crazeForm">
+            <input type="hidden" name="Game_ID" id="hidden_id">
 
-            <!-- STEP 1: GOOGLE AUTH -->
-            <div class="step active" id="step1">
-                <h2>Security Authorization</h2>
-                <p style="color: #888; font-size: 14px; margin-bottom: 30px;">Sign in with Google to authenticate your player profile.</p>
-                <div id="g_id_onload"
-                    data-client_id="YOUR_GOOGLE_CLIENT_ID"
-                    data-callback="handleCredentialResponse">
+            <!-- STEP 1: EMAIL (GOOGLE STYLE) -->
+            <div class="step active" id="s1">
+                <h2>Account Authentication</h2>
+                <div class="input-group">
+                    <label>Gmail / Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" name="Email" id="emailInp" placeholder="Enter your email" required>
+                    </div>
                 </div>
-                <div class="g_id_signin" data-type="standard"></div>
+                <button type="button" class="nav-btn" id="btn1" onclick="go(1, 2)">Continue</button>
             </div>
 
-            <!-- STEP 2: PERSONAL -->
-            <div class="step" id="step2">
-                <h2>Personal Details</h2>
+            <!-- STEP 2: MOBILE -->
+            <div class="step" id="s2">
+                <h2>Security Link</h2>
                 <div class="input-group">
                     <label>Mobile Number</label>
                     <div class="input-wrapper">
-                        <span class="prefix">+91</span>
-                        <input type="tel" name="mobile" id="mobileInput" placeholder="00000 00000" maxlength="10">
+                        <span style="color:#555; padding-right:10px; font-size:18px;">+91</span>
+                        <input type="tel" name="Mobile" id="phoneInp" placeholder="00000 00000" maxlength="10">
                     </div>
                 </div>
-                <button type="button" class="nav-btn" id="btn2" disabled onclick="nextStep(3)">Continue</button>
+                <button type="button" class="nav-btn" id="btn2" disabled onclick="go(2, 3)">Confirm Identity</button>
             </div>
 
-            <!-- STEP 3: GAME INFO -->
-            <div class="step" id="step3">
-                <h2>Combat Profile</h2>
+            <!-- STEP 3: GAME PROFILE -->
+            <div class="step" id="s3">
+                <h2>Game Identity</h2>
                 <div class="input-group">
-                    <label>In-game Username</label>
+                    <label>In-Game Username</label>
                     <div class="input-wrapper">
-                        <input type="text" name="ign" placeholder="Enter in-game username" required>
+                        <input type="text" name="IGN" placeholder="Enter in-game username" required>
                     </div>
                 </div>
                 <div class="input-group">
                     <label>Player UID</label>
                     <div class="input-wrapper">
-                        <input type="text" name="uid" placeholder="Enter UID" required>
+                        <input type="text" name="UID" placeholder="Enter UID" required>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Experience Level</label>
+                    <label>Skill Experience</label>
                     <div class="input-wrapper">
-                        <select name="experience">
+                        <select name="Experience">
                             <option value="Beginner">Beginner</option>
                             <option value="Intermediate">Intermediate</option>
                             <option value="Advanced">Advanced</option>
-                            <option value="Semi-Pro">Semi-Pro</option>
-                            <option value="Elite">Elite</option>
+                            <option value="Elite">Elite Pro</option>
                         </select>
                     </div>
                 </div>
-                <button type="button" class="nav-btn" onclick="nextStep(4)">Continue</button>
+                <button type="button" class="nav-btn" onclick="go(3, 4)">Next Section</button>
             </div>
 
-            <!-- STEP 4: TELEGRAM VERIFICATION -->
-            <div class="step" id="step4">
+            <!-- STEP 4: TELEGRAM VALIDATION -->
+            <div class="step" id="s4">
                 <div class="tg-header">
-                    <h2>Community Access</h2>
-                    <a href="https://t.me/crazemodeverifybot" target="_blank" class="get-btn">GET USERNAME</a>
+                    <h2>Community Verification</h2>
+                    <a href="https://t.me/crazemodeverifybot" target="_blank" class="get-btn">GET</a>
                 </div>
-                <div class="input-group" style="margin-top: 20px;">
-                    <label>Telegram Username</label>
+                <div class="input-group" style="margin-top:20px;">
+                    <label>Telegram @Username</label>
                     <div class="input-wrapper">
-                        <input type="text" id="tgInput" name="telegram" placeholder="@username">
+                        <input type="text" name="Telegram" id="tgInp" placeholder="@username">
                     </div>
                 </div>
-                
                 <div class="verify-box">
-                    <div class="verify-line" id="v1"><span>●</span> Format Validation <span class="tick">✓</span></div>
-                    <div class="verify-line" id="v2"><span>●</span> Existence Check <span class="tick">✓</span></div>
-                    <div class="verify-line" id="v3"><span>●</span> Verified Owner <span class="tick">✓</span></div>
+                    <div class="verify-line" id="v1"><span>○</span> Format Validated <span class="tick">✓</span></div>
+                    <div class="verify-line" id="v2"><span>○</span> Server Existence Check <span class="tick">✓</span></div>
+                    <div class="verify-line" id="v3"><span>○</span> Ownership Confirmed <span class="tick">✓</span></div>
                 </div>
-
-                <button type="submit" class="nav-btn" id="finalSubmit" disabled>Generate Game ID</button>
+                <button type="submit" class="nav-btn" id="submitBtn" disabled>Get Game ID</button>
             </div>
         </form>
 
-        <!-- STEP 5: THE SHUFFLER -->
-        <div id="shuffler-container">
-            <div class="shuffle-text" id="idResult">XXXXXXXXXX</div>
-            <p class="warning-text" onclick="alert('Copied to clipboard')">Don't share this with anyone</p>
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" class="tg-join-btn" id="tgJoin">REQUEST TO JOIN GROUP</a>
+        <!-- STEP 5: SHUFFLER -->
+        <div id="shuffler-screen">
+            <div class="shuffle-text" id="shuffledResult"></div>
+            <p class="share-warning" id="warning">DON'T SHARE THIS WITH ANYONE</p>
+            <a href="https://t.me/+3xRCpmBV3yA4NGM1" class="tg-join-link" id="tgLink">JOIN TELEGRAM GROUP</a>
         </div>
     </div>
 
     <script>
-        // 1. ANTIGRAVITY INTRO LOGIC
-        window.onload = () => {
-            const tl = gsap.timeline();
-            tl.to(".brand-text", { opacity: 1, duration: 1.5, letterSpacing: "20px", ease: "power4.out" })
-              .to(".brand-text", { y: -100, opacity: 0, duration: 1, ease: "back.in(1.7)" })
-              .to("#intro-screen", { display: "none", duration: 0 })
-              .to(".app-container", { display: "block", opacity: 1, duration: 1 });
-        };
+        // 1. ANTIGRAVITY INTRO
+        window.addEventListener('DOMContentLoaded', () => {
+            gsap.timeline()
+                .to(".brand-text", { opacity: 1, duration: 1.2, letterSpacing: "10px", ease: "power3.out" })
+                .to(".brand-text", { y: -80, opacity: 0, duration: 0.8, ease: "power3.in", delay: 0.5 })
+                .set("#intro-screen", { display: "none" })
+                .to(".app-container", { display: "block", opacity: 1, duration: 0.6 });
+        });
 
-        // 2. GOOGLE SIGN IN
-        function handleCredentialResponse(response) {
-            const responsePayload = parseJwt(response.credential);
-            document.getElementById('g_email').value = responsePayload.email;
-            nextStep(2);
-        }
-
-        function parseJwt(token) {
-            var base64Url = token.split('.')[1];
-            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            return JSON.parse(window.atob(base64));
-        }
-
-        // 3. STEP NAVIGATION & MOBILE VALIDATION
-        function nextStep(n) {
-            gsap.to(".step.active", { opacity: 0, x: -20, duration: 0.3, onComplete: () => {
-                document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-                const next = document.getElementById('step' + n);
-                next.classList.add('active');
-                gsap.fromTo(next, { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.4 });
+        // 2. NAVIGATION & MOBILE LOGIC
+        function go(f, t) {
+            gsap.to(`#s${f}`, { opacity: 0, x: -20, duration: 0.3, onComplete: () => {
+                document.getElementById(`s${f}`).classList.remove('active');
+                document.getElementById(`s${t}`).classList.add('active');
+                gsap.fromTo(`#s${t}`, { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.3 });
             }});
         }
 
-        document.getElementById('mobileInput').addEventListener('input', function(e) {
-            const btn = document.getElementById('btn2');
-            btn.disabled = this.value.length !== 10;
-            // Apple-style vibration hint if user types more than 10
-            if(this.value.length > 10) this.value = this.value.slice(0,10);
+        document.getElementById('phoneInp').addEventListener('input', function() {
+            document.getElementById('btn2').disabled = (this.value.length !== 10);
         });
 
-        // 4. TELEGRAM VERIFICATION SIMULATION (High tech feel)
-        document.getElementById('tgInput').addEventListener('input', function(e) {
+        // 3. TELEGRAM VERIFICATION (Visual simulation)
+        document.getElementById('tgInp').addEventListener('input', function() {
             const val = this.value;
-            const btn = document.getElementById('finalSubmit');
-            
+            const btn = document.getElementById('submitBtn');
             if(val.startsWith('@') && val.length > 4) {
-                setTimeout(() => { document.getElementById('v1').classList.add('valid'); }, 500);
-                setTimeout(() => { document.getElementById('v2').classList.add('valid'); }, 1200);
+                setTimeout(() => document.getElementById('v1').classList.add('valid'), 400);
+                setTimeout(() => document.getElementById('v2').classList.add('valid'), 1000);
                 setTimeout(() => { 
-                    document.getElementById('v3').classList.add('valid'); 
+                    document.getElementById('v3').classList.add('valid');
                     btn.disabled = false;
-                    gsap.to(btn, { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1 });
-                }, 2000);
+                }, 1600);
             } else {
                 document.querySelectorAll('.verify-line').forEach(l => l.classList.remove('valid'));
                 btn.disabled = true;
             }
         });
 
-        // 5. FINAL SUBMISSION & SHUFFLER
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
+        // 4. FORM SUBMISSION & SHUFFLER
+        const G_SHEET_URL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
 
-        document.getElementById('masterForm').addEventListener('submit', function(e) {
+        document.getElementById('crazeForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Generate ID First
-            const finalID = generateID();
-            document.getElementById('g_id').value = finalID;
+            const finalID = generateGameID();
+            document.getElementById('hidden_id').value = finalID;
 
-            // Transition to Shuffler
-            gsap.to("#masterForm", { opacity: 0, scale: 0.9, duration: 0.5, onComplete: () => {
-                document.getElementById('masterForm').style.display = 'none';
-                document.getElementById('shuffler-container').style.display = 'block';
-                startShuffling(finalID);
+            // Submit to sheets in background
+            fetch(G_SHEET_URL, { method: 'POST', body: new FormData(this), mode: 'no-cors' });
+
+            // Switch to Shuffler
+            gsap.to("#crazeForm", { opacity: 0, duration: 0.4, onComplete: () => {
+                document.getElementById('crazeForm').style.display = 'none';
+                document.getElementById('shuffler-screen').style.display = 'block';
+                runShuffler(finalID);
             }});
-
-            // Send to Google Sheets in background
-            fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this), mode: 'no-cors' });
         });
 
-        function generateID() {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-            const part = (n) => Array.from({length: n}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-            return `CM-${part(4)}-${part(4)}`;
+        function generateGameID() {
+            const charset = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            const pick = (n) => Array.from({length:n}, () => charset[Math.floor(Math.random()*charset.length)]).join('');
+            return `CM-${pick(4)}-${pick(4)}`;
         }
 
-        function startShuffling(targetID) {
-            const el = document.getElementById('idResult');
+        function runShuffler(target) {
+            const el = document.getElementById('shuffledResult');
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            let iterations = 0;
+            let count = 0;
             
-            const interval = setInterval(() => {
-                el.innerText = targetID.split('').map((char, index) => {
+            const timer = setInterval(() => {
+                el.innerText = target.split('').map((char, i) => {
                     if(char === '-') return '-';
-                    if(iterations > index * 10) return targetID[index];
+                    if(count > i * 8) return target[i];
                     return chars[Math.floor(Math.random() * chars.length)];
                 }).join('');
 
-                if (iterations >= 60) {
-                    clearInterval(interval);
-                    el.innerText = targetID;
-                    showFinalBtn();
+                if(count++ >= 60) {
+                    clearInterval(timer);
+                    el.innerText = target;
+                    // Fade in links
+                    gsap.to("#warning", { opacity: 1, duration: 1 });
+                    gsap.to("#tgLink", { opacity: 1, y: 0, duration: 0.8, delay: 0.5 });
                 }
-                iterations++;
             }, 100);
-        }
-
-        function showFinalBtn() {
-            gsap.to("#tgJoin", { opacity: 1, y: -10, duration: 0.8, delay: 0.5 });
         }
     </script>
 </body>
