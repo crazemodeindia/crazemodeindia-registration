@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | Professional Entry</title>
+    <title>CRAZE MODE | Elite Registration</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
@@ -13,9 +13,8 @@
             --bg: #000000;
             --white: #ffffff;
             --tg-blue: #24A1DE;
-            --success: #00ff88;
-            --error: #ff4444;
             --border: rgba(255, 255, 255, 0.1);
+            --success: #00ff88;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -31,7 +30,7 @@
             justify-content: center;
         }
 
-        /* 1. INTRO */
+        /* 1. FIXED INTRO (One line on mobile) */
         #intro-screen {
             position: fixed;
             inset: 0;
@@ -43,9 +42,10 @@
         }
         .brand-text {
             font-family: 'Rajdhani', sans-serif;
-            font-size: clamp(3rem, 10vw, 5rem);
+            font-size: clamp(1.8rem, 8vw, 4rem); /* Responsive scaling */
             font-weight: 700;
-            letter-spacing: 20px;
+            letter-spacing: 5px;
+            white-space: nowrap; /* Forces one line */
             text-transform: uppercase;
             opacity: 0;
         }
@@ -53,7 +53,7 @@
         /* 2. LAYOUT */
         .app-container {
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
             padding: 20px;
             display: none;
             opacity: 0;
@@ -62,10 +62,10 @@
         .step { display: none; }
         .step.active { display: block; }
 
-        h2 { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 40px; }
+        h2 { font-size: 11px; color: #555; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 35px; }
 
-        .input-group { margin-bottom: 35px; }
-        label { display: block; font-size: 10px; color: #666; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px;}
+        .input-group { margin-bottom: 30px; }
+        label { display: block; font-size: 10px; color: #444; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
 
         .input-wrapper {
             display: flex;
@@ -85,29 +85,24 @@
             outline: none;
         }
 
-        /* FIX: Dropdown visibility */
+        /* FIXED DROPDOWN VISIBILITY */
         select {
             width: 100%;
-            background: #0a0a0a; /* Dark background */
+            background: #111; /* Darker bg */
             border: none;
             border-bottom: 1px solid var(--border);
             padding: 12px 0;
-            color: white; /* White text */
+            color: white !important;
             font-size: 16px;
             outline: none;
-            cursor: pointer;
             appearance: none;
         }
-        select option {
-            background: #111;
-            color: white;
-            padding: 10px;
-        }
+        select option { background: #111; color: white; }
 
         /* 3. BUTTONS */
         .nav-btn {
             width: 100%;
-            padding: 20px;
+            padding: 18px;
             background: white;
             color: black;
             border: none;
@@ -115,31 +110,50 @@
             font-size: 13px;
             text-transform: uppercase;
             cursor: pointer;
-            transition: 0.2s;
+            border-radius: 4px;
         }
         .nav-btn:disabled { background: #111; color: #333; cursor: not-allowed; }
 
-        .tg-verify-btn {
-            background: var(--tg-blue);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 12px;
+        /* TELEGRAM STYLES */
+        .tg-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .tg-get { color: var(--tg-blue); text-decoration: none; font-size: 12px; font-weight: 600; }
+        .tg-verify-btn { 
+            background: var(--tg-blue); 
+            color: white; 
+            padding: 8px 15px; 
+            border-radius: 4px; 
+            text-decoration: none; 
+            font-size: 11px; 
             font-weight: 700;
-            display: inline-block;
-            margin-bottom: 20px;
         }
 
-        /* 4. SHUFFLER */
-        #shuffler-screen { display: none; text-align: center; width: 100%; }
+        /* 4. SUCCESS SHUFFLER UI */
+        #shuffler-screen { display: none; text-align: center; }
+        .status-msg { font-size: 13px; color: #666; margin-bottom: 20px; text-transform: uppercase; }
+        
+        .id-box {
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .id-box:active { transform: scale(0.98); background: #111; }
+        
         .shuffle-text {
             font-family: 'Inter', sans-serif;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 700;
+            color: var(--white);
             letter-spacing: 1px;
         }
-        .tg-link {
+        
+        .tiny-text { font-size: 10px; color: #444; letter-spacing: 1px; margin-top: 5px; }
+
+        .join-btn {
             display: inline-block;
             margin-top: 30px;
             background: var(--tg-blue);
@@ -151,6 +165,9 @@
             opacity: 0;
             transform: translateY(20px);
         }
+
+        /* Copy tooltip */
+        .copy-hint { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--success); opacity: 0; }
     </style>
 </head>
 <body>
@@ -161,8 +178,7 @@
 
     <div class="app-container">
         <form id="crazeForm">
-            <!-- Hidden inputs to ensure data matches your script -->
-            <input type="hidden" name="GameID" id="hidden_id">
+            <input type="hidden" name="Game_ID" id="hidden_id">
 
             <!-- STEP 1: EMAIL -->
             <div class="step active" id="s1">
@@ -170,7 +186,7 @@
                 <div class="input-group">
                     <label>Google / Email</label>
                     <div class="input-wrapper">
-                        <input type="email" name="Email" placeholder="your@gmail.com" required>
+                        <input type="email" name="Email" placeholder="player@gmail.com" required>
                     </div>
                 </div>
                 <button type="button" class="nav-btn" onclick="go(1, 2)">Next Step</button>
@@ -178,22 +194,22 @@
 
             <!-- STEP 2: MOBILE (Numeric Fix) -->
             <div class="step" id="s2">
-                <h2>02 Contact</h2>
+                <h2>02 Security</h2>
                 <div class="input-group">
-                    <label>Mobile Number (10 Digits)</label>
+                    <label>Mobile Number (Numeric Only)</label>
                     <div class="input-wrapper">
                         <span style="color:#444; padding-right:10px;">+91</span>
-                        <input type="number" name="Mobile" id="phoneInp" placeholder="Enter 10 digits" oninput="validatePhone(this)">
+                        <input type="tel" name="Mobile" id="phoneInp" placeholder="Enter 10 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10); checkPhone(this)">
                     </div>
                 </div>
-                <button type="button" class="nav-btn" id="btn2" disabled onclick="go(2, 3)">Continue</button>
+                <button type="button" class="nav-btn" id="btn2" disabled onclick="go(2, 3)">Confirm Identity</button>
             </div>
 
             <!-- STEP 3: GAME PROFILE -->
             <div class="step" id="s3">
-                <h2>03 Identity</h2>
+                <h2>03 Game Profile</h2>
                 <div class="input-group">
-                    <label>In-Game Username</label>
+                    <label>In-game username</label>
                     <div class="input-wrapper">
                         <input type="text" name="IGN" placeholder="Enter in-game username" required>
                     </div>
@@ -205,62 +221,73 @@
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Skill Level</label>
-                    <select name="Experience">
-                        <option value="" disabled selected>Select Experience</option>
+                    <label>Experience Level</label>
+                    <select name="Experience" required>
+                        <option value="" disabled selected>Select skill level</option>
                         <option value="Beginner">Beginner</option>
                         <option value="Intermediate">Intermediate</option>
                         <option value="Advanced">Advanced</option>
-                        <option value="Elite">Elite / Pro</option>
+                        <option value="Pro">Pro Player</option>
                     </select>
                 </div>
-                <button type="button" class="nav-btn" onclick="go(3, 4)">Continue</button>
+                <button type="button" class="nav-btn" onclick="go(3, 4)">Next Section</button>
             </div>
 
-            <!-- STEP 4: REAL TELEGRAM VERIFICATION -->
+            <!-- STEP 4: TELEGRAM & VERIFICATION -->
             <div class="step" id="s4">
-                <h2>04 Verification</h2>
-                <p style="font-size: 12px; color: #666; margin-bottom: 20px;">To prevent fake entries, you must verify ownership via our bot.</p>
+                <div class="tg-nav">
+                    <h2>04 Community</h2>
+                    <a href="https://t.me" target="_blank" class="tg-get">GET USERNAME</a>
+                </div>
                 
-                <a href="https://t.me/crazemodeverifybot" target="_blank" class="tg-verify-btn">1. OPEN VERIFICATION BOT</a>
+                <p style="font-size: 11px; color: #666; margin-bottom: 20px;">Verify identity via our security bot to prevent fake entries.</p>
                 
-                <div class="input-group">
-                    <label>Enter Telegram Username</label>
+                <a href="https://t.me/crazemodeverifybot" target="_blank" class="tg-verify-btn">OPEN VERIFY BOT</a>
+
+                <div class="input-group" style="margin-top: 25px;">
+                    <label>Telegram @Username</label>
                     <div class="input-wrapper">
                         <input type="text" name="Telegram" id="tgUser" placeholder="@username">
                     </div>
                 </div>
 
                 <div class="input-group">
-                    <label>Enter 6-Digit Verification Code from Bot</label>
+                    <label>Enter 6-Digit Verification Code</label>
                     <div class="input-wrapper">
-                        <input type="text" id="tgCode" placeholder="000 000" maxlength="6">
+                        <input type="text" id="vCode" placeholder="000 000" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, ''); toggleFinal(this)">
                     </div>
                 </div>
 
-                <button type="submit" class="nav-btn" id="submitBtn" disabled>Generate Game ID</button>
+                <button type="submit" class="nav-btn" id="finalSubmit" disabled>Generate Game ID</button>
             </div>
         </form>
 
-        <!-- STEP 5: SHUFFLER -->
+        <!-- STEP 5: THE SHUFFLER BOX -->
         <div id="shuffler-screen">
-            <div class="shuffle-text" id="idResult"></div>
-            <p style="color: #444; font-size: 11px; margin-top: 40px; cursor: pointer;">DON'T SHARE THIS WITH ANYONE</p>
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" class="tg-link" id="joinBtn">REQUEST TO JOIN GROUP</a>
+            <p class="status-msg" id="statusText">Your game id is generating...</p>
+            
+            <div class="id-box" onclick="copyID()">
+                <div class="copy-hint" id="copyHint">COPIED</div>
+                <div class="shuffle-text" id="idResult">XXXXXXXX</div>
+            </div>
+            
+            <p class="tiny-text">CLICK BOX TO COPY • DON'T SHARE WITH ANYONE</p>
+            
+            <a href="https://t.me/+3xRCpmBV3yA4NGM1" class="join-btn" id="joinBtn">REQUEST TO JOIN GROUP</a>
         </div>
     </div>
 
     <script>
-        // 1. INTRO
+        // 1. ANTIGRAVITY INTRO
         window.onload = () => {
             gsap.timeline()
-                .to(".brand-text", { opacity: 1, duration: 1, letterSpacing: "10px", ease: "power2.out" })
-                .to(".brand-text", { y: -50, opacity: 0, duration: 0.6, ease: "power2.in", delay: 0.4 })
+                .to(".brand-text", { opacity: 1, duration: 1.2, letterSpacing: "15px", ease: "power2.out" })
+                .to(".brand-text", { y: -60, opacity: 0, duration: 0.8, ease: "power2.in", delay: 0.5 })
                 .set("#intro-screen", { display: "none" })
-                .to(".app-container", { display: "block", opacity: 1, duration: 0.5 });
+                .to(".app-container", { display: "block", opacity: 1, duration: 0.6 });
         };
 
-        // 2. NAVIGATION & PHONE VALIDATION
+        // 2. NAVIGATION & VALIDATION
         function go(f, t) {
             gsap.to(`#s${f}`, { opacity: 0, x: -20, duration: 0.2, onComplete: () => {
                 document.getElementById(`s${f}`).classList.remove('active');
@@ -269,22 +296,14 @@
             }});
         }
 
-        function validatePhone(el) {
-            // Remove any non-numeric characters just in case
-            el.value = el.value.replace(/[^0-9]/g, '');
-            if(el.value.length > 10) el.value = el.value.slice(0, 10);
-            document.getElementById('btn2').disabled = (el.value.length !== 10);
+        function checkPhone(el) { document.getElementById('btn2').disabled = (el.value.length !== 10); }
+        
+        function toggleFinal(el) { 
+            const user = document.getElementById('tgUser').value;
+            document.getElementById('finalSubmit').disabled = !(user.length > 3 && el.value.length === 6);
         }
 
-        // 3. TELEGRAM VERIFICATION LOGIC
-        // Note: For real verification, the user enters a code given by the bot
-        document.getElementById('tgCode').addEventListener('input', function() {
-            const username = document.getElementById('tgUser').value;
-            // Requirement: Username must exist and code must be 6 digits
-            document.getElementById('submitBtn').disabled = !(username.startsWith('@') && this.value.length === 6);
-        });
-
-        // 4. DATA COLLECTION & SHUFFLER
+        // 3. FORM SUBMISSION & DATA COLLECTION
         const G_SHEET_URL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
 
         document.getElementById('crazeForm').addEventListener('submit', function(e) {
@@ -293,16 +312,15 @@
             const finalID = generateID();
             document.getElementById('hidden_id').value = finalID;
 
-            // Submit Data - USING A MORE ROBUST METHOD
-            const formData = new FormData(this);
+            // Submit Data
             fetch(G_SHEET_URL, { 
                 method: 'POST', 
-                body: formData,
-                mode: 'no-cors' // Critical for Google Scripts
-            }).then(() => console.log("Data Sent"));
+                body: new FormData(this),
+                mode: 'no-cors' 
+            }).then(() => console.log("Sent"));
 
-            // Start UI Transition
-            gsap.to("#crazeForm", { opacity: 0, duration: 0.3, onComplete: () => {
+            // Start Shuffler UI
+            gsap.to("#crazeForm", { opacity: 0, duration: 0.4, onComplete: () => {
                 document.getElementById('crazeForm').style.display = 'none';
                 document.getElementById('shuffler-screen').style.display = 'block';
                 runShuffler(finalID);
@@ -310,7 +328,7 @@
         });
 
         function generateID() {
-            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ0123456789";
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
             const part = () => Array.from({length:4}, () => chars[Math.floor(Math.random()*chars.length)]).join('');
             return `CM-${part()}-${part()}`;
         }
@@ -330,9 +348,20 @@
                 if(count++ >= 60) {
                     clearInterval(timer);
                     el.innerText = target;
-                    gsap.to("#joinBtn", { opacity: 1, y: 0, duration: 0.5, delay: 0.3 });
+                    document.getElementById('statusText').innerText = "Tournament ID Secured";
+                    gsap.to("#joinBtn", { opacity: 1, y: 0, duration: 0.5 });
                 }
             }, 100);
+        }
+
+        // 4. CLICK TO COPY
+        function copyID() {
+            const text = document.getElementById('idResult').innerText;
+            if(text.includes('X')) return; // Don't copy while generating
+            
+            navigator.clipboard.writeText(text);
+            const hint = document.getElementById('copyHint');
+            gsap.fromTo(hint, { opacity: 0, y: 0 }, { opacity: 1, y: -10, duration: 0.3, yoyo: true, repeat: 1 });
         }
     </script>
 </body>
