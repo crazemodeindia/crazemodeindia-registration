@@ -16,6 +16,7 @@
             --border: rgba(255, 255, 255, 0.1);
             --success: #00ff88;
             --error: #ff4444;
+            --fiery: #ff4500; /* Fiery Orange */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
@@ -31,7 +32,7 @@
             justify-content: center;
         }
 
-        /* 1. RESPONSIVE ANTIGRAVITY INTRO */
+        /* 1. INTRO */
         #intro-screen {
             position: fixed;
             inset: 0;
@@ -76,7 +77,7 @@
         }
         .input-wrapper:focus-within { border-color: white; }
 
-        input {
+        input, select {
             width: 100%;
             background: transparent;
             border: none;
@@ -86,17 +87,7 @@
             outline: none;
         }
 
-        select {
-            width: 100%;
-            background: #111;
-            border: none;
-            border-bottom: 1px solid var(--border);
-            padding: 12px 0;
-            color: white !important;
-            font-size: 16px;
-            outline: none;
-            appearance: none;
-        }
+        select { background: #111; appearance: none; }
         select option { background: #111; color: white; padding: 10px; }
 
         /* 3. BUTTONS */
@@ -157,7 +148,8 @@
             letter-spacing: 1px;
         }
         
-        .tiny-text { font-size: 10px; color: #444; margin-top: 10px; letter-spacing: 1px; }
+        /* Fiery Orange Styling */
+        .tiny-text { font-size: 10px; color: var(--fiery); font-weight: 700; margin-top: 10px; letter-spacing: 1px; }
 
         .join-btn {
             display: inline-block;
@@ -183,10 +175,9 @@
 
     <div class="app-container">
         <form id="crazeForm">
-            <!-- Hidden ID field for Google Sheets -->
             <input type="hidden" name="Game_ID" id="hidden_id">
 
-            <!-- STEP 1: GMAIL VALIDATION -->
+            <!-- STEP 1: GMAIL -->
             <div class="step active" id="s1">
                 <h2>01 Authentication</h2>
                 <div class="input-group">
@@ -194,77 +185,85 @@
                     <div class="input-wrapper">
                         <input type="text" name="Email" id="emailInp" placeholder="example@gmail.com" oninput="validateEmail(this)">
                     </div>
-                    <p id="emailError" style="font-size: 9px; color: var(--error); margin-top: 5px; opacity: 0;">Please enter a valid @gmail.com address</p>
+                    <p id="emailError" style="font-size: 9px; color: var(--error); margin-top: 5px; opacity: 0;">Enter a valid @gmail.com address</p>
                 </div>
                 <button type="button" class="nav-btn" id="btn1" disabled onclick="go(1, 2)">Next Step</button>
             </div>
 
-            <!-- STEP 2: MOBILE (Numeric Fix) -->
+            <!-- STEP 2: MOBILE -->
             <div class="step" id="s2">
-                <h2>02 Contact Information</h2>
+                <h2>02 Contact Link</h2>
                 <div class="input-group">
-                    <label>Mobile Number (Numeric Only)</label>
+                    <label>Mobile Number (10 Digits)</label>
                     <div class="input-wrapper">
                         <span style="color:#444; padding-right:10px;">+91</span>
-                        <input type="tel" name="Mobile" id="phoneInp" placeholder="Enter 10 digits" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10); checkPhone(this)">
+                        <input type="tel" name="Mobile" id="phoneInp" placeholder="Numeric only" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10); checkPhone(this)">
                     </div>
                 </div>
                 <button type="button" class="nav-btn" id="btn2" disabled onclick="go(2, 3)">Continue</button>
             </div>
 
-            <!-- STEP 3: GAME PROFILE -->
+            <!-- STEP 3: ACTUAL NAME -->
             <div class="step" id="s3">
-                <h2>03 Player Identity</h2>
+                <h2>03 Legal Identity</h2>
+                <div class="input-group">
+                    <label>Actual Name (Full Name)</label>
+                    <div class="input-wrapper">
+                        <input type="text" name="Actual_Name" id="nameInp" placeholder="Enter your real name" oninput="validateName(this)">
+                    </div>
+                </div>
+                <button type="button" class="nav-btn" id="btn3" disabled onclick="go(3, 4)">Confirm Name</button>
+            </div>
+
+            <!-- STEP 4: GAME INFO -->
+            <div class="step" id="s4">
+                <h2>04 Player Profile</h2>
                 <div class="input-group">
                     <label>In-game username</label>
-                    <div class="input-wrapper"><input type="text" name="IGN" placeholder="Enter username" required></div>
+                    <div class="input-wrapper"><input type="text" name="IGN" id="ignInp" placeholder="Enter username" oninput="checkIdentity()"></div>
                 </div>
                 <div class="input-group">
                     <label>Player UID</label>
-                    <div class="input-wrapper"><input type="text" name="UID" placeholder="Enter UID" required></div>
+                    <div class="input-wrapper"><input type="text" name="UID" id="uidInp" placeholder="Enter UID" oninput="checkIdentity()"></div>
                 </div>
                 <div class="input-group">
                     <label>Experience Level</label>
-                    <select name="Experience" required>
+                    <select name="Experience" id="expInp" onchange="checkIdentity()">
                         <option value="" disabled selected>Select Level</option>
                         <option value="Beginner">Beginner</option>
                         <option value="Intermediate">Intermediate</option>
                         <option value="Pro">Elite Pro</option>
                     </select>
                 </div>
-                <button type="button" class="nav-btn" onclick="go(3, 4)">Next Section</button>
+                <button type="button" class="nav-btn" id="btn4" disabled onclick="go(4, 5)">Next Section</button>
             </div>
 
-            <!-- STEP 4: VERIFICATION -->
-            <div class="step" id="s4">
+            <!-- STEP 5: VERIFICATION -->
+            <div class="step" id="s5">
                 <div class="tg-nav">
-                    <h2>04 Secure Verification</h2>
+                    <h2>05 Final Verification</h2>
                     <a href="tg://settings" target="_blank" class="tg-get">GET USERNAME</a>
                 </div>
-
                 <div class="input-group">
-                    <label>Enter Telegram Username</label>
+                    <label>Telegram Username</label>
                     <div class="input-wrapper">
                         <input type="text" name="Telegram" id="tgUser" placeholder="@username" oninput="checkVerifyBtn()">
                     </div>
                 </div>
-
                 <a href="https://t.me/crazemodeverifybot" target="_blank" class="verify-action-btn" id="verifyBtn" style="opacity: 0.3; pointer-events: none;">Verify Account</a>
-
                 <div class="input-group">
                     <label>Enter 6-Digit Code from Bot</label>
                     <div class="input-wrapper">
                         <input type="text" id="vCode" placeholder="000 000" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, ''); toggleFinal(this)">
                     </div>
                 </div>
-
                 <button type="submit" class="nav-btn" id="finalSubmit" disabled>Generate Game ID</button>
             </div>
         </form>
 
-        <!-- STEP 5: SHUFFLER & COPY BOX -->
+        <!-- STEP 6: SUCCESS SHUFFLER -->
         <div id="shuffler-screen">
-            <p class="status-msg" id="statusText">Generating your secure identity...</p>
+            <p class="status-msg" id="statusText">Securing your tournament identity...</p>
             <div class="id-box" onclick="copyID()">
                 <div id="copyHint">COPIED TO CLIPBOARD</div>
                 <div class="shuffle-text" id="idResult">XXXXXXXXX</div>
@@ -275,10 +274,8 @@
     </div>
 
     <script>
-        // 1. UPDATED WEB APP LINK
         const G_URL = 'https://script.google.com/macros/s/AKfycbxzluPEnI03QK0-ewydlm-hQPHWtWhdweRXO2X73GMGS-NX7w_JjdW05wiVJ9wHQu9FMg/exec';
 
-        // 2. ANTIGRAVITY INTRO
         window.onload = () => {
             gsap.timeline()
                 .to(".brand-text", { opacity: 1, duration: 1, letterSpacing: "10px", ease: "power2.out" })
@@ -287,7 +284,7 @@
                 .to(".app-container", { display: "block", opacity: 1, duration: 0.5 });
         };
 
-        // 3. VALIDATIONS
+        // --- STRICT VALIDATIONS ---
         function validateEmail(inp) {
             const re = /^[^\s@]+@gmail\.com$/;
             const isValid = re.test(inp.value);
@@ -295,7 +292,20 @@
             document.getElementById('emailError').style.opacity = (inp.value.length > 5 && !isValid) ? 1 : 0;
         }
 
-        function checkPhone(el) { document.getElementById('btn2').disabled = (el.value.length !== 10); }
+        function checkPhone(el) { 
+            document.getElementById('btn2').disabled = (el.value.length !== 10); 
+        }
+
+        function validateName(inp) {
+            document.getElementById('btn3').disabled = (inp.value.trim().length < 3);
+        }
+
+        function checkIdentity() {
+            const ign = document.getElementById('ignInp').value.trim();
+            const uid = document.getElementById('uidInp').value.trim();
+            const exp = document.getElementById('expInp').value;
+            document.getElementById('btn4').disabled = !(ign.length > 2 && uid.length > 3 && exp !== "");
+        }
 
         function checkVerifyBtn() {
             const user = document.getElementById('tgUser').value;
@@ -307,9 +317,11 @@
             }
         }
 
-        function toggleFinal(el) { document.getElementById('finalSubmit').disabled = (el.value.length !== 6); }
+        function toggleFinal(el) { 
+            document.getElementById('finalSubmit').disabled = (el.value.length !== 6); 
+        }
 
-        // 4. NAVIGATION
+        // Navigation
         function go(f, t) {
             gsap.to(`#s${f}`, { opacity: 0, x: -20, duration: 0.2, onComplete: () => {
                 document.getElementById(`s${f}`).classList.remove('active');
@@ -318,14 +330,12 @@
             }});
         }
 
-        // 5. SUBMISSION & 6-SEC SHUFFLER
+        // Form Submission
         document.getElementById('crazeForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const finalID = generateID();
             document.getElementById('hidden_id').value = finalID;
-
             fetch(G_URL, { method: 'POST', body: new FormData(this), mode: 'no-cors' });
-
             gsap.to("#crazeForm", { opacity: 0, duration: 0.3, onComplete: () => {
                 document.getElementById('crazeForm').style.display = 'none';
                 document.getElementById('shuffler-screen').style.display = 'block';
