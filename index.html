@@ -3,275 +3,361 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | Tournament Entry</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <title>CRAZE MODE | Skill Based Community</title>
+    
+    <!-- High-End Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Inter:wght@400;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <!-- Animation Engines -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <style>
         :root {
-            --bg: #000000;
-            --accent: #ffffff;
-            --dim: #666666;
+            --black: #000000;
+            --white: #ffffff;
+            --tg-blue: #0088cc;
             --success: #00ff88;
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.15);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+
         body {
-            background: var(--bg);
-            color: white;
+            background-color: var(--black);
+            color: var(--white);
             font-family: 'Inter', sans-serif;
             height: 100vh;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
         }
 
-        .container {
-            width: 100%;
-            max-width: 400px;
-            padding: 20px;
-            position: relative;
+        /* 1. ANTIGRAVITY INTRO */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background: black;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .step-info {
-            font-size: 11px;
-            color: var(--dim);
-            letter-spacing: 2px;
+        .brand-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            letter-spacing: 10px;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            opacity: 0;
         }
 
-        h1 { font-weight: 700; font-size: 28px; letter-spacing: -1px; margin-bottom: 30px; }
+        /* 2. FORM CONTAINER */
+        .app-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            display: none;
+            opacity: 0;
+        }
 
         .step { display: none; }
-        .step.active { display: block; animation: fadeIn 0.4s ease-out; }
+        .step.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        h2 { font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 30px; }
+
+        /* 3. INPUT STYLING */
+        .input-group { margin-bottom: 30px; position: relative; }
+        label { display: block; font-size: 11px; color: #444; margin-bottom: 10px; text-transform: uppercase; }
+
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .field { margin-bottom: 25px; }
-        label { display: block; font-size: 12px; color: var(--dim); margin-bottom: 8px; }
-        
-        input {
+        .input-wrapper:focus-within { border-color: var(--white); }
+
+        .prefix { color: #555; padding-right: 10px; font-size: 18px; user-select: none; }
+
+        input, select {
             width: 100%;
             background: transparent;
             border: none;
-            border-bottom: 1px solid var(--border);
-            padding: 10px 0;
+            padding: 12px 0;
             color: white;
             font-size: 18px;
             outline: none;
+        }
+
+        select option { background: #111; color: white; }
+
+        /* 4. TELEGRAM SECTION */
+        .tg-header { display: flex; justify-content: space-between; align-items: center; }
+        .get-btn { color: var(--tg-blue); font-size: 12px; text-decoration: none; font-weight: 700; cursor: pointer; }
+        
+        .verify-box { margin-top: 15px; font-size: 12px; }
+        .verify-line { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; color: #444; }
+        .verify-line.valid { color: var(--success); }
+        .tick { display: none; color: var(--success); }
+        .valid .tick { display: inline; }
+
+        /* 5. BUTTONS */
+        .nav-btn {
+            width: 100%;
+            padding: 18px;
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 20px;
             transition: 0.3s;
         }
-        input:focus { border-color: white; }
 
-        .btn-group { display: flex; gap: 15px; margin-top: 30px; }
-        
-        button {
-            flex: 1;
-            padding: 15px;
-            border-radius: 8px;
-            border: none;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-            font-family: 'Inter';
-        }
+        .nav-btn:disabled { background: #222; color: #444; cursor: not-allowed; }
 
-        .primary-btn { background: white; color: black; }
-        .primary-btn:hover { background: #e0e0e0; }
-        .secondary-btn { background: transparent; color: var(--dim); border: 1px solid var(--border); }
-        .secondary-btn:hover { color: white; border-color: white; }
-
-        /* Dialog Overlay */
-        #overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.98);
+        /* 6. GAME ID SHUFFLER */
+        #shuffler-container {
             display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-        }
-
-        .modal {
-            background: #0a0a0a;
-            border: 1px solid var(--border);
-            padding: 40px 30px;
-            border-radius: 20px;
             text-align: center;
-            width: 100%;
-            max-width: 360px;
         }
 
-        .id-card {
-            font-family: 'JetBrains Mono', monospace;
-            background: #111;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 25px 0;
-            font-size: 20px;
-            color: var(--success);
-            border: 1px dashed #333;
+        .shuffle-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--white);
         }
 
-        .telegram-link {
-            display: block;
-            background: #0088cc;
+        .warning-text { color: #666; font-size: 12px; margin-top: 40px; cursor: pointer; }
+        .tg-join-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: var(--tg-blue);
             color: white;
-            padding: 15px;
-            border-radius: 10px;
+            padding: 15px 40px;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 700;
-            margin-top: 15px;
+            opacity: 0;
         }
-        
-        .loader {
-            border: 3px solid #111;
-            border-top: 3px solid white;
-            border-radius: 50%;
-            width: 40px; height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="step-counter" class="step-info">Authorization 1 / 4</div>
-    <h1>CRAZE MODE</h1>
+    <!-- INTRO ANIMATION -->
+    <div id="intro-screen">
+        <div class="brand-text">CRAZE MODE</div>
+    </div>
 
-    <form id="crazeForm">
-        <!-- Hidden field for generated ID -->
-        <input type="hidden" name="Game_ID" id="hidden_id">
+    <!-- MAIN FORM -->
+    <div class="app-container">
+        <form id="masterForm">
+            <!-- Hidden inputs for automatic collection -->
+            <input type="hidden" name="google_email" id="g_email">
+            <input type="hidden" name="final_game_id" id="g_id">
 
-        <!-- STEP 1 -->
-        <div class="step active" id="s1">
-            <div class="field"><label>Email Address</label><input type="email" name="Email" required placeholder="player@gmail.com"></div>
-            <div class="field"><label>Mobile Number</label><input type="tel" name="Mobile" required placeholder="00000 00000"></div>
-            <div class="btn-group"><button type="button" class="primary-btn" onclick="move(1, 2)">Next Step</button></div>
-        </div>
-
-        <!-- STEP 2 -->
-        <div class="step" id="s2">
-            <div class="field"><label>Actual Name</label><input type="text" name="Full_Name" required placeholder="Name"></div>
-            <div class="field"><label>In-Game Name</label><input type="text" name="IGN" required placeholder="Slayer_7"></div>
-            <div class="field"><label>Player UID</label><input type="text" name="UID" required placeholder="8726152"></div>
-            <div class="btn-group">
-                <button type="button" class="secondary-btn" onclick="move(2, 1)">Back</button>
-                <button type="button" class="primary-btn" onclick="move(2, 3)">Next</button>
+            <!-- STEP 1: GOOGLE AUTH -->
+            <div class="step active" id="step1">
+                <h2>Security Authorization</h2>
+                <p style="color: #888; font-size: 14px; margin-bottom: 30px;">Sign in with Google to authenticate your player profile.</p>
+                <div id="g_id_onload"
+                    data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                    data-callback="handleCredentialResponse">
+                </div>
+                <div class="g_id_signin" data-type="standard"></div>
             </div>
-        </div>
 
-        <!-- STEP 3 -->
-        <div class="step" id="s3">
-            <div class="field"><label>Experience</label><input type="text" name="Exp" placeholder="e.g. 2 yrs"></div>
-            <div class="field"><label>Telegram @Username</label><input type="text" name="Telegram" required placeholder="@user"></div>
-            <div class="btn-group">
-                <button type="button" class="secondary-btn" onclick="move(3, 2)">Back</button>
-                <button type="button" class="primary-btn" onclick="move(3, 4)">Finalize</button>
+            <!-- STEP 2: PERSONAL -->
+            <div class="step" id="step2">
+                <h2>Personal Details</h2>
+                <div class="input-group">
+                    <label>Mobile Number</label>
+                    <div class="input-wrapper">
+                        <span class="prefix">+91</span>
+                        <input type="tel" name="mobile" id="mobileInput" placeholder="00000 00000" maxlength="10">
+                    </div>
+                </div>
+                <button type="button" class="nav-btn" id="btn2" disabled onclick="nextStep(3)">Continue</button>
             </div>
-        </div>
 
-        <!-- STEP 4 -->
-        <div class="step" id="s4">
-            <p style="color: var(--dim); font-size: 13px; line-height: 1.6;">By clicking below, you confirm you are 18+ and agree to the tournament regulations.</p>
-            <div class="btn-group">
-                <button type="button" class="secondary-btn" onclick="move(4, 3)">Back</button>
-                <button type="submit" class="primary-btn" id="submitBtn">Get Game ID</button>
+            <!-- STEP 3: GAME INFO -->
+            <div class="step" id="step3">
+                <h2>Combat Profile</h2>
+                <div class="input-group">
+                    <label>In-game Username</label>
+                    <div class="input-wrapper">
+                        <input type="text" name="ign" placeholder="Enter in-game username" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Player UID</label>
+                    <div class="input-wrapper">
+                        <input type="text" name="uid" placeholder="Enter UID" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Experience Level</label>
+                    <div class="input-wrapper">
+                        <select name="experience">
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                            <option value="Semi-Pro">Semi-Pro</option>
+                            <option value="Elite">Elite</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="button" class="nav-btn" onclick="nextStep(4)">Continue</button>
             </div>
-        </div>
-    </form>
-</div>
 
-<!-- SUCCESS DIALOGUE -->
-<div id="overlay">
-    <div class="modal" id="modal-content">
-        <div id="loading-view">
-            <div class="loader"></div>
-            <h3>Generating ID</h3>
-            <p style="color: #666; font-size: 12px; margin-top: 10px;">Syncing with Google Sheets...</p>
-        </div>
+            <!-- STEP 4: TELEGRAM VERIFICATION -->
+            <div class="step" id="step4">
+                <div class="tg-header">
+                    <h2>Community Access</h2>
+                    <a href="https://t.me/crazemodeverifybot" target="_blank" class="get-btn">GET USERNAME</a>
+                </div>
+                <div class="input-group" style="margin-top: 20px;">
+                    <label>Telegram Username</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="tgInput" name="telegram" placeholder="@username">
+                    </div>
+                </div>
+                
+                <div class="verify-box">
+                    <div class="verify-line" id="v1"><span>●</span> Format Validation <span class="tick">✓</span></div>
+                    <div class="verify-line" id="v2"><span>●</span> Existence Check <span class="tick">✓</span></div>
+                    <div class="verify-line" id="v3"><span>●</span> Verified Owner <span class="tick">✓</span></div>
+                </div>
 
-        <div id="success-view" style="display: none;">
-            <h2 style="color: var(--success);">SUCCESS</h2>
-            <p style="font-size: 13px; color: #888; margin-top: 10px;">Your tournament entry is confirmed.</p>
-            <div class="id-card" id="display_id">CM-8EC9-4202</div>
-            <p style="font-size: 12px;">Final Step: Join the group to play.</p>
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" class="telegram-link">JOIN TELEGRAM GROUP</a>
+                <button type="submit" class="nav-btn" id="finalSubmit" disabled>Generate Game ID</button>
+            </div>
+        </form>
+
+        <!-- STEP 5: THE SHUFFLER -->
+        <div id="shuffler-container">
+            <div class="shuffle-text" id="idResult">XXXXXXXXXX</div>
+            <p class="warning-text" onclick="alert('Copied to clipboard')">Don't share this with anyone</p>
+            <a href="https://t.me/+3xRCpmBV3yA4NGM1" class="tg-join-btn" id="tgJoin">REQUEST TO JOIN GROUP</a>
         </div>
     </div>
-</div>
 
-<script>
-    const GOOGLE_URL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
+    <script>
+        // 1. ANTIGRAVITY INTRO LOGIC
+        window.onload = () => {
+            const tl = gsap.timeline();
+            tl.to(".brand-text", { opacity: 1, duration: 1.5, letterSpacing: "20px", ease: "power4.out" })
+              .to(".brand-text", { y: -100, opacity: 0, duration: 1, ease: "back.in(1.7)" })
+              .to("#intro-screen", { display: "none", duration: 0 })
+              .to(".app-container", { display: "block", opacity: 1, duration: 1 });
+        };
 
-    // 1. GENERATE ID (CM-XXXX-XXXX)
-    function generateID() {
-        const hex = () => Math.floor(Math.random()*16777215).toString(16).toUpperCase().substring(0,4);
-        return `CM-${hex()}-${hex()}`;
-    }
+        // 2. GOOGLE SIGN IN
+        function handleCredentialResponse(response) {
+            const responsePayload = parseJwt(response.credential);
+            document.getElementById('g_email').value = responsePayload.email;
+            nextStep(2);
+        }
 
-    // 2. STEP NAVIGATION
-    function move(from, to) {
-        const currentInputs = document.querySelectorAll(`#s${from} input[required]`);
-        let valid = true;
-        currentInputs.forEach(i => { if(!i.value) { valid = false; i.style.borderColor = 'red'; } else { i.style.borderColor = ''; } });
-        
-        if(!valid && to > from) return;
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(window.atob(base64));
+        }
 
-        document.getElementById(`s${from}`).classList.remove('active');
-        document.getElementById(`s${to}`).classList.add('active');
-        document.getElementById('step-counter').innerText = `Authorization ${to} / 4`;
-    }
+        // 3. STEP NAVIGATION & MOBILE VALIDATION
+        function nextStep(n) {
+            gsap.to(".step.active", { opacity: 0, x: -20, duration: 0.3, onComplete: () => {
+                document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+                const next = document.getElementById('step' + n);
+                next.classList.add('active');
+                gsap.fromTo(next, { opacity: 0, x: 20 }, { opacity: 1, x: 0, duration: 0.4 });
+            }});
+        }
 
-    // 3. FORM SUBMISSION
-    const form = document.getElementById('crazeForm');
-    
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        
-        // Disable button to prevent double clicks
-        document.getElementById('submitBtn').disabled = true;
-        document.getElementById('submitBtn').innerText = "Processing...";
-
-        // Generate ID immediately
-        const finalID = generateID();
-        document.getElementById('hidden_id').value = finalID;
-        document.getElementById('display_id').innerText = finalID;
-
-        // Show Loading Overlay
-        document.getElementById('overlay').style.display = 'flex';
-
-        // Background Submit to Google Sheets
-        fetch(GOOGLE_URL, { 
-            method: 'POST', 
-            body: new FormData(form),
-            mode: 'no-cors' // This prevents the "stuck" CORS error
-        })
-        .then(() => {
-            // Show success after short delay for effect
-            setTimeout(showSuccess, 1000);
-        })
-        .catch(() => {
-            // Even if network fails, show the ID so user isn't stuck
-            setTimeout(showSuccess, 1000);
+        document.getElementById('mobileInput').addEventListener('input', function(e) {
+            const btn = document.getElementById('btn2');
+            btn.disabled = this.value.length !== 10;
+            // Apple-style vibration hint if user types more than 10
+            if(this.value.length > 10) this.value = this.value.slice(0,10);
         });
-    });
 
-    function showSuccess() {
-        document.getElementById('loading-view').style.display = 'none';
-        document.getElementById('success-view').style.display = 'block';
-        gsap.from('#success-view', { opacity: 0, y: 20, duration: 0.5 });
-    }
-</script>
+        // 4. TELEGRAM VERIFICATION SIMULATION (High tech feel)
+        document.getElementById('tgInput').addEventListener('input', function(e) {
+            const val = this.value;
+            const btn = document.getElementById('finalSubmit');
+            
+            if(val.startsWith('@') && val.length > 4) {
+                setTimeout(() => { document.getElementById('v1').classList.add('valid'); }, 500);
+                setTimeout(() => { document.getElementById('v2').classList.add('valid'); }, 1200);
+                setTimeout(() => { 
+                    document.getElementById('v3').classList.add('valid'); 
+                    btn.disabled = false;
+                    gsap.to(btn, { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1 });
+                }, 2000);
+            } else {
+                document.querySelectorAll('.verify-line').forEach(l => l.classList.remove('valid'));
+                btn.disabled = true;
+            }
+        });
 
+        // 5. FINAL SUBMISSION & SHUFFLER
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw8PShIc7M9dc1eahMGCuOn4WU68hbPWGCznJCmKIZrfkUbrXoNjA7vemLaHpSkouUW/exec';
+
+        document.getElementById('masterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Generate ID First
+            const finalID = generateID();
+            document.getElementById('g_id').value = finalID;
+
+            // Transition to Shuffler
+            gsap.to("#masterForm", { opacity: 0, scale: 0.9, duration: 0.5, onComplete: () => {
+                document.getElementById('masterForm').style.display = 'none';
+                document.getElementById('shuffler-container').style.display = 'block';
+                startShuffling(finalID);
+            }});
+
+            // Send to Google Sheets in background
+            fetch(SCRIPT_URL, { method: 'POST', body: new FormData(this), mode: 'no-cors' });
+        });
+
+        function generateID() {
+            const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+            const part = (n) => Array.from({length: n}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+            return `CM-${part(4)}-${part(4)}`;
+        }
+
+        function startShuffling(targetID) {
+            const el = document.getElementById('idResult');
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            let iterations = 0;
+            
+            const interval = setInterval(() => {
+                el.innerText = targetID.split('').map((char, index) => {
+                    if(char === '-') return '-';
+                    if(iterations > index * 10) return targetID[index];
+                    return chars[Math.floor(Math.random() * chars.length)];
+                }).join('');
+
+                if (iterations >= 60) {
+                    clearInterval(interval);
+                    el.innerText = targetID;
+                    showFinalBtn();
+                }
+                iterations++;
+            }, 100);
+        }
+
+        function showFinalBtn() {
+            gsap.to("#tgJoin", { opacity: 1, y: -10, duration: 0.8, delay: 0.5 });
+        }
+    </script>
 </body>
 </html>
