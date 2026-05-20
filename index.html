@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | Professional Registration</title>
+    <title>CRAZE MODE | Elite Registration</title>
     
-    <!-- Pro Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
-    <!-- Animation Engine -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
     <style>
@@ -33,7 +31,7 @@
             justify-content: center;
         }
 
-        /* 1. RESPONSIVE INTRO */
+        /* 1. RESPONSIVE ANTIGRAVITY INTRO */
         #intro-screen {
             position: fixed;
             inset: 0;
@@ -53,7 +51,7 @@
             opacity: 0;
         }
 
-        /* 2. FORM LAYOUT */
+        /* 2. LAYOUT */
         .app-container {
             width: 100%;
             max-width: 380px;
@@ -88,7 +86,6 @@
             outline: none;
         }
 
-        /* FIXED DROPDOWN VISIBILITY */
         select {
             width: 100%;
             background: #111;
@@ -138,7 +135,7 @@
         }
 
         /* 4. SHUFFLER / SUCCESS UI */
-        #shuffler-screen { display: none; text-align: center; }
+        #shuffler-screen { display: none; text-align: center; width: 100%; }
         .status-msg { font-size: 12px; color: #666; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         
         .id-box {
@@ -186,7 +183,7 @@
 
     <div class="app-container">
         <form id="crazeForm">
-            <!-- Hidden field for Spreadsheet -->
+            <!-- Hidden ID field for Google Sheets -->
             <input type="hidden" name="Game_ID" id="hidden_id">
 
             <!-- STEP 1: GMAIL VALIDATION -->
@@ -197,14 +194,14 @@
                     <div class="input-wrapper">
                         <input type="text" name="Email" id="emailInp" placeholder="example@gmail.com" oninput="validateEmail(this)">
                     </div>
-                    <p id="emailError" style="font-size: 9px; color: var(--error); margin-top: 5px; opacity: 0;">Enter a valid @gmail.com address</p>
+                    <p id="emailError" style="font-size: 9px; color: var(--error); margin-top: 5px; opacity: 0;">Please enter a valid @gmail.com address</p>
                 </div>
                 <button type="button" class="nav-btn" id="btn1" disabled onclick="go(1, 2)">Next Step</button>
             </div>
 
-            <!-- STEP 2: MOBILE (Numeric Only) -->
+            <!-- STEP 2: MOBILE (Numeric Fix) -->
             <div class="step" id="s2">
-                <h2>02 Secure Link</h2>
+                <h2>02 Contact Information</h2>
                 <div class="input-group">
                     <label>Mobile Number (Numeric Only)</label>
                     <div class="input-wrapper">
@@ -217,7 +214,7 @@
 
             <!-- STEP 3: GAME PROFILE -->
             <div class="step" id="s3">
-                <h2>03 Identity</h2>
+                <h2>03 Player Identity</h2>
                 <div class="input-group">
                     <label>In-game username</label>
                     <div class="input-wrapper"><input type="text" name="IGN" placeholder="Enter username" required></div>
@@ -227,7 +224,7 @@
                     <div class="input-wrapper"><input type="text" name="UID" placeholder="Enter UID" required></div>
                 </div>
                 <div class="input-group">
-                    <label>Skill Level</label>
+                    <label>Experience Level</label>
                     <select name="Experience" required>
                         <option value="" disabled selected>Select Level</option>
                         <option value="Beginner">Beginner</option>
@@ -238,7 +235,7 @@
                 <button type="button" class="nav-btn" onclick="go(3, 4)">Next Section</button>
             </div>
 
-            <!-- STEP 4: TELEGRAM VERIFICATION FLOW -->
+            <!-- STEP 4: VERIFICATION -->
             <div class="step" id="s4">
                 <div class="tg-nav">
                     <h2>04 Secure Verification</h2>
@@ -246,19 +243,18 @@
                 </div>
 
                 <div class="input-group">
-                    <label>Telegram Username</label>
+                    <label>Enter Telegram Username</label>
                     <div class="input-wrapper">
                         <input type="text" name="Telegram" id="tgUser" placeholder="@username" oninput="checkVerifyBtn()">
                     </div>
                 </div>
 
-                <!-- Verified Account Button opens Bot -->
                 <a href="https://t.me/crazemodeverifybot" target="_blank" class="verify-action-btn" id="verifyBtn" style="opacity: 0.3; pointer-events: none;">Verify Account</a>
 
                 <div class="input-group">
                     <label>Enter 6-Digit Code from Bot</label>
                     <div class="input-wrapper">
-                        <input type="text" id="vCode" placeholder="000 000" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, ''); checkFinal(this)">
+                        <input type="text" id="vCode" placeholder="000 000" maxlength="6" oninput="this.value = this.value.replace(/[^0-9]/g, ''); toggleFinal(this)">
                     </div>
                 </div>
 
@@ -266,23 +262,23 @@
             </div>
         </form>
 
-        <!-- SUCCESS SHUFFLER SECTION -->
+        <!-- STEP 5: SHUFFLER & COPY BOX -->
         <div id="shuffler-screen">
             <p class="status-msg" id="statusText">Generating your secure identity...</p>
             <div class="id-box" onclick="copyID()">
                 <div id="copyHint">COPIED TO CLIPBOARD</div>
                 <div class="shuffle-text" id="idResult">XXXXXXXXX</div>
             </div>
-            <p class="tiny-text">CLICK TO COPY • DO NOT DISCLOSE TO OTHERS</p>
+            <p class="tiny-text">CLICK TO COPY • DO NOT SHARE WITH OTHERS</p>
             <a href="https://t.me/+3xRCpmBV3yA4NGM1" class="join-btn" id="joinBtn">REQUEST TO JOIN GROUP</a>
         </div>
     </div>
 
     <script>
-        // YOUR UNIQUE GOOGLE SCRIPT LINK
-        const G_URL = 'https://script.google.com/macros/s/AKfycbz9TdFewbqfeMtzFkcZJPM_N3UoAKlDvOD9Ro8J8RVp28G5oKH_B1-ZZPUryBuT0v3M/exec';
+        // 1. UPDATED WEB APP LINK
+        const G_URL = 'https://script.google.com/macros/s/AKfycbxzluPEnI03QK0-ewydlm-hQPHWtWhdweRXO2X73GMGS-NX7w_JjdW05wiVJ9wHQu9FMg/exec';
 
-        // 1. INTRO EFFECT
+        // 2. ANTIGRAVITY INTRO
         window.onload = () => {
             gsap.timeline()
                 .to(".brand-text", { opacity: 1, duration: 1, letterSpacing: "10px", ease: "power2.out" })
@@ -291,9 +287,9 @@
                 .to(".app-container", { display: "block", opacity: 1, duration: 0.5 });
         };
 
-        // 2. FORM VALIDATIONS
+        // 3. VALIDATIONS
         function validateEmail(inp) {
-            const re = /^[^\s@]+@gmail\.com$/; // STRICT GMAIL CHECK
+            const re = /^[^\s@]+@gmail\.com$/;
             const isValid = re.test(inp.value);
             document.getElementById('btn1').disabled = !isValid;
             document.getElementById('emailError').style.opacity = (inp.value.length > 5 && !isValid) ? 1 : 0;
@@ -311,9 +307,9 @@
             }
         }
 
-        function checkFinal(el) { document.getElementById('finalSubmit').disabled = (el.value.length !== 6); }
+        function toggleFinal(el) { document.getElementById('finalSubmit').disabled = (el.value.length !== 6); }
 
-        // 3. STEP NAVIGATION
+        // 4. NAVIGATION
         function go(f, t) {
             gsap.to(`#s${f}`, { opacity: 0, x: -20, duration: 0.2, onComplete: () => {
                 document.getElementById(`s${f}`).classList.remove('active');
@@ -322,13 +318,12 @@
             }});
         }
 
-        // 4. DATA SUBMISSION & 6-SEC SHUFFLER
+        // 5. SUBMISSION & 6-SEC SHUFFLER
         document.getElementById('crazeForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const finalID = generateID();
             document.getElementById('hidden_id').value = finalID;
 
-            // Submit to your Google Script Link
             fetch(G_URL, { method: 'POST', body: new FormData(this), mode: 'no-cors' });
 
             gsap.to("#crazeForm", { opacity: 0, duration: 0.3, onComplete: () => {
@@ -354,7 +349,7 @@
                     if(count > i * 8) return target[i];
                     return chars[Math.floor(Math.random() * chars.length)];
                 }).join('');
-                if(count++ >= 60) { // Approx 6 Seconds
+                if(count++ >= 60) {
                     clearInterval(timer);
                     el.innerText = target;
                     document.getElementById('statusText').innerText = "Tournament ID Secured";
