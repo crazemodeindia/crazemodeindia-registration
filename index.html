@@ -3,158 +3,309 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | Secure Registration</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Craze Mode Registration</title>
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { background: #020617; color: white; font-family: sans-serif; }
-        .card { background: rgba(15, 23, 42, 0.95); border: 1px solid #1e293b; border-radius: 24px; box-shadow: 0 10px 50px rgba(0,0,0,0.8); }
-        .step { display: none; } .active { display: block; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 10px rgba(59, 130, 246, 0.2); }
+        :root {
+            --primary: #007AFF; /* Apple Blue */
+            --success: #34C759; /* Apple Green */
+            --warning: #FACC15; /* Google Amber */
+            --bg: #F5F5F7;      /* Apple Light Gray */
+            --card: #FFFFFF;
+            --text: #1D1D1F;
+            --secondary-text: #86868B;
+        }
+
+        * { box-sizing: border-box; font-family: 'Lexend', sans-serif; transition: all 0.3s ease; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card);
+            width: 100%;
+            max-width: 440px;
+            padding: 40px;
+            border-radius: 28px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+        }
+
+        .logo {
+            text-align: center;
+            font-weight: 600;
+            font-size: 24px;
+            letter-spacing: -1px;
+            margin-bottom: 30px;
+            color: var(--text);
+        }
+
+        .step-indicator {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+        }
+
+        .step {
+            height: 4px;
+            flex: 1;
+            background: #E5E5E7;
+            border-radius: 10px;
+        }
+
+        .step.active { background: var(--primary); }
+
+        h2 { font-size: 22px; margin-bottom: 8px; font-weight: 600; }
+        p.subtitle { font-size: 14px; color: var(--secondary-text); margin-bottom: 25px; }
+
+        .input-group { margin-bottom: 20px; position: relative; }
+        label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: var(--secondary-text); text-transform: uppercase; }
+        
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid #D2D2D7;
+            font-size: 16px;
+            background: #FBFBFD;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #FFF;
+            box-shadow: 0 0 0 4px rgba(0,122,255,0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 14px;
+            border: none;
+            background: var(--text);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn:disabled { background: #D2D2D7; cursor: not-allowed; }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .verification-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        .pending { background: #FFF9E6; color: #D97706; }
+        .verified { background: #E6F9ED; color: #15803D; }
+
+        #form-status {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        /* Shake animation for errors */
+        @keyframes shake {
+            0%, 100% {transform: translateX(0);}
+            25% {transform: translateX(-5px);}
+            75% {transform: translateX(5px);}
+        }
+        .error-input { border-color: #FF3B30 !important; animation: shake 0.2s ease-in-out 0s 2; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-6 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black">
+<body>
 
-    <div class="card w-full max-w-md p-8 relative overflow-hidden">
-        <!-- Decoration -->
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-emerald-500 to-blue-600"></div>
-
-        <h1 class="text-2xl font-black text-center text-blue-500 mb-6 tracking-tight">CRAZE MODE ESports</h1>
-
-        <!-- STEP 1: GMAIL CHECK -->
-        <div id="step1" class="step active text-center">
-            <p class="text-xs text-slate-400 mb-6 uppercase tracking-widest">Phase 01: Gmail Identity</p>
-            <input type="email" id="email" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl mb-4 text-center" placeholder="Enter Gmail Address">
-            <button onclick="sendOTP()" id="btn1" class="w-full bg-blue-600 font-extrabold py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-900/20">SEND OTP</button>
-            
-            <div id="otpDiv" class="hidden mt-6 pt-6 border-t border-slate-800">
-                <p class="text-[10px] text-emerald-500 font-bold mb-2">CHECK YOUR INBOX</p>
-                <input type="text" id="emailCode" class="w-full bg-slate-800 border border-emerald-500 p-3 rounded-lg mb-3 text-center text-2xl font-mono tracking-widest" placeholder="000000">
-                <button onclick="verifyEmail()" class="w-full bg-emerald-600 py-3 rounded-lg font-bold hover:bg-emerald-700 transition">VERIFY & CONTINUE</button>
-            </div>
-        </div>
-
-        <!-- STEP 2: PLAYER INFO -->
-        <div id="step2" class="step">
-            <p class="text-xs text-blue-400 mb-4 font-bold uppercase tracking-widest">Phase 02: Player Profile</p>
-            <div class="space-y-4">
-                <input type="text" id="name" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl" placeholder="Full Actual Name*">
-                <input type="text" id="ign" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl" placeholder="Free Fire Nickname*">
-                <input type="number" id="uid" class="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl" placeholder="FF UID Number*">
-                <button onclick="move(3)" class="w-full bg-blue-600 py-4 rounded-xl font-black mt-2 hover:bg-blue-700 transition">NEXT: VERIFY TELEGRAM</button>
-            </div>
-        </div>
-
-        <!-- STEP 3: TELEGRAM SOUL -->
-        <div id="step3" class="step">
-            <p class="text-xs text-blue-400 mb-2 font-bold uppercase tracking-widest text-center">Phase 03: Social Security</p>
-            <p class="text-[10px] text-center text-slate-500 mb-6 italic">Verification code expires in exactly 6 minutes</p>
-            
-            <div class="flex gap-2 mb-4">
-                <input type="text" id="tgUser" class="flex-1 bg-slate-900 border border-slate-700 p-3 rounded-lg" placeholder="@username">
-                <button onclick="alert('Go to Telegram > Settings > Profile')" class="px-3 border border-blue-500 text-blue-400 rounded-lg text-[10px] font-bold">HELP</button>
-            </div>
-
-            <button onclick="window.open('https://t.me/crazemodeverifybot')" class="w-full bg-slate-800 border border-slate-700 py-3 rounded-xl mb-6 text-xs font-bold text-slate-300">1. OPEN @CRAZEMODEVERIFYBOT</button>
-            
-            <div class="bg-blue-900/10 p-5 rounded-2xl border border-blue-500/30">
-                <label class="block text-[10px] text-blue-400 font-bold mb-2 uppercase">Enter 6-Digit Bot Code</label>
-                <div class="flex gap-2">
-                    <input type="text" id="tgCode" class="w-full bg-black border border-blue-500 p-3 rounded-lg text-center font-bold text-xl text-blue-400" placeholder="------">
-                    <button onclick="verifyTG()" id="tgBtn" class="bg-blue-600 px-6 rounded-lg font-bold hover:bg-blue-700">VERIFY</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- STEP 4: SUCCESS -->
-        <div id="step4" class="step text-center">
-            <div class="mb-6 flex justify-center">
-                <div class="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center border border-emerald-500/50">
-                    <svg class="w-8 h-8 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-                </div>
-            </div>
-            <h2 class="text-xl font-bold text-emerald-500 mb-2">ENTRY GRANTED</h2>
-            <p class="text-xs text-slate-400 mb-6 uppercase">Generating Tournament ID...</p>
-            
-            <div id="idBox" class="text-4xl font-mono py-8 bg-black rounded-2xl border-2 border-emerald-500/50 text-emerald-400 mb-4 shadow-[0_0_30px_rgba(16,185,129,0.15)]">------</div>
-            
-            <p class="text-[10px] text-red-500 font-black mb-8 uppercase tracking-widest animate-pulse">Private Key: Do Not Share</p>
-            
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" class="block w-full bg-emerald-600 py-5 rounded-2xl font-black text-lg shadow-lg shadow-emerald-900/40 transform hover:scale-105 transition">JOIN MAIN GROUP</a>
-        </div>
+<div class="container">
+    <div class="logo">CRAZE MODE</div>
+    
+    <div class="step-indicator">
+        <div class="step active" id="s1"></div>
+        <div class="step" id="s2"></div>
+        <div class="step" id="s3"></div>
     </div>
 
-    <script>
-        // INTEGRATED WITH YOUR NEW WEB APP URL
-        const URL = "https://script.google.com/macros/s/AKfycbwlEHQ74-Fa9HUFe55KeykDKvFZkLA-MjoMUPZXQ_ocRh_Xwnf34BePQXWAu-zsUzpD-A/exec";
-        let emailOTP = "";
-        let finalGameID = "";
+    <!-- Step 1: Basic Info -->
+    <div id="step1">
+        <h2>Identity</h2>
+        <p class="subtitle">Enter your official game details.</p>
+        
+        <div class="input-group">
+            <label>Game ID (Identity)</label>
+            <input type="text" id="gameID" placeholder="Ex: CM-AAAA-1234" oninput="validateGameID(this)">
+        </div>
+        
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" id="name" placeholder="John Doe">
+        </div>
 
-        async function sendOTP() {
-            const mail = document.getElementById('email').value;
-            if(!mail || !mail.includes('@')) return alert("Enter valid Gmail");
-            document.getElementById('btn1').innerText = "SECURITY SCAN...";
-            document.getElementById('btn1').disabled = true;
+        <div class="input-group">
+            <label>In-Game Name (IGN)</label>
+            <input type="text" id="ign" placeholder="ProPlayer_01">
+        </div>
 
-            try {
-                const res = await fetch(URL, {method:'POST', body:JSON.stringify({action:"sendEmail", email:mail})});
-                const d = await res.json();
-                if(d.status === "exists") { 
-                    alert("❌ ACCOUNT ERROR: This Gmail is already registered!"); 
-                    document.getElementById('btn1').innerText = "SEND OTP";
-                    document.getElementById('btn1').disabled = false;
-                } else { 
-                    emailOTP = d.code; 
-                    document.getElementById('otpDiv').classList.remove('hidden'); 
-                    document.getElementById('btn1').classList.add('hidden'); 
-                }
-            } catch(e) { alert("Server Error. Try again."); document.getElementById('btn1').disabled = false; }
+        <button class="btn" onclick="nextStep(2)">Continue</button>
+    </div>
+
+    <!-- Step 2: Verification -->
+    <div id="step2" style="display:none;">
+        <h2>Verification</h2>
+        <p class="subtitle">Secure your entry via Telegram & Email.</p>
+
+        <div class="input-group">
+            <label>Telegram Username</label>
+            <input type="text" id="telegram" placeholder="@username">
+            <button class="btn btn-secondary" onclick="verifyTelegram()">Verify via Bot</button>
+            <div id="tg-status" class="verification-badge pending">Not Verified</div>
+        </div>
+
+        <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="name@example.com">
+            <button class="btn btn-secondary" onclick="sendEmailOTP()">Send OTP</button>
+            <div id="email-status" class="verification-badge pending">Waiting for OTP</div>
+        </div>
+
+        <button class="btn" id="finalBtn" disabled onclick="submitForm()">Finalize Registration</button>
+    </div>
+
+    <div id="form-status"></div>
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6twgHGXuuXHq2Ceva4tg7V411w65JVdPgI7aYSlD6dYitYUrxTJKtLfz1JGIOgdZj/exec";
+    
+    let isTgVerified = false;
+    let isEmailVerified = false;
+    let serverEmailCode = null;
+
+    function validateGameID(input) {
+        const pattern = /^CM-[A-Z]{4}-\d{4}$/;
+        if(pattern.test(input.value.toUpperCase())) {
+            input.classList.remove('error-input');
+            input.style.borderColor = "var(--success)";
+        } else {
+            input.style.borderColor = "var(--primary)";
         }
+    }
 
-        function verifyEmail() { if(document.getElementById('emailCode').value == emailOTP) move(2); else alert("Invalid OTP Code"); }
-
-        function move(n) { document.querySelectorAll('.step').forEach(s=>s.classList.remove('active')); document.getElementById('step'+n).classList.add('active'); }
-
-        async function verifyTG() {
-            const u = document.getElementById('tgUser').value;
-            const c = document.getElementById('tgCode').value;
-            if(!u || !c) return alert("Fill all security fields");
-            document.getElementById('tgBtn').innerText = "...";
-            
-            try {
-                const res = await fetch(URL, {method:'POST', body:JSON.stringify({action:"verifyTelegram", username:u, userCode:c})});
-                const d = await res.json();
-                if(d.status === "success") { move(4); startGen(); }
-                else if(d.status === "expired") alert("⏰ CODE EXPIRED: Get a new one from the bot.");
-                else alert("❌ VERIFICATION FAILED: Invalid Code or Username.");
-            } catch(e) { alert("Connection Error."); }
-            document.getElementById('tgBtn').innerText = "VERIFY";
+    function nextStep(step) {
+        if(step === 2) {
+            const gid = document.getElementById('gameID').value.toUpperCase();
+            if(!/^CM-[A-Z]{4}-\d{4}$/.test(gid)) {
+                document.getElementById('gameID').classList.add('error-input');
+                return;
+            }
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            document.getElementById('s2').classList.add('active');
         }
+    }
 
-        function startGen() {
-            let i = 0; const b = document.getElementById('idBox');
-            const t = setInterval(()=>{
-                b.innerText = Math.floor(Math.random()*900000+100000);
-                if(i++ > 25) { 
-                    clearInterval(t); 
-                    finalGameID = "TX-" + Math.floor(Math.random()*8999+1111); 
-                    b.innerText = finalGameID; 
-                    save(); 
-                }
-            }, 80);
-        }
+    async function verifyTelegram() {
+        const username = document.getElementById('telegram').value;
+        const code = prompt("Enter the 6-digit code received from @CrazeModeBot");
+        if(!code) return;
 
-        async function save() {
-            await fetch(URL, {method:'POST', body:JSON.stringify({
-                action: "save",
-                email: document.getElementById('email').value,
-                name: document.getElementById('name').value,
-                ign: document.getElementById('ign').value,
-                uid: document.getElementById('uid').value,
-                telegram: document.getElementById('tgUser').value,
-                gameID: finalGameID
-            })});
+        const resp = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'verifyTelegram', username: username, userCode: code })
+        });
+        const res = await resp.json();
+        
+        if(res.status === 'success') {
+            isTgVerified = true;
+            document.getElementById('tg-status').innerText = "Verified ☑️";
+            document.getElementById('tg-status').className = "verification-badge verified";
+            checkReady();
+        } else {
+            alert("Invalid or Expired Code");
         }
-    </script>
+    }
+
+    async function sendEmailOTP() {
+        const email = document.getElementById('email').value;
+        if(!email.includes('@')) return alert("Invalid Email");
+
+        const resp = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'sendEmail', email: email })
+        });
+        const res = await resp.json();
+
+        if(res.status === 'sent') {
+            const userOtp = prompt("OTP sent to your email. Enter here:");
+            if(userOtp == res.code) {
+                isEmailVerified = true;
+                document.getElementById('email-status').innerText = "Verified ☑️";
+                document.getElementById('email-status').className = "verification-badge verified";
+                checkReady();
+            }
+        }
+    }
+
+    function checkReady() {
+        if(isTgVerified && isEmailVerified) {
+            document.getElementById('finalBtn').disabled = false;
+            document.getElementById('s3').classList.add('active');
+        }
+    }
+
+    async function submitForm() {
+        const btn = document.getElementById('finalBtn');
+        btn.innerText = "Processing...";
+        btn.disabled = true;
+
+        const payload = {
+            action: 'save',
+            gameID: document.getElementById('gameID').value.toUpperCase(),
+            name: document.getElementById('name').value,
+            ign: document.getElementById('ign').value,
+            telegram: document.getElementById('telegram').value,
+            email: document.getElementById('email').value,
+            uid: "UID-" + Math.floor(Math.random()*1000000) // Example placeholder
+        };
+
+        const resp = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        });
+        const res = await resp.json();
+
+        if(res.status === 'saved') {
+            document.querySelector('.container').innerHTML = `
+                <div style="text-align:center; padding: 40px 0;">
+                    <div style="font-size: 60px;">☑️</div>
+                    <h2 style="margin-top:20px;">Registration Complete</h2>
+                    <p style="color:var(--secondary-text)">Your entry for the next 24 hours has been secured. Welcome to Craze Mode.</p>
+                </div>
+            `;
+        }
+    }
+</script>
+
 </body>
 </html>
