@@ -3,65 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CRAZE MODE | Arena</title>
+    <title>CRAZE MODE | Sovereign Arena</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root { --raj: 'Rajdhani', sans-serif; --accent: #a855f7; }
         body { background: #000; color: #fff; font-family: var(--raj); margin: 0; overflow: hidden; height: 100vh; }
 
-        /* SWORD SLASH ANIMATION */
+        /* TELE-STREAK ANIMATION */
+        #teleStreak { position: fixed; inset: 0; z-index: 700; display: none; pointer-events: none; }
+        .tg-icon-fly { position: absolute; top: 50%; left: -10%; width: 40px; transform: translateY(-50%); filter: drop-shadow(0 0 10px #fff); }
+        .tg-tail { position: absolute; height: 2px; width: 150px; background: linear-gradient(90deg, transparent, #fff); top: 50%; left: -200px; transform: translateY(-50%); }
+
+        /* SLASH EFFECT */
         #slash { position: fixed; inset: 0; z-index: 600; pointer-events: none; display: none; }
         .slash-line { position: absolute; height: 2px; width: 200%; background: #fff; top: 50%; left: -50%; transform: rotate(-45deg); box-shadow: 0 0 20px #fff, 0 0 40px var(--accent); }
-        .speed-line { position: absolute; height: 1px; width: 100px; background: rgba(255,255,255,0.3); border-radius: 50%; }
 
         /* INTRO */
         #intro { position: fixed; inset: 0; background: #000; z-index: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         .welcome { font-weight: 300; letter-spacing: 0.8rem; color: #666; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 1.5rem; overflow: hidden; border-right: 1px solid #fff; white-space: nowrap; width: 0; }
-        .brand-reveal { font-size: 3.8rem; font-weight: 700; letter-spacing: 2.2rem; opacity: 0; transition: 2s cubic-bezier(0.16, 1, 0.3, 1); }
+        .brand-reveal { font-size: 3.8rem; font-weight: 700; letter-spacing: 2.2rem; opacity: 0; transition: 2.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .brand-reveal.show { opacity: 1; letter-spacing: 0.6rem; }
         .brand-sub { font-weight: 300; letter-spacing: 0.3rem; color: #444; opacity: 0; margin-top: 1rem; transition: 1s; }
-        
         .arena-btn { margin-top: 5rem; padding: 1.2rem 4rem; border: 1px solid #333; background: transparent; color: #fff; font-weight: 700; letter-spacing: 0.4rem; opacity: 0; transition: 0.4s; cursor: pointer; text-transform: uppercase; }
-        .arena-btn:hover { border-color: #fff; box-shadow: 0 0 40px rgba(168, 85, 247, 0.3); }
 
         /* STICKY HEADER */
         .sticky-header { position: fixed; top: 6vh; width: 100%; text-align: center; z-index: 100; opacity: 0; transition: 1.5s; }
         .header-title { font-weight: 700; letter-spacing: 0.8rem; font-size: 1.8rem; text-transform: uppercase; }
         .header-sub { font-size: 9px; color: #555; letter-spacing: 3px; text-transform: uppercase; margin-top: 5px; }
         
-        /* PROGRESS BAR */
         .prog-wrap { position: fixed; top: 18vh; width: 80%; left: 10%; z-index: 100; opacity: 0; transition: 1.5s; }
         .prog-bg { height: 4px; background: #111; overflow: hidden; border-radius: 10px; }
         .prog-fill { height: 100%; width: 20%; background: linear-gradient(90deg, #fff, var(--accent), #fff); background-size: 200% 100%; animation: flow 2s infinite linear; transition: 1s cubic-bezier(0.2, 1, 0.2, 1); }
         @keyframes flow { to { background-position: 200% 0; } }
 
-        /* CONTENT CARD */
+        /* CARD */
         #app { display: flex; align-items: center; justify-content: center; height: 100vh; width: 100%; }
         .card { width: 90%; max-width: 420px; border: 1px solid #111; padding: 3.5rem; background: rgba(5,5,5,0.8); backdrop-filter: blur(20px); border-radius: 2px; display: none; opacity: 0; transform: translateY(40px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .card.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* INPUTS & BUTTONS */
-        .section-label { font-size: 10px; tracking: 0.6rem; color: #444; text-transform: uppercase; margin-bottom: 3.5rem; display: block; }
-        .input-wrap { margin-bottom: 4rem; } /* LARGE SPACING */
-        input { background: transparent; border: none; border-bottom: 1px solid #222; width: 100%; padding: 1rem 0; color: #fff; font-size: 1.3rem; outline: none; transition: 0.4s; }
-        input:focus { border-bottom-color: #fff; }
-        
-        .btn-action { background: #fff; color: #000; width: 100%; padding: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; border: none; transition: 0.3s; margin-top: 1rem; }
-        .btn-action:active { transform: scale(0.97); filter: brightness(0.8); }
+        .input-wrap { margin-bottom: 3.5rem; position: relative; }
+        input, select { background: transparent; border: none; border-bottom: 1px solid #222; width: 100%; padding: 1rem 0; color: #fff; font-size: 1.3rem; outline: none; transition: 0.4s; border-radius: 0; -webkit-appearance: none; }
+        input:focus, select:focus { border-bottom-color: #fff; }
+        .btn-action { background: #fff; color: #000; width: 100%; padding: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; border: none; transition: 0.3s; }
+        .btn-action:active { transform: scale(0.97); }
 
-        /* ID BOX */
-        .id-box { border: 1px solid #222; padding: 2.5rem; background: #050505; text-align: center; cursor: pointer; }
-        .id-text { font-family: monospace; font-size: 1.8rem; letter-spacing: 6px; }
+        .invalid-msg { color: #ff4444; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: none; }
+
+        /* SHIELD */
+        .shield-icon { width: 50px; margin: 0 auto 20px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
     </style>
 </head>
 <body>
 
-    <div id="slash">
-        <div class="slash-line" id="sword"></div>
+    <div id="teleStreak">
+        <div class="tg-tail" id="streakTail"></div>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tg-icon-fly" id="tgIcon">
     </div>
 
-    <!-- INTRO -->
+    <div id="slash"><div class="slash-line" id="sword"></div></div>
+
     <div id="intro">
         <p class="welcome" id="welcomeText">Welcome to</p>
         <h1 class="brand-reveal" id="revealTitle">CRAZE MODE</h1>
@@ -69,7 +70,6 @@
         <button class="arena-btn" id="arenaBtn" onclick="slashTransition()">Enter Arena</button>
     </div>
 
-    <!-- STICKY UI -->
     <div class="sticky-header" id="stickHeader">
         <h1 class="header-title">CRAZE MODE</h1>
         <p class="header-sub">Registration Phase</p>
@@ -78,154 +78,134 @@
         <div class="prog-bg"><div class="prog-fill" id="progFill"></div></div>
     </div>
 
-    <!-- APP -->
     <div id="app">
         <div id="step1" class="card active">
-            <span class="section-label">Authentication</span>
-            <div class="input-wrap">
-                <input type="email" id="email" placeholder="GMAIL ADDRESS">
-            </div>
-            <button onclick="sendGmail()" id="gBtn" class="btn-action">Verify Account</button>
-            <div id="otpBox" class="hidden mt-12">
-                <input type="number" id="emailOtp" placeholder="6-DIGIT OTP">
-                <button onclick="confirmGmail()" id="cBtn" class="btn-action">Sync OTP</button>
+            <h2 class="text-[10px] tracking-[0.5rem] mb-12 text-gray-500 uppercase">Authentication</h2>
+            <div class="input-wrap"><input type="email" id="email" placeholder="GMAIL ADDRESS"></div>
+            <button onclick="sendGmail()" id="gBtn" class="btn-action">Verify</button>
+            <div id="otpBox" class="hidden mt-10">
+                <div class="input-wrap">
+                    <input type="text" id="emailOtp" placeholder="6-DIGIT CODE" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    <p id="eError" class="invalid-msg">INVALID SYNC CODE</p>
+                </div>
+                <button onclick="confirmGmail()" id="cBtn" class="btn-action">Confirm</button>
             </div>
         </div>
 
         <div id="step2" class="card">
-            <span class="section-label">Player Profile</span>
+            <h2 class="text-[10px] tracking-[0.5rem] mb-12 text-gray-500 uppercase">Profile</h2>
             <div class="input-wrap"><input type="text" id="name" placeholder="ACTUAL NAME"></div>
-            <div class="input-wrap">
-                <input type="text" id="nick" placeholder="NICKNAME">
-                <p class="text-[9px] text-gray-700 tracking-widest mt-3 uppercase">Lobby Identifier</p>
-            </div>
+            <div class="input-wrap"><input type="text" id="nick" placeholder="FF NICKNAME"></div>
             <div class="input-wrap"><input type="text" id="uid" placeholder="FF UID"></div>
-            <button onclick="move(3)" class="btn-action">Confirm Profile</button>
+            <div class="input-wrap">
+                <select id="exp">
+                    <option value="" disabled selected>EXPERIENCE LEVEL</option>
+                    <option value="Rookie">ROOKIE (0-1 YR)</option>
+                    <option value="Veteran">VETERAN (2-3 YRS)</option>
+                    <option value="Elite">ELITE (4+ YRS)</option>
+                </select>
+            </div>
+            <button onclick="move(3)" class="btn-action">Next</button>
         </div>
 
         <div id="step3" class="card">
-            <span class="section-label">Telegram Security</span>
+            <h2 class="text-[10px] tracking-[0.5rem] mb-12 text-gray-500 uppercase">Security</h2>
             <div class="input-wrap"><input type="text" id="tgUser" placeholder="TELEGRAM USERNAME"></div>
-            <a href="https://t.me/CMAccessBot" target="_blank" class="btn-action block text-center mb-8" style="background:#229ED9; color:#fff;">Get Security Code</a>
-            <div class="input-group"><input type="number" id="tgCode" placeholder="ENTER CODE"></div>
-            <button onclick="verifyTg()" id="tBtn" class="btn-action">Authorize Access</button>
+            <button onclick="handleTgRedirect()" class="btn-action mb-8" style="background:#229ED9; color:#fff;">Get Code</button>
+            <div class="input-wrap">
+                <input type="text" id="tgCode" placeholder="4-DIGIT CODE" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                <p id="tgError" class="invalid-msg">INVALID CODE</p>
+            </div>
+            <button onclick="verifyTg()" id="tBtn" class="btn-action">Authorize</button>
         </div>
 
         <div id="step4" class="card text-center">
-            <span class="section-label">System Allocation</span>
-            <p class="text-xs text-gray-500 uppercase tracking-widest mb-10">Permanent ID Decryption...</p>
-            <div class="id-box" onclick="copyId()">
-                <div class="id-text" id="idDisplay">********</div>
-                <p class="text-[9px] text-gray-700 mt-6 uppercase tracking-widest">Tap to copy • keep it safe</p>
+            <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <h2 class="text-[11px] tracking-[0.4rem] mb-10 text-gray-400 uppercase font-light">Permanent Allocation</h2>
+            <button id="genBtn" onclick="runDecryption()" class="btn-action">Get Game ID</button>
+            <div id="final" class="hidden">
+                <div class="border border-[#222] p-8 mb-4"><div id="idDisplay" class="text-3xl font-mono tracking-tighter">********</div></div>
+                <p class="text-[9px] text-gray-700 mb-12 uppercase tracking-widest">Keep it private</p>
+                <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="btn-action block" style="background:#229ED9; color:#fff;">Request Entry</a>
             </div>
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="btn-action block mt-12">Enter Private Arena</a>
         </div>
     </div>
 
     <script>
         const API = "https://script.google.com/macros/s/AKfycbzMHjL1PicDlmO5Eo0mg4tGAdouQvHUSk_zTCfm-kvvTjozYFbWjjUPL6ucyqrRD6Lx/exec";
 
-        // Typing Effect
         window.onload = () => {
-            const welcome = document.getElementById('welcomeText');
-            welcome.animate([{ width: 0 }, { width: '130px' }], { duration: 1500, fill: 'forwards', easing: 'steps(20)' });
-            
-            setTimeout(() => {
-                document.getElementById('revealTitle').classList.add('show');
-                setTimeout(() => {
-                    document.getElementById('revealSub').style.opacity = "1";
-                    setTimeout(() => {
-                        document.getElementById('arenaBtn').style.opacity = "1";
-                    }, 800);
-                }, 1000);
-            }, 1800);
+            document.getElementById('welcomeText').animate([{ width: 0 }, { width: '130px' }], { duration: 1500, fill: 'forwards', easing: 'steps(20)' });
+            setTimeout(() => { document.getElementById('revealTitle').classList.add('show'); 
+            setTimeout(() => { document.getElementById('revealSub').style.opacity = "1"; 
+            setTimeout(() => { document.getElementById('arenaBtn').style.opacity = "1"; }, 800); }, 1000); }, 1800);
         };
 
         function slashTransition() {
             const slash = document.getElementById('slash');
-            const sword = document.getElementById('sword');
             slash.style.display = 'block';
-            
-            // Fast upward sword move
-            sword.animate([
-                { transform: 'translateY(100vh) rotate(-45deg) scale(0)', opacity: 0 },
-                { transform: 'translateY(-100vh) rotate(-45deg) scale(1.5)', opacity: 1 }
-            ], { duration: 400, easing: 'cubic-bezier(0.1, 0.9, 0.2, 1)' });
+            document.getElementById('sword').animate([{ transform: 'translateY(100vh) rotate(-45deg) scale(0)', opacity: 0 }, { transform: 'translateY(-100vh) rotate(-45deg) scale(1.5)', opacity: 1 }], { duration: 400, easing: 'ease-in' });
+            setTimeout(() => { document.getElementById('intro').style.display = 'none'; move(1); document.getElementById('stickHeader').style.opacity = "1"; document.getElementById('progWrapper').style.opacity = "1"; slash.style.display='none'; }, 500);
+        }
 
-            setTimeout(() => {
-                document.getElementById('intro').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('intro').style.display = 'none';
-                    document.getElementById('stickHeader').style.opacity = "1";
-                    document.getElementById('progWrapper').style.opacity = "1";
-                    document.getElementById('step1').classList.add('active');
-                    slash.style.display = 'none';
-                }, 600);
-            }, 300);
+        function handleTgRedirect() {
+            const streak = document.getElementById('teleStreak');
+            const icon = document.getElementById('tgIcon');
+            const tail = document.getElementById('streakTail');
+            streak.style.display = 'block';
+            icon.animate([{ left: '-10%', opacity: 0 }, { left: '110%', opacity: 1 }], { duration: 800, easing: 'ease-in' });
+            tail.animate([{ left: '-200px', opacity: 0 }, { left: '100%', opacity: 1 }], { duration: 800, easing: 'ease-in' });
+            setTimeout(() => { window.open('https://t.me/CMAccessBot', '_blank'); streak.style.display = 'none'; }, 800);
         }
 
         function move(s) {
             document.getElementById('progFill').style.width = (s * 25) + "%";
             document.querySelectorAll('.card').forEach(x => x.classList.remove('active'));
-            setTimeout(() => {
-                document.getElementById('step'+s).classList.add('active');
-                if(s === 4) runDecryption();
-            }, 400);
+            setTimeout(() => { document.getElementById('step'+s).classList.add('active'); }, 400);
         }
 
         async function sendGmail() {
             const e = document.getElementById('email').value;
-            document.getElementById('gBtn').innerText = "PROCESING...";
+            if(!e.includes("@")) return;
+            document.getElementById('gBtn').innerText = "SYNCING...";
             await fetch(API, {method:'POST', body:JSON.stringify({action:"sendEmailOTP", email:e})});
             document.getElementById('otpBox').classList.remove('hidden');
             document.getElementById('gBtn').style.display='none';
         }
 
         async function confirmGmail() {
-            const e = document.getElementById('email').value;
             const otp = document.getElementById('emailOtp').value;
-            document.getElementById('cBtn').innerText = "SYNCING...";
-            let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyEmailOTP", email:e, otp:otp})});
+            if(otp.length !== 6) return;
+            let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyEmailOTP", email:document.getElementById('email').value, otp:otp})});
             let res = await r.json();
-            if(res.success) move(2); else alert("Sync Failed: Invalid OTP");
+            if(res.success) move(2); else document.getElementById('eError').style.display='block';
         }
 
         async function verifyTg() {
             const u = document.getElementById('tgUser').value;
             const c = document.getElementById('tgCode').value;
-            document.getElementById('tBtn').innerText = "AUTHORIZING...";
+            if(c.length !== 4) return;
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyTelegram", username:u, code:c})});
             let res = await r.json();
-            if(res.success) move(4); else alert("Security Error: Code Invalid");
+            if(res.success) move(4); else document.getElementById('tgError').style.display='block';
         }
 
-        let gameId = "";
         function runDecryption() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            gameId = "CM-" + Math.random().toString(36).substring(2,6).toUpperCase() + "-" + Math.floor(1000+Math.random()*9000);
-            const el = document.getElementById('idDisplay');
+            const gameId = "CM-" + Math.random().toString(36).substring(2,6).toUpperCase() + "-" + Math.floor(1000+Math.random()*9000);
+            document.getElementById('genBtn').style.display='none';
+            document.getElementById('final').classList.remove('hidden');
             let i = 0;
             let timer = setInterval(() => {
-                el.innerText = gameId.split("").map((l, idx) => idx < i ? gameId[idx] : chars[Math.floor(Math.random()*36)]).join("");
+                document.getElementById('idDisplay').innerText = gameId.split("").map((l, idx) => idx < i ? gameId[idx] : chars[Math.floor(Math.random()*36)]).join("");
                 if(i >= gameId.length) clearInterval(timer);
                 i += 1/4;
             }, 40);
-        }
-
-        function copyId() {
-            navigator.clipboard.writeText(gameId);
-            alert("CREDENTIALS COPIED");
+            window.finalIdValue = gameId;
         }
 
         function finalSubmit() {
-            const f = {
-                email: document.getElementById('email').value,
-                name: document.getElementById('name').value,
-                ffNick: document.getElementById('nick').value,
-                ffUid: document.getElementById('uid').value,
-                tgUser: document.getElementById('tgUser').value,
-                gameId: gameId
-            };
+            const f = { email: document.getElementById('email').value, name: document.getElementById('name').value, ffNick: document.getElementById('nick').value, ffUid: document.getElementById('uid').value, tgUser: document.getElementById('tgUser').value, gameId: window.finalIdValue };
             fetch(API, {method:'POST', mode:'no-cors', body:JSON.stringify({action:"submitForm", f:f})});
         }
     </script>
