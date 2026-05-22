@@ -3,36 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE</title>
+    <title>CRAZE MODE | Secure</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root { --retro: 'VT323', monospace; --ui: 'Inter', sans-serif; }
         body { background: #000; color: #fff; font-family: var(--ui); margin: 0; display: flex; flex-direction: column; align-items: center; }
         
-        .header { padding: 40px 0; text-align: center; width: 100%; background: #000; z-index: 50; }
-        .title { font-family: var(--retro); font-size: 3.2rem; letter-spacing: 4px; line-height: 1; }
-        .subtitle { font-size: 11px; letter-spacing: 2px; color: #555; text-transform: uppercase; margin-top: 8px; }
+        /* Premium Brand Header */
+        .header { padding: 40px 0 20px 0; text-align: center; width: 100%; position: fixed; top: 0; background: #000; z-index: 100; border-bottom: 1px solid #111; }
+        .title { font-family: var(--retro); font-size: 3rem; letter-spacing: 4px; color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .subtitle { font-size: 10px; letter-spacing: 2px; color: #666; text-transform: uppercase; margin-top: 5px; }
 
-        .container { width: 90%; max-width: 380px; margin-top: 20px; }
-        .step { display: none; opacity: 0; transform: translateY(10px); transition: 0.4s; }
+        .form-container { width: 90%; max-width: 380px; margin-top: 160px; padding-bottom: 50px; }
+        .step { display: none; opacity: 0; transform: translateY(10px); transition: 0.4s ease-in-out; }
         .step.active { display: block; opacity: 1; transform: translateY(0); }
 
         .input-group { margin-bottom: 2rem; position: relative; }
         input { 
             background: transparent; border: none; border-bottom: 2px solid #222; 
-            width: 100%; padding: 12px 0; color: #fff; font-size: 1.2rem; outline: none; border-radius: 0;
+            width: 100%; padding: 12px 0; color: #fff; font-size: 1.2rem; outline: none; border-radius: 0; transition: 0.3s;
         }
-        input:focus { border-color: #fff; }
-        .error { color: #ff4d4d; font-size: 12px; margin-top: 5px; display: none; }
+        input:focus { border-bottom-color: #fff; }
+        .error { color: #ff4d4d; font-size: 11px; margin-top: 6px; display: none; text-transform: uppercase; }
 
         .btn { 
-            background: #fff; color: #000; padding: 16px; width: 100%; 
-            border-radius: 10px; font-weight: 600; cursor: pointer; border: none;
+            background: #fff; color: #000; padding: 18px; width: 100%; 
+            border-radius: 12px; font-weight: 600; cursor: pointer; border: none;
             transition: 0.2s; font-size: 1rem;
         }
+        .btn:active { transform: scale(0.97); }
         .btn-tg { background: #229ED9; color: #fff; }
-        .btn:disabled { background: #333; color: #666; cursor: not-allowed; }
+        .btn-loading { background: #333 !important; color: #666 !important; pointer-events: none; }
+        
+        /* Smooth Loader */
+        .loader { width: 20px; height: 20px; border: 2px solid #666; border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; margin-right: 10px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -42,7 +48,7 @@
         <p class="subtitle">Where Skill Takes the Spotlight</p>
     </div>
 
-    <div class="container">
+    <div class="form-container">
         <!-- STEP 1: GMAIL -->
         <div id="step1" class="step active">
             <h2 class="text-2xl font-light mb-8">Sign in</h2>
@@ -54,7 +60,7 @@
             <div id="otpBox" class="hidden mt-10">
                 <div class="input-group">
                     <input type="number" id="emailOtp" placeholder="6-digit OTP" oninput="if(this.value.length > 6) this.value = this.value.slice(0, 6)">
-                    <p id="eError" class="error">Invalid Code</p>
+                    <p id="eError" class="error">Invalid Verification Code</p>
                 </div>
                 <button onclick="verifyEmailCode()" id="cBtn" class="btn">Continue</button>
             </div>
@@ -66,7 +72,7 @@
             <div class="input-group"><input type="text" id="name" placeholder="Actual Name"></div>
             <div class="input-group">
                 <input type="text" id="ffNick" placeholder="Free Fire Nickname">
-                <p class="text-[10px] text-gray-600 mt-2">NAME USED TO RECOGNIZE YOU</p>
+                <p class="text-[10px] text-gray-600 mt-2 tracking-widest uppercase">Used to recognize you in-game</p>
             </div>
             <div class="input-group"><input type="text" id="ffUid" placeholder="FF UID"></div>
             <button onclick="moveStep(3)" class="btn">Next Section</button>
@@ -74,26 +80,26 @@
 
         <!-- STEP 3: TELEGRAM -->
         <div id="step3" class="step">
-            <div class="flex justify-between mb-8">
+            <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-light">Security</h2>
-                <span class="text-gray-600 border border-gray-600 rounded-full w-5 h-5 flex items-center justify-center text-[10px]" onclick="alert('Open Telegram > Settings > Username')">?</span>
+                <span class="text-gray-600 border border-gray-600 rounded-full w-5 h-5 flex items-center justify-center text-[10px] cursor-pointer" onclick="alert('Open Telegram > Settings > Username')">?</span>
             </div>
             <div class="input-group"><input type="text" id="tgUser" placeholder="Telegram Username"></div>
             <a href="https://t.me/crazemodeverifybot" target="_blank" class="btn btn-tg block text-center mb-6">Get Verification Code</a>
             <div class="input-group">
                 <input type="number" id="tgCode" placeholder="Enter Code" oninput="if(this.value.length > 4) this.value = this.value.slice(0, 4)">
-                <p id="tgError" class="error">Invalid Code</p>
+                <p id="tgError" class="error">Invalid Code or Expired</p>
             </div>
             <button onclick="verifyTelegramCode()" id="tBtn" class="btn btn-tg">Verify with Telegram</button>
         </div>
 
         <!-- STEP 4: FINAL -->
         <div id="step4" class="step text-center">
-            <p class="text-gray-400 text-sm mb-10 px-4">Keep your Game ID safe. It unlocks faster registrations and exclusive member rewards.</p>
+            <p class="text-gray-400 text-sm mb-10 px-4 leading-relaxed">Keep your Game ID safe. It unlocks faster registrations, exclusive rewards, and priority access.</p>
             <button id="genBtn" onclick="generateGameID()" class="btn">Get Game ID</button>
             <div id="finalBox" class="hidden">
-                <div id="displayId" class="text-4xl font-mono tracking-tighter mb-2"></div>
-                <p class="text-[10px] text-gray-600 mb-10">KEEP IT PRIVATE</p>
+                <div id="displayId" class="text-4xl font-mono tracking-tighter mb-2 text-white"></div>
+                <p class="text-[10px] text-gray-500 mb-10 uppercase tracking-[0.3em]">Keep it private</p>
                 <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="btn btn-tg block text-center">Join Private Group</a>
             </div>
         </div>
@@ -111,39 +117,56 @@
             }, 300);
         }
 
+        function toggleLoading(btnId, isLoading, originalText) {
+            const btn = document.getElementById(btnId);
+            if(isLoading) {
+                btn.classList.add('btn-loading');
+                btn.innerHTML = `<span class="loader"></span> Verifying...`;
+            } else {
+                btn.classList.remove('btn-loading');
+                btn.innerHTML = originalText;
+            }
+        }
+
         async function sendEmailCode() {
             let email = document.getElementById('email').value;
-            if(!email.includes("@gmail.com")) return alert("Please enter a valid Gmail");
-            document.getElementById('eBtn').innerText = "Sending...";
-            document.getElementById('eBtn').disabled = true;
+            if(!email.includes("@gmail.com")) return alert("Only @gmail.com allowed");
+            const btn = document.getElementById('eBtn');
+            btn.innerText = "Sending...";
+            btn.disabled = true;
+            
             await fetch(API, {method:'POST', body:JSON.stringify({action:"sendEmailOTP", email:email})});
-            document.getElementById('eBtn').classList.add('hidden');
+            btn.classList.add('hidden');
             document.getElementById('otpBox').classList.remove('hidden');
         }
 
         async function verifyEmailCode() {
             let email = document.getElementById('email').value;
             let otp = document.getElementById('emailOtp').value;
-            document.getElementById('cBtn').innerText = "Verifying...";
+            toggleLoading('cBtn', true);
+            
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyEmailOTP", email:email, otp:otp})});
             let res = await r.json();
+            
             if(res.success) moveStep(2);
             else {
                 document.getElementById('eError').style.display = 'block';
-                document.getElementById('cBtn').innerText = "Continue";
+                toggleLoading('cBtn', false, "Continue");
             }
         }
 
         async function verifyTelegramCode() {
             let user = document.getElementById('tgUser').value;
             let code = document.getElementById('tgCode').value;
-            document.getElementById('tBtn').innerText = "Verifying...";
+            toggleLoading('tBtn', true);
+            
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyTelegram", username:user, code:code})});
             let res = await r.json();
+            
             if(res.success) moveStep(4);
             else {
                 document.getElementById('tgError').style.display = 'block';
-                document.getElementById('tBtn').innerText = "Verify with Telegram";
+                toggleLoading('tBtn', false, "Verify with Telegram");
             }
         }
 
