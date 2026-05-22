@@ -5,95 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CRAZE MODE | Sovereign Arena</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --raj: 'Rajdhani', sans-serif; --accent: #a855f7; }
-        body { background: #000; color: #fff; font-family: var(--raj); margin: 0; overflow: hidden; height: 100vh; }
+        :root { --raj: 'Rajdhani', sans-serif; --inter: 'Inter', sans-serif; --accent: #a855f7; }
+        body { background: #000; color: #fff; font-family: var(--inter); margin: 0; overflow: hidden; height: 100vh; -webkit-font-smoothing: antialiased; }
 
-        /* TELE-STREAK ANIMATION */
+        /* BRAND INTRO - AUTO-SCALING SINGLE LINE */
+        #intro { position: fixed; inset: 0; background: #000; z-index: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+        .welcome-type { font-family: var(--raj); font-weight: 300; letter-spacing: 0.5rem; color: #444; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 1rem; border-right: 1px solid #fff; white-space: nowrap; width: 0; }
+        .brand-reveal { font-family: var(--raj); font-size: clamp(2rem, 10vw, 4rem); font-weight: 700; letter-spacing: 2rem; opacity: 0; transition: 2.5s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; }
+        .brand-reveal.show { opacity: 1; letter-spacing: 0.4rem; }
+        .brand-sub { font-family: var(--raj); font-weight: 300; letter-spacing: 0.2rem; color: #333; opacity: 0; margin-top: 0.5rem; font-size: 0.8rem; transition: 1.5s; }
+        
+        /* REFINED BUTTONS - GOOGLE/APPLE STYLE */
+        .btn-premium { margin-top: 4rem; padding: 0.8rem 2.5rem; border: 1px solid #222; background: transparent; color: #fff; font-family: var(--raj); font-weight: 600; letter-spacing: 0.2rem; opacity: 0; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; text-transform: uppercase; border-radius: 4px; font-size: 0.85rem; }
+        .btn-premium:hover { border-color: #fff; background: #fff; color: #000; }
+        .btn-premium:active { transform: scale(0.96); }
+
+        /* TELE-STREAK */
         #teleStreak { position: fixed; inset: 0; z-index: 700; display: none; pointer-events: none; }
-        .tg-icon-fly { position: absolute; top: 50%; left: -10%; width: 40px; transform: translateY(-50%); filter: drop-shadow(0 0 10px #fff); }
-        .tg-tail { position: absolute; height: 2px; width: 150px; background: linear-gradient(90deg, transparent, #fff); top: 50%; left: -200px; transform: translateY(-50%); }
-
-        /* SLASH EFFECT */
-        #slash { position: fixed; inset: 0; z-index: 600; pointer-events: none; display: none; }
-        .slash-line { position: absolute; height: 2px; width: 200%; background: #fff; top: 50%; left: -50%; transform: rotate(-45deg); box-shadow: 0 0 20px #fff, 0 0 40px var(--accent); }
-
-        /* INTRO */
-        #intro { position: fixed; inset: 0; background: #000; z-index: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .welcome { font-weight: 300; letter-spacing: 0.8rem; color: #666; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 1.5rem; overflow: hidden; border-right: 1px solid #fff; white-space: nowrap; width: 0; }
-        .brand-reveal { font-size: 3.8rem; font-weight: 700; letter-spacing: 2.2rem; opacity: 0; transition: 2.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .brand-reveal.show { opacity: 1; letter-spacing: 0.6rem; }
-        .brand-sub { font-weight: 300; letter-spacing: 0.3rem; color: #444; opacity: 0; margin-top: 1rem; transition: 1s; }
-        .arena-btn { margin-top: 5rem; padding: 1.2rem 4rem; border: 1px solid #333; background: transparent; color: #fff; font-weight: 700; letter-spacing: 0.4rem; opacity: 0; transition: 0.4s; cursor: pointer; text-transform: uppercase; }
+        .tg-icon-fly { position: absolute; top: 50%; left: -10%; width: 35px; filter: drop-shadow(0 0 8px #fff); }
 
         /* STICKY HEADER */
-        .sticky-header { position: fixed; top: 6vh; width: 100%; text-align: center; z-index: 100; opacity: 0; transition: 1.5s; }
-        .header-title { font-weight: 700; letter-spacing: 0.8rem; font-size: 1.8rem; text-transform: uppercase; }
-        .header-sub { font-size: 9px; color: #555; letter-spacing: 3px; text-transform: uppercase; margin-top: 5px; }
+        .sticky-header { position: fixed; top: 8vh; width: 100%; text-align: center; z-index: 100; opacity: 0; transition: 1.5s; pointer-events: none; }
+        .header-title { font-family: var(--raj); font-weight: 700; letter-spacing: 0.6rem; font-size: 1.6rem; text-transform: uppercase; }
+        .header-sub { font-family: var(--raj); font-size: 8px; color: #444; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
         
-        .prog-wrap { position: fixed; top: 18vh; width: 80%; left: 10%; z-index: 100; opacity: 0; transition: 1.5s; }
-        .prog-bg { height: 4px; background: #111; overflow: hidden; border-radius: 10px; }
-        .prog-fill { height: 100%; width: 20%; background: linear-gradient(90deg, #fff, var(--accent), #fff); background-size: 200% 100%; animation: flow 2s infinite linear; transition: 1s cubic-bezier(0.2, 1, 0.2, 1); }
+        .prog-wrap { position: fixed; top: 20vh; width: 60%; left: 20%; z-index: 100; opacity: 0; transition: 1.5s; }
+        .prog-bg { height: 3px; background: #111; overflow: hidden; border-radius: 10px; }
+        .prog-fill { height: 100%; width: 20%; background: linear-gradient(90deg, #fff, var(--accent), #fff); background-size: 200% 100%; animation: flow 2s infinite linear; transition: 1s; }
         @keyframes flow { to { background-position: 200% 0; } }
 
-        /* CARD */
+        /* ARCHITECTURAL CARD */
         #app { display: flex; align-items: center; justify-content: center; height: 100vh; width: 100%; }
-        .card { width: 90%; max-width: 420px; border: 1px solid #111; padding: 3.5rem; background: rgba(5,5,5,0.8); backdrop-filter: blur(20px); border-radius: 2px; display: none; opacity: 0; transform: translateY(40px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card { width: 90%; max-width: 380px; border: 1px solid #111; padding: 3rem 2.5rem; background: rgba(0,0,0,0.6); backdrop-filter: blur(20px); border-radius: 8px; display: none; opacity: 0; transform: translateY(20px); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .card.active { display: block; opacity: 1; transform: translateY(0); }
 
-        .input-wrap { margin-bottom: 3.5rem; position: relative; }
-        input, select { background: transparent; border: none; border-bottom: 1px solid #222; width: 100%; padding: 1rem 0; color: #fff; font-size: 1.3rem; outline: none; transition: 0.4s; border-radius: 0; -webkit-appearance: none; }
+        /* INPUTS */
+        .input-wrap { margin-bottom: 3rem; }
+        input, select { background: transparent; border: none; border-bottom: 1px solid #1a1a1a; width: 100%; padding: 0.8rem 0; color: #fff; font-size: 1.1rem; outline: none; transition: 0.4s; border-radius: 0; }
         input:focus, select:focus { border-bottom-color: #fff; }
-        .btn-action { background: #fff; color: #000; width: 100%; padding: 1.4rem; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; border: none; transition: 0.3s; }
-        .btn-action:active { transform: scale(0.97); }
+        
+        .btn-action { background: #fff; color: #000; width: 100%; padding: 1.1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border: none; transition: 0.3s; border-radius: 4px; font-size: 0.9rem; }
+        .btn-action:active { transform: scale(0.98); }
 
-        .invalid-msg { color: #ff4444; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; display: none; }
-
-        /* SHIELD */
-        .shield-icon { width: 50px; margin: 0 auto 20px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        .error-msg { color: #ff4444; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; display: none; }
+        .shield-icon { width: 40px; margin: 0 auto 15px; opacity: 0.8; }
+        .id-box { border: 1px solid #111; padding: 2rem; background: #020202; text-align: center; cursor: pointer; border-radius: 4px; }
+        .id-text { font-family: monospace; font-size: 1.5rem; letter-spacing: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="teleStreak">
-        <div class="tg-tail" id="streakTail"></div>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tg-icon-fly" id="tgIcon">
-    </div>
+    <!-- TELE-STREAK -->
+    <div id="teleStreak"><img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" class="tg-icon-fly" id="tgIcon"></div>
 
-    <div id="slash"><div class="slash-line" id="sword"></div></div>
-
+    <!-- INTRO -->
     <div id="intro">
-        <p class="welcome" id="welcomeText">Welcome to</p>
-        <h1 class="brand-reveal" id="revealTitle">CRAZE MODE</h1>
-        <p class="brand-sub" id="revealSub">Where Skill Takes the Spotlight</p>
-        <button class="arena-btn" id="arenaBtn" onclick="slashTransition()">Enter Arena</button>
+        <p class="welcome-type" id="wText">Welcome to</p>
+        <h1 class="brand-reveal" id="rTitle">CRAZE MODE</h1>
+        <p class="brand-sub" id="rSub">Where Skill Takes the Spotlight</p>
+        <button class="btn-premium" id="aBtn" onclick="slashTransition()">Enter Arena</button>
     </div>
 
-    <div class="sticky-header" id="stickHeader">
+    <!-- STICKY UI -->
+    <div class="sticky-header" id="sHeader">
         <h1 class="header-title">CRAZE MODE</h1>
         <p class="header-sub">Registration Phase</p>
     </div>
-    <div class="prog-wrap" id="progWrapper">
-        <div class="prog-bg"><div class="prog-fill" id="progFill"></div></div>
+    <div class="prog-wrap" id="pWrap">
+        <div class="prog-bg"><div class="prog-fill" id="pFill"></div></div>
     </div>
 
     <div id="app">
+        <!-- STEP 1: GMAIL -->
         <div id="step1" class="card active">
-            <h2 class="text-[10px] tracking-[0.5rem] mb-12 text-gray-500 uppercase">Authentication</h2>
+            <h2 class="text-[9px] tracking-[0.4rem] mb-12 text-gray-600 uppercase font-bold">Authentication</h2>
             <div class="input-wrap"><input type="email" id="email" placeholder="GMAIL ADDRESS"></div>
             <button onclick="sendGmail()" id="gBtn" class="btn-action">Verify</button>
             <div id="otpBox" class="hidden mt-10">
                 <div class="input-wrap">
                     <input type="text" id="emailOtp" placeholder="6-DIGIT CODE" maxlength="6" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                    <p id="eError" class="invalid-msg">INVALID SYNC CODE</p>
+                    <p id="eError" class="error-msg">Sync Failed: Invalid Code</p>
                 </div>
-                <button onclick="confirmGmail()" id="cBtn" class="btn-action">Confirm</button>
+                <button onclick="confirmGmail()" id="cBtn" class="btn-action">Continue</button>
             </div>
         </div>
 
+        <!-- STEP 2: PROFILE -->
         <div id="step2" class="card">
-            <h2 class="text-[10px] tracking-[0.5rem] mb-12 text-gray-500 uppercase">Profile</h2>
+            <h2 class="text-[9px] tracking-[0.4rem] mb-12 text-gray-600 uppercase font-bold">Identity</h2>
             <div class="input-wrap"><input type="text" id="name" placeholder="ACTUAL NAME"></div>
             <div class="input-wrap"><input type="text" id="nick" placeholder="FF NICKNAME"></div>
             <div class="input-wrap"><input type="text" id="uid" placeholder="FF UID"></div>
@@ -105,28 +106,30 @@
                     <option value="Elite">ELITE (4+ YRS)</option>
                 </select>
             </div>
-            <button onclick="move(3)" class="btn-action">Next</button>
+            <button onclick="move(3)" class="btn-action">Proceed</button>
         </div>
 
+        <!-- STEP 3: SECURITY -->
         <div id="step3" class="card">
-            <h2 class="text-[10px] tracking-[0.5rem] mb-12 text-gray-500 uppercase">Security</h2>
+            <h2 class="text-[9px] tracking-[0.4rem] mb-12 text-gray-600 uppercase font-bold">Security</h2>
             <div class="input-wrap"><input type="text" id="tgUser" placeholder="TELEGRAM USERNAME"></div>
-            <button onclick="handleTgRedirect()" class="btn-action mb-8" style="background:#229ED9; color:#fff;">Get Code</button>
+            <button onclick="handleTg()" class="btn-action mb-8" style="background:#229ED9; color:#fff;">Get Code</button>
             <div class="input-wrap">
                 <input type="text" id="tgCode" placeholder="4-DIGIT CODE" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                <p id="tgError" class="invalid-msg">INVALID CODE</p>
+                <p id="tgError" class="error-msg">Invalid Security Key</p>
             </div>
             <button onclick="verifyTg()" id="tBtn" class="btn-action">Authorize</button>
         </div>
 
+        <!-- STEP 4: FINAL -->
         <div id="step4" class="card text-center">
-            <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <h2 class="text-[11px] tracking-[0.4rem] mb-10 text-gray-400 uppercase font-light">Permanent Allocation</h2>
-            <button id="genBtn" onclick="runDecryption()" class="btn-action">Get Game ID</button>
+            <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <h2 class="text-[10px] tracking-[0.3rem] mb-10 text-gray-500 uppercase font-light">Credential Allocated</h2>
+            <button id="genBtn" onclick="runDecryption()" class="btn-action">Decrypt ID</button>
             <div id="final" class="hidden">
-                <div class="border border-[#222] p-8 mb-4"><div id="idDisplay" class="text-3xl font-mono tracking-tighter">********</div></div>
-                <p class="text-[9px] text-gray-700 mb-12 uppercase tracking-widest">Keep it private</p>
-                <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="btn-action block" style="background:#229ED9; color:#fff;">Request Entry</a>
+                <div class="id-box mb-4"><div id="idDisplay" class="id-text">********</div></div>
+                <p class="text-[8px] text-gray-700 mb-12 uppercase tracking-widest">Keep it private</p>
+                <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="btn-action block" style="background:#229ED9; color:#fff;">Join Arena</a>
             </div>
         </div>
     </div>
@@ -135,31 +138,27 @@
         const API = "https://script.google.com/macros/s/AKfycbzMHjL1PicDlmO5Eo0mg4tGAdouQvHUSk_zTCfm-kvvTjozYFbWjjUPL6ucyqrRD6Lx/exec";
 
         window.onload = () => {
-            document.getElementById('welcomeText').animate([{ width: 0 }, { width: '130px' }], { duration: 1500, fill: 'forwards', easing: 'steps(20)' });
-            setTimeout(() => { document.getElementById('revealTitle').classList.add('show'); 
-            setTimeout(() => { document.getElementById('revealSub').style.opacity = "1"; 
-            setTimeout(() => { document.getElementById('arenaBtn').style.opacity = "1"; }, 800); }, 1000); }, 1800);
+            document.getElementById('wText').animate([{ width: 0 }, { width: '110px' }], { duration: 1200, fill: 'forwards', easing: 'steps(20)' });
+            setTimeout(() => { document.getElementById('rTitle').classList.add('show'); 
+            setTimeout(() => { document.getElementById('rSub').style.opacity = "1"; 
+            setTimeout(() => { document.getElementById('aBtn').style.opacity = "1"; }, 800); }, 1000); }, 1500);
         };
 
         function slashTransition() {
-            const slash = document.getElementById('slash');
-            slash.style.display = 'block';
-            document.getElementById('sword').animate([{ transform: 'translateY(100vh) rotate(-45deg) scale(0)', opacity: 0 }, { transform: 'translateY(-100vh) rotate(-45deg) scale(1.5)', opacity: 1 }], { duration: 400, easing: 'ease-in' });
-            setTimeout(() => { document.getElementById('intro').style.display = 'none'; move(1); document.getElementById('stickHeader').style.opacity = "1"; document.getElementById('progWrapper').style.opacity = "1"; slash.style.display='none'; }, 500);
+            document.getElementById('intro').style.transform = "translateY(-100vh)";
+            setTimeout(() => { document.getElementById('intro').style.display = 'none'; move(1); document.getElementById('sHeader').style.opacity = "1"; document.getElementById('pWrap').style.opacity = "1"; }, 600);
         }
 
-        function handleTgRedirect() {
+        function handleTg() {
             const streak = document.getElementById('teleStreak');
             const icon = document.getElementById('tgIcon');
-            const tail = document.getElementById('streakTail');
             streak.style.display = 'block';
-            icon.animate([{ left: '-10%', opacity: 0 }, { left: '110%', opacity: 1 }], { duration: 800, easing: 'ease-in' });
-            tail.animate([{ left: '-200px', opacity: 0 }, { left: '100%', opacity: 1 }], { duration: 800, easing: 'ease-in' });
-            setTimeout(() => { window.open('https://t.me/CMAccessBot', '_blank'); streak.style.display = 'none'; }, 800);
+            icon.animate([{ left: '-10%', opacity: 0 }, { left: '110%', opacity: 1 }], { duration: 700, easing: 'ease-in' });
+            setTimeout(() => { window.open('https://t.me/CMAccessBot', '_blank'); streak.style.display = 'none'; }, 700);
         }
 
         function move(s) {
-            document.getElementById('progFill').style.width = (s * 25) + "%";
+            document.getElementById('pFill').style.width = (s * 25) + "%";
             document.querySelectorAll('.card').forEach(x => x.classList.remove('active'));
             setTimeout(() => { document.getElementById('step'+s).classList.add('active'); }, 400);
         }
@@ -196,18 +195,4 @@
             document.getElementById('genBtn').style.display='none';
             document.getElementById('final').classList.remove('hidden');
             let i = 0;
-            let timer = setInterval(() => {
-                document.getElementById('idDisplay').innerText = gameId.split("").map((l, idx) => idx < i ? gameId[idx] : chars[Math.floor(Math.random()*36)]).join("");
-                if(i >= gameId.length) clearInterval(timer);
-                i += 1/4;
-            }, 40);
-            window.finalIdValue = gameId;
-        }
-
-        function finalSubmit() {
-            const f = { email: document.getElementById('email').value, name: document.getElementById('name').value, ffNick: document.getElementById('nick').value, ffUid: document.getElementById('uid').value, tgUser: document.getElementById('tgUser').value, gameId: window.finalIdValue };
-            fetch(API, {method:'POST', mode:'no-cors', body:JSON.stringify({action:"submitForm", f:f})});
-        }
-    </script>
-</body>
-</html>
+            let timer = setInterval(()
