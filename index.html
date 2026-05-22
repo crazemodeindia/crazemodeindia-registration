@@ -2,152 +2,162 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRAZE MODE | Sovereign</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CRAZE MODE | Arena</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
         :root { --raj: 'Rajdhani', sans-serif; }
-        body { background: #000; color: #fff; font-family: var(--raj); margin: 0; overflow: hidden; height: 100vh; }
+        body { background: #000; color: #fff; font-family: var(--raj); margin: 0; overflow-x: hidden; }
 
-        /* LAMINAR FLOW BACKGROUND */
-        .flow-bg { position: fixed; inset: 0; z-index: -1; opacity: 0.15; }
-        .line { position: absolute; background: linear-gradient(90deg, transparent, #fff, transparent); height: 1px; width: 100%; animation: flow 8s linear infinite; }
-
-        @keyframes flow {
-            0% { transform: translateY(-100vh) scaleX(0.5); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(100vh) scaleX(1); opacity: 0; }
-        }
-
-        /* BRAND INTRO */
-        #intro { position: fixed; inset: 0; background: #000; z-index: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1.2s cubic-bezier(0.9, 0, 0.1, 1); }
-        .brand-name { 
-            font-size: 3rem; font-weight: 700; letter-spacing: 1.5rem; text-transform: uppercase;
-            background: linear-gradient(120deg, #333 30%, #fff 50%, #333 70%);
-            background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: specular 4s linear infinite; transition: letter-spacing 2s cubic-bezier(0.1, 0.9, 0.2, 1);
-        }
-        @keyframes specular { to { background-position: 200% center; } }
-        .brand-sub { font-weight: 300; letter-spacing: 0.3rem; color: #666; margin-top: 10px; opacity: 0; transform: translateY(10px); }
-        .enter-btn { margin-top: 40px; border: 1px solid #333; padding: 12px 40px; border-radius: 2px; font-size: 0.8rem; letter-spacing: 0.2rem; opacity: 0; cursor: pointer; transition: 0.4s; }
-        .enter-btn:hover { background: #fff; color: #000; }
-
-        /* FORM STYLING */
-        .form-section { display: none; opacity: 0; transform: scale(0.98); transition: 0.8s cubic-bezier(0.2, 1, 0.2, 1); max-width: 350px; width: 90%; margin: 150px auto; }
-        .form-section.active { display: block; opacity: 1; transform: scale(1); }
-        input { background: transparent; border: none; border-bottom: 1px solid #222; width: 100%; padding: 15px 0; color: #fff; outline: none; font-size: 1.1rem; margin-bottom: 30px; transition: 0.4s; }
-        input:focus { border-bottom-color: #fff; }
-        .btn-main { background: #fff; color: #000; width: 100%; padding: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border: none; }
+        /* INTRO REVEAL */
+        #intro { position: fixed; inset: 0; background: #000; z-index: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 1.5s cubic-bezier(0.9, 0, 0.1, 1); }
+        .typing { font-weight: 300; letter-spacing: 0.5rem; color: #555; text-transform: uppercase; font-size: 0.8rem; margin-bottom: 10px; border-right: 2px solid #fff; white-space: nowrap; overflow: hidden; width: 0; animation: type 2s steps(20) forwards; }
+        @keyframes type { from { width: 0; } to { width: 150px; } }
         
-        /* TERMINAL ID BOX */
-        .terminal-box { background: #080808; border: 1px solid #1a1a1a; padding: 25px; border-radius: 4px; position: relative; cursor: pointer; }
-        .terminal-text { font-family: monospace; font-size: 1.5rem; letter-spacing: 2px; color: #fff; }
-        .tiny-tag { font-size: 9px; color: #444; text-transform: uppercase; margin-top: 10px; display: block; }
+        .brand-reveal { font-size: 3.5rem; font-weight: 700; letter-spacing: 2rem; opacity: 0; transform: scale(1.1); transition: 2.5s cubic-bezier(0.1, 0.9, 0.2, 1); }
+        .brand-reveal.show { opacity: 1; letter-spacing: 0.5rem; transform: scale(1); }
+        .brand-sub { font-weight: 300; letter-spacing: 0.2rem; color: #444; opacity: 0; margin-top: 5px; transition: 1.5s; }
+        
+        .arena-btn { margin-top: 60px; padding: 15px 50px; border: 1px solid #fff; background: transparent; color: #fff; font-weight: 700; letter-spacing: 0.3rem; opacity: 0; transition: 0.5s; cursor: pointer; position: relative; overflow: hidden; }
+        .arena-btn:hover { background: #fff; color: #000; box-shadow: 0 0 30px rgba(255,255,255,0.4); }
+        .arena-btn:active { transform: scale(0.9); transition: 0.1s; }
+
+        /* STICKY HEADER & PROGRESS */
+        .sticky-header { position: fixed; top: 20px; width: 100%; text-align: center; z-index: 100; opacity: 0; transition: 1s; }
+        .header-title { font-weight: 700; letter-spacing: 0.5rem; font-size: 1.5rem; }
+        .header-sub { font-size: 8px; color: #555; letter-spacing: 2px; text-transform: uppercase; }
+        
+        .progress-wrapper { position: fixed; top: 85px; width: 100%; padding: 0 10%; z-index: 100; opacity: 0; transition: 1s; }
+        .progress-bar { height: 6px; background: #111; border-radius: 10px; overflow: hidden; position: relative; }
+        .progress-fill { height: 100%; width: 20%; background: linear-gradient(90deg, #ff00cc, #3333ff, #ff00cc); background-size: 200% 100%; animation: pulse 3s infinite linear; transition: 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes pulse { to { background-position: 200% 0; } }
+
+        /* CONTENT CONTAINER */
+        .content-card { position: relative; margin: 180px auto 100px; width: 90%; max-width: 450px; border: 1px solid #1a1a1a; padding: 40px; border-radius: 4px; background: rgba(5,5,5,0.5); backdrop-filter: blur(10px); display: none; opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2, 1, 0.2, 1); }
+        .content-card.active { display: block; opacity: 1; transform: translateY(0); }
+
+        input { background: transparent; border: none; border-bottom: 1px solid #222; width: 100%; padding: 20px 0; color: #fff; font-size: 1.2rem; outline: none; margin-bottom: 40px; transition: 0.3s; border-radius: 0; }
+        input:focus { border-bottom-color: #fff; }
+
+        .btn-action { background: #fff; color: #000; width: 100%; padding: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border: none; transition: 0.3s; }
+        .btn-action:hover { filter: invert(1); }
+        .btn-action:active { transform: scale(0.98); background: #888; }
+
+        /* ID DECRYPTION */
+        .id-box { background: #000; border: 1px solid #333; padding: 30px; text-align: center; cursor: pointer; }
+        .id-text { font-family: monospace; font-size: 1.8rem; letter-spacing: 5px; color: #fff; }
     </style>
 </head>
 <body>
 
-    <div class="flow-bg" id="flow"></div>
-
-    <!-- INTRO -->
+    <!-- 1. INTRO SECTION -->
     <div id="intro">
-        <h1 class="brand-name" id="bName">CRAZE MODE</h1>
-        <p class="brand-sub" id="bSub">Where Skill Takes the Spotlight</p>
-        <button class="enter-btn" id="eBtn" onclick="startApp()">ENTER ARENA</button>
+        <p class="typing">Welcome to</p>
+        <h1 class="brand-reveal" id="revealTitle">CRAZE MODE</h1>
+        <p class="brand-sub" id="revealSub">Where Skill Takes the Spotlight</p>
+        <button class="arena-btn" id="arenaBtn" onclick="enterArena()">Enter Arena</button>
     </div>
 
-    <!-- MAIN FORM -->
-    <div id="app" class="flex flex-col items-center">
+    <!-- 2. STICKY UI -->
+    <div class="sticky-header" id="stickHeader">
+        <h1 class="header-title">CRAZE MODE</h1>
+        <p class="header-sub">Registration Phase</p>
+    </div>
+    <div class="progress-wrapper" id="progWrapper">
+        <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+    </div>
+
+    <!-- 3. MAIN APP -->
+    <div id="app">
         <!-- Step 1: Gmail -->
-        <div id="step1" class="form-section active">
-            <h2 class="text-xs uppercase tracking-[0.5rem] mb-10 text-gray-500">Authentication</h2>
+        <div id="step1" class="content-card active">
+            <h2 class="text-xs tracking-[0.5rem] mb-12 text-gray-500 uppercase">Authentication</h2>
             <input type="email" id="email" placeholder="GMAIL ADDRESS">
-            <button onclick="sendGmailOTP()" id="gBtn" class="btn-main">Verify</button>
-            <div id="gmailVerifyBox" class="hidden mt-8">
+            <button onclick="sendGmail()" id="gBtn" class="btn-action">Verify</button>
+            <div id="otpBox" class="hidden mt-8">
                 <input type="number" id="emailOtp" placeholder="6-DIGIT OTP">
-                <button onclick="confirmGmailOTP()" class="btn-main">Continue</button>
+                <button onclick="confirmGmail()" id="cBtn" class="btn-action">Verify OTP</button>
             </div>
-            <p class="text-[10px] text-gray-700 mt-10 tracking-widest">NEW USER? VERIFICATION IS MANDATORY.</p>
+            <p class="text-[10px] text-gray-700 mt-12 text-center uppercase tracking-widest">New User? System Access Required.</p>
         </div>
 
         <!-- Step 2: Info -->
-        <div id="step2" class="form-section">
-            <h2 class="text-xs uppercase tracking-[0.5rem] mb-10 text-gray-500">Identity</h2>
+        <div id="step2" class="content-card">
+            <h2 class="text-xs tracking-[0.5rem] mb-12 text-gray-500 uppercase">Profile</h2>
             <input type="text" id="name" placeholder="ACTUAL NAME">
-            <input type="text" id="ffNick" placeholder="FF NICKNAME">
-            <input type="text" id="ffUid" placeholder="FF UID">
-            <button onclick="move(3)" class="btn-main">Next</button>
+            <div class="mb-4">
+                <input type="text" id="nick" placeholder="NICKNAME" style="margin-bottom:10px">
+                <p class="text-[9px] text-gray-600 tracking-widest uppercase">Lobby recognition ID</p>
+            </div>
+            <input type="text" id="uid" placeholder="FF UID">
+            <button onclick="move(3)" class="btn-action">Sync Identity</button>
         </div>
 
         <!-- Step 3: Telegram -->
-        <div id="step3" class="form-section">
-            <h2 class="text-xs uppercase tracking-[0.5rem] mb-10 text-gray-500">Security</h2>
+        <div id="step3" class="content-card">
+            <h2 class="text-xs tracking-[0.5rem] mb-12 text-gray-500 uppercase">Secure Link</h2>
             <input type="text" id="tgUser" placeholder="TELEGRAM USERNAME">
-            <a href="https://t.me/CMAccessBot" target="_blank" class="btn-main block text-center mb-6">Get Code</a>
+            <a href="https://t.me/CMAccessBot" target="_blank" class="btn-action block text-center mb-8" style="background:#229ED9; color:#fff;">Get Bot Code</a>
             <input type="number" id="tgCode" placeholder="ENTER CODE">
-            <button onclick="verifyTg()" id="tBtn" class="btn-main">Verify Account</button>
+            <button onclick="verifyTg()" id="tBtn" class="btn-action">Authorize Access</button>
         </div>
 
         <!-- Step 4: Game ID -->
-        <div id="step4" class="form-section text-center">
-            <p class="text-gray-500 text-[11px] mb-10 leading-relaxed uppercase tracking-widest">Decrypting Personal Game Identifier...</p>
-            <div class="terminal-box" id="idBox" onclick="copyId()">
-                <div class="terminal-text" id="decryption">********</div>
-                <span class="tiny-tag">Click to copy • Keep it safe</span>
+        <div id="step4" class="content-card text-center">
+            <p class="text-xs text-gray-500 uppercase tracking-widest mb-10">Decrypting Permanent Game ID</p>
+            <div class="id-box" onclick="copyId()">
+                <div class="id-text" id="idDisplay">********</div>
+                <p class="text-[9px] text-gray-600 mt-6 uppercase">Tap to copy • Keep it safe</p>
             </div>
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="btn-main block mt-10" style="background:#229ED9; color:#fff;">Join Private Arena</a>
+            <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="btn-action block mt-12">Join Private Arena</a>
         </div>
     </div>
 
     <script>
         const API = "https://script.google.com/macros/s/AKfycbzMHjL1PicDlmO5Eo0mg4tGAdouQvHUSk_zTCfm-kvvTjozYFbWjjUPL6ucyqrRD6Lx/exec";
 
-        // Background Laminar Flow
-        const flow = document.getElementById('flow');
-        for(let i=0; i<15; i++){
-            let line = document.createElement('div');
-            line.className = 'line';
-            line.style.left = Math.random() * 100 + '%';
-            line.style.animationDelay = Math.random() * 5 + 's';
-            flow.appendChild(line);
-        }
-
-        // Intro Sequence
-        window.onload = () => {
+        // Intro Logic
+        setTimeout(() => {
+            document.getElementById('revealTitle').classList.add('show');
             setTimeout(() => {
-                document.getElementById('bName').style.letterSpacing = "0.5rem";
+                document.getElementById('revealSub').style.opacity = "1";
                 setTimeout(() => {
-                    document.getElementById('bSub').style.opacity = "1";
-                    document.getElementById('bSub').style.transform = "translateY(0)";
-                    setTimeout(() => {
-                        document.getElementById('eBtn').style.opacity = "1";
-                    }, 1000);
-                }, 1000);
-            }, 500);
-        };
+                    document.getElementById('arenaBtn').style.opacity = "1";
+                }, 800);
+            }, 1000);
+        }, 500);
 
-        function startApp() {
+        function enterArena() {
             document.getElementById('intro').style.transform = "translateY(-100vh)";
+            setTimeout(() => {
+                document.getElementById('stickHeader').style.opacity = "1";
+                document.getElementById('progWrapper').style.opacity = "1";
+                document.getElementById('step1').classList.add('active');
+            }, 800);
         }
 
         function move(s) {
-            document.querySelectorAll('.form-section').forEach(x => x.classList.remove('active'));
-            document.getElementById('step'+s).classList.add('active');
-            if(s === 4) startDecryption();
+            document.getElementById('progFill').style.width = (s * 25) + "%";
+            document.querySelectorAll('.content-card').forEach(x => x.classList.remove('active'));
+            setTimeout(() => {
+                document.getElementById('step'+s).classList.add('active');
+                if(s === 4) runDecryption();
+            }, 400);
         }
 
-        async function sendGmailOTP() {
+        async function sendGmail() {
             const e = document.getElementById('email').value;
             document.getElementById('gBtn').innerText = "SENDING...";
             await fetch(API, {method:'POST', body:JSON.stringify({action:"sendEmailOTP", email:e})});
+            document.getElementById('otpBox').classList.remove('hidden');
             document.getElementById('gBtn').style.display='none';
-            document.getElementById('gmailVerifyBox').classList.remove('hidden');
         }
 
-        async function confirmGmailOTP() {
+        async function confirmGmail() {
             const e = document.getElementById('email').value;
             const otp = document.getElementById('emailOtp').value;
+            document.getElementById('cBtn').innerText = "VERIFYING...";
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyEmailOTP", email:e, otp:otp})});
             let res = await r.json();
             if(res.success) move(2); else alert("Invalid OTP");
@@ -156,43 +166,38 @@
         async function verifyTg() {
             const u = document.getElementById('tgUser').value;
             const c = document.getElementById('tgCode').value;
-            document.getElementById('tBtn').innerText = "AUTHENTICATING...";
+            document.getElementById('tBtn').innerText = "AUTHORIZING...";
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyTelegram", username:u, code:c})});
             let res = await r.json();
             if(res.success) move(4); else alert("Code expired or invalid");
         }
 
-        let finalGameId = "";
-        function startDecryption() {
+        let gameId = "";
+        function runDecryption() {
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            const el = document.getElementById('decryption');
-            finalGameId = "CM-" + Math.random().toString(36).substring(2,6).toUpperCase() + "-" + Math.floor(1000+Math.random()*9000);
-            
-            let iteration = 0;
-            let interval = setInterval(() => {
-                el.innerText = finalGameId.split("").map((letter, index) => {
-                    if(index < iteration) return finalGameId[index];
-                    return chars[Math.floor(Math.random() * 36)];
-                }).join("");
-                
-                if(iteration >= finalGameId.length) clearInterval(interval);
-                iteration += 1/3;
-            }, 50);
+            gameId = "CM-" + Math.random().toString(36).substring(2,6).toUpperCase() + "-" + Math.floor(1000+Math.random()*9000);
+            const el = document.getElementById('idDisplay');
+            let i = 0;
+            let timer = setInterval(() => {
+                el.innerText = gameId.split("").map((l, idx) => idx < i ? gameId[idx] : chars[Math.floor(Math.random()*36)]).join("");
+                if(i >= gameId.length) clearInterval(timer);
+                i += 1/4;
+            }, 40);
         }
 
         function copyId() {
-            navigator.clipboard.writeText(finalGameId);
-            alert("GAME ID COPIED");
+            navigator.clipboard.writeText(gameId);
+            alert("ID COPIED");
         }
 
         function finalSubmit() {
             const f = {
                 email: document.getElementById('email').value,
                 name: document.getElementById('name').value,
-                ffNick: document.getElementById('ffNick').value,
-                ffUid: document.getElementById('ffUid').value,
+                ffNick: document.getElementById('nick').value,
+                ffUid: document.getElementById('uid').value,
                 tgUser: document.getElementById('tgUser').value,
-                gameId: finalGameId
+                gameId: gameId
             };
             fetch(API, {method:'POST', mode:'no-cors', body:JSON.stringify({action:"submitForm", f:f})});
         }
