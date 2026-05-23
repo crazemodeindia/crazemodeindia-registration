@@ -3,52 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CRAZE MODE | Identity System</title>
+    <title>CRAZE MODE | Sovereign System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --brand: 'Rajdhani', sans-serif; --system: 'Inter', sans-serif; --google-gray: #202124; }
+        :root { --brand: 'Rajdhani', sans-serif; --system: 'Inter', sans-serif; }
         body { background: #000; color: #fff; font-family: var(--system); margin: 0; overflow: hidden; height: 100vh; -webkit-font-smoothing: antialiased; }
 
-        /* 1. INTRO LAYER */
+        /* CINEMATIC INTRO */
         #intro { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
         
-        .welcome-label { font-size: 0.75rem; letter-spacing: 0.5rem; color: #888; text-transform: uppercase; margin-bottom: 1rem; opacity: 0; }
-        .welcome-flicker { animation: flicker 1s steps(2, start) forwards; }
-        @keyframes flicker { 0% { opacity: 0; } 25% { opacity: 1; } 50% { opacity: 0; } 75% { opacity: 1; } 100% { opacity: 1; } }
-
-        .brand-main { font-family: var(--brand); font-size: clamp(2rem, 10vw, 3.2rem); font-weight: 700; letter-spacing: 1.5rem; opacity: 0; transition: 2.5s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; margin: 1rem 0; }
-        .brand-main.active { opacity: 1; letter-spacing: 0.4rem; }
-
-        .brand-sub { font-family: var(--brand); font-size: 0.8rem; font-weight: 300; letter-spacing: 0.2rem; color: #555; opacity: 0; transition: 1s; white-space: nowrap; }
+        .welcome-flicker { font-size: 0.75rem; letter-spacing: 0.5rem; color: #888; text-transform: uppercase; margin-bottom: 1rem; opacity: 0; }
+        .flicker-anim { animation: flicker 1s steps(2, start) forwards; }
+        @keyframes flicker { 0%, 50%, 100% { opacity: 1; } 25%, 75% { opacity: 0; } }
         
-        .btn-arena { margin-top: 5rem; padding: 0.7rem 2.5rem; background: #fff; color: #000; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2rem; text-transform: uppercase; opacity: 0; cursor: pointer; border-radius: 2px; border: none; transition: 0.5s; }
-        .btn-arena:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
-
-        /* 2. ARCHITECTURAL UI */
-        .header-ui { position: fixed; top: 8vh; width: 100%; text-align: center; z-index: 500; opacity: 0; transition: 1.5s; }
-        .header-title { font-family: var(--brand); font-size: 1.5rem; letter-spacing: 0.4rem; font-weight: 700; }
+        .brand-text { font-family: var(--brand); font-size: clamp(1.8rem, 8vw, 3.5rem); letter-spacing: 1.5rem; opacity: 0; transition: 2.5s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; margin: 1rem 0; font-weight: 700; }
+        .brand-text.active { opacity: 1; letter-spacing: 0.4rem; }
+        .brand-sub { font-family: var(--brand); font-size: 0.8rem; letter-spacing: 0.2rem; color: #444; opacity: 0; transition: 1s; white-space: nowrap; font-weight: 500; }
         
-        .progress-line { position: fixed; top: 18vh; width: 30%; left: 35%; height: 1px; background: #111; z-index: 500; opacity: 0; transition: 1s; }
-        .progress-fill { height: 100%; width: 25%; background: #fff; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-enter { margin-top: 5rem; padding: 0.7rem 2.5rem; background: #fff; color: #000; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2rem; text-transform: uppercase; opacity: 0; cursor: pointer; border-radius: 2px; border: none; transition: 0.5s; }
+        .btn-enter:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(255,255,255,0.1); }
 
-        /* 3. SYSTEM CARDS */
+        /* STICKY UI */
+        .system-header { position: fixed; top: 8vh; width: 100%; text-align: center; z-index: 500; opacity: 0; transition: 1s; }
+        .s-title { font-family: var(--brand); font-size: 1.5rem; letter-spacing: 0.5rem; font-weight: 700; color: #fff; text-transform: uppercase; }
+        .progress-container { position: fixed; top: 18vh; width: 30%; left: 35%; height: 1px; background: #111; z-index: 500; opacity: 0; transition: 1s; }
+        .progress-fill { height: 100%; width: 25%; background: #fff; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px #fff; }
+
+        /* CARD ARCHITECTURE */
         #main-view { display: flex; align-items: center; justify-content: center; height: 100vh; width: 100%; }
-        .card { width: 90%; max-width: 380px; padding: 4.5rem 2.5rem; background: #000; border: 1px solid #0f0f0f; border-radius: 8px; display: none; opacity: 0; transform: translateY(15px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        .card { width: 92%; max-width: 380px; padding: 4.5rem 2.5rem; background: #000; border: 1px solid #0f0f0f; border-radius: 8px; display: none; opacity: 0; transform: translateY(15px); transition: 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
         .card.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* 4. TYPOGRAPHY & INPUTS */
         .label { font-size: 10px; font-weight: 600; color: #444; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 3.5rem; text-align: center; }
-        .input-group { margin-bottom: 3.5rem; }
+        .input-box { margin-bottom: 3.5rem; position: relative; }
         input, select { background: transparent; border: none; border-bottom: 1px solid #1a1a1a; width: 100%; padding: 0.7rem 0; color: #fff; font-size: 1.15rem; outline: none; transition: 0.3s; border-radius: 0; }
         input:focus { border-bottom-color: #fff; }
         
         .primary-btn { background: #fff; color: #000; width: auto; min-width: 140px; margin: 0 auto; display: block; padding: 0.8rem 1.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border: none; border-radius: 4px; font-size: 0.8rem; transition: 0.2s; }
-        .primary-btn:active { transform: scale(0.98); opacity: 0.8; }
-        
         .tg-btn { background: #229ED9; color: #fff; }
+        .error-hint { color: #ff3333; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; display: none; text-align: center; }
 
-        /* TRANSITION OVERLAY */
         #warp { position: fixed; inset: 0; background: #fff; z-index: 900; opacity: 0; pointer-events: none; mix-blend-mode: difference; }
     </style>
 </head>
@@ -56,28 +51,28 @@
 
     <div id="warp"></div>
 
-    <!-- INTRO SECTION -->
+    <!-- INTRO -->
     <div id="intro">
-        <p class="welcome-label" id="wLabel">Welcome to</p>
-        <h1 class="brand-main" id="bTitle">CRAZE MODE</h1>
+        <p class="welcome-flicker" id="wLabel">Welcome to</p>
+        <h1 class="brand-text" id="bTitle">CRAZE MODE</h1>
         <p class="brand-sub" id="bSub">Where Skill Takes the Spotlight</p>
-        <button class="btn-arena" id="eBtn" onclick="enterSystem()">Enter Arena</button>
+        <button class="btn-enter" id="eBtn" onclick="enterSystem()">Enter Arena</button>
     </div>
 
-    <!-- STICKY LAYER -->
-    <div class="header-ui" id="hUI"><h1 class="header-title">CRAZE MODE</h1></div>
-    <div class="progress-line" id="pLine"><div class="progress-fill" id="pFill"></div></div>
+    <!-- SYSTEM UI -->
+    <div class="system-header" id="hUI"><h1 class="s-title">CRAZE MODE</h1></div>
+    <div class="progress-container" id="pWrap"><div class="progress-fill" id="pFill"></div></div>
 
-    <!-- MAIN APP -->
     <div id="main-view">
         <!-- STEP 1 -->
         <div id="step1" class="card active">
-            <span class="label">Identity Authentication</span>
-            <div class="input-group"><input type="email" id="email" placeholder="Gmail Address" autocomplete="off"></div>
+            <span class="label">Authentication</span>
+            <div class="input-box"><input type="email" id="email" placeholder="Gmail Address"></div>
             <button onclick="sendOTP()" id="gBtn" class="primary-btn">Next</button>
             <div id="otpBox" class="hidden mt-10">
-                <div class="input-group">
+                <div class="input-box">
                     <input type="text" id="emailOtp" placeholder="6-Digit OTP" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    <p id="eErr" class="error-hint">Sync Failed: Invalid OTP</p>
                 </div>
                 <button onclick="verifyOTP()" id="cBtn" class="primary-btn">Verify</button>
             </div>
@@ -86,15 +81,15 @@
         <!-- STEP 2 -->
         <div id="step2" class="card">
             <span class="label">Sovereign Profile</span>
-            <div class="input-group"><input type="text" id="name" placeholder="Actual Name"></div>
-            <div class="input-group"><input type="text" id="nick" placeholder="FF Nickname"></div>
-            <div class="input-group"><input type="text" id="uid" placeholder="FF UID"></div>
-            <div class="input-group">
+            <div class="input-box"><input type="text" id="name" placeholder="Actual Name"></div>
+            <div class="input-box"><input type="text" id="nick" placeholder="FF Nickname"></div>
+            <div class="input-box"><input type="text" id="uid" placeholder="FF UID"></div>
+            <div class="input-box">
                 <select id="exp">
-                    <option value="" disabled selected>Combat Experience</option>
-                    <option value="Rookie">Rookie (0-1 Yr)</option>
-                    <option value="Veteran">Veteran (2-3 Yrs)</option>
-                    <option value="Elite">Elite (4+ Yrs)</option>
+                    <option value="" disabled selected>Experience</option>
+                    <option value="Rookie">Rookie</option>
+                    <option value="Veteran">Veteran</option>
+                    <option value="Elite">Elite</option>
                 </select>
             </div>
             <button onclick="move(3)" class="primary-btn">Confirm</button>
@@ -103,10 +98,11 @@
         <!-- STEP 3 -->
         <div id="step3" class="card">
             <span class="label">Security Uplink</span>
-            <div class="input-group"><input type="text" id="tgUser" placeholder="Telegram @Username"></div>
+            <div class="input-box"><input type="text" id="tgUser" placeholder="Telegram @Username"></div>
             <button onclick="window.open('https://t.me/CMAccessBot')" class="primary-btn tg-btn mb-10">Get Key</button>
-            <div class="input-group">
+            <div class="input-box">
                 <input type="text" id="tgCode" placeholder="4-Digit Key" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                <p id="tErr" class="error-hint">Security Error: Rejected</p>
             </div>
             <button onclick="verifyTg()" id="tBtn" class="primary-btn tg-btn">Authorize</button>
         </div>
@@ -114,10 +110,9 @@
         <!-- STEP 4 -->
         <div id="step4" class="card text-center">
             <span class="label">System Ready</span>
-            <div class="border border-[#0a0a0a] p-10 mb-10 cursor-pointer bg-[#020202]" onclick="copyId()">
+            <div class="border border-[#111] p-10 mb-10 cursor-pointer" onclick="copyId()">
                 <div id="idDisplay" class="font-mono text-xl tracking-[5px]">********</div>
             </div>
-            <p class="text-[8px] text-gray-700 mb-12 uppercase tracking-[4px]">Private Credential</p>
             <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="primary-btn tg-btn block">Request Access</a>
         </div>
     </div>
@@ -127,25 +122,25 @@
 
         window.onload = () => {
             const lbl = document.getElementById('wLabel');
-            lbl.classList.add('welcome-flicker');
+            lbl.classList.add('flicker-anim');
             setTimeout(() => { 
+                lbl.style.animation = "none"; lbl.style.opacity = "1";
                 document.getElementById('bTitle').classList.add('active'); 
                 setTimeout(() => { 
                     document.getElementById('bSub').style.opacity = "1"; 
-                    setTimeout(() => { document.getElementById('eBtn').style.opacity = "1"; }, 1000);
+                    setTimeout(() => { document.getElementById('eBtn').style.opacity = "1"; }, 800);
                 }, 1200);
             }, 1000);
         };
 
         function enterSystem() {
-            const w = document.getElementById('warp');
-            w.style.opacity = "1";
+            document.getElementById('warp').style.opacity = "1";
             setTimeout(() => {
                 document.getElementById('intro').style.display = 'none';
                 document.getElementById('hUI').style.opacity = '1';
-                document.getElementById('pLine').style.opacity = '1';
+                document.getElementById('pWrap').style.opacity = '1';
                 document.getElementById('step1').classList.add('active');
-                w.style.opacity = "0";
+                document.getElementById('warp').style.opacity = "0";
             }, 400);
         }
 
@@ -163,7 +158,7 @@
         async function sendOTP() {
             const e = document.getElementById('email').value; if(!e.includes("@")) return;
             document.getElementById('gBtn').innerText = "Processing...";
-            const res = await fetch(API, {method:'POST', body:JSON.stringify({action:"sendEmailOTP", email:e})});
+            await fetch(API, {method:'POST', body:JSON.stringify({action:"sendEmailOTP", email:e})});
             document.getElementById('otpBox').classList.remove('hidden');
             document.getElementById('gBtn').style.display = "none";
         }
@@ -173,16 +168,16 @@
             document.getElementById('cBtn').innerText = "Verifying...";
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyEmailOTP", email:document.getElementById('email').value, otp:o})});
             let res = await r.json();
-            if(res.success) move(2); else document.getElementById('cBtn').innerText = "Retry";
+            if(res.success) move(2); else { document.getElementById('eErr').style.display='block'; document.getElementById('cBtn').innerText="Verify"; }
         }
 
         async function verifyTg() {
             const u = document.getElementById('tgUser').value;
             const c = document.getElementById('tgCode').value;
-            document.getElementById('tBtn').innerText = "Authenticating...";
+            document.getElementById('tBtn').innerText = "Authorizing...";
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyTelegram", username:u, code:c})});
             let res = await r.json();
-            if(res.success) move(4); else document.getElementById('tBtn').innerText = "Retry";
+            if(res.success) move(4); else { document.getElementById('tErr').style.display='block'; document.getElementById('tBtn').innerText="Authorize"; }
         }
 
         function runDecrypt() {
