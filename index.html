@@ -5,57 +5,58 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CRAZE MODE | Sovereign System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         :root { --brand: 'Rajdhani', sans-serif; --system: 'Inter', sans-serif; }
         body { background: #000; color: #fff; font-family: var(--system); margin: 0; overflow: hidden; -webkit-font-smoothing: antialiased; }
 
-        /* CINEMATIC INTRO */
+        /* INTRO REVEAL */
         #intro { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .welcome-label { font-size: 0.7rem; letter-spacing: 0.6rem; color: #444; text-transform: uppercase; margin-bottom: 1rem; width: 0; overflow: hidden; white-space: nowrap; border-right: 1px solid #fff; animation: typing 1.5s steps(15) forwards; }
-        @keyframes typing { from { width: 0; } to { width: 110px; } }
+        .welcome-label { font-family: var(--system); font-size: 0.7rem; letter-spacing: 0.5rem; color: #a3a3a3; text-transform: uppercase; margin-bottom: 1rem; animation: flicker 2s infinite; }
+        @keyframes flicker { 0%, 19.9%, 22%, 62.9%, 64%, 64.9%, 70%, 100% { opacity: 1; } 20%, 21.9%, 63%, 63.9%, 65%, 69.9% { opacity: 0.4; } }
         
-        .brand-text { font-family: var(--brand); font-size: clamp(2.2rem, 10vw, 4rem); letter-spacing: 2.5rem; opacity: 0; transition: 2.5s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; }
-        .brand-text.active { opacity: 1; letter-spacing: 0.5rem; }
-        .brand-sub { font-family: var(--brand); font-size: 0.8rem; letter-spacing: 0.3rem; color: #222; opacity: 0; transition: 1.5s; margin-top: 0.5rem; }
+        .brand-text { font-family: var(--brand); font-size: clamp(2rem, 10vw, 4rem); letter-spacing: 2.5rem; opacity: 0; transition: 2.5s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; }
+        .brand-text.active { opacity: 1; letter-spacing: 0.4rem; }
+        .brand-sub { font-family: monospace; font-size: 0.75rem; letter-spacing: 0.2rem; color: #e5e5e5; opacity: 0; transition: 1.5s; margin-top: 0.5rem; text-shadow: 0 0 8px rgba(168, 85, 247, 0.6); }
         
-        .btn-arena { margin-top: 5rem; padding: 1rem 3.5rem; border: 1px solid #1a1a1a; background: transparent; color: #fff; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.3rem; text-transform: uppercase; opacity: 0; transition: 0.5s; cursor: pointer; border-radius: 4px; }
-        .btn-arena:hover { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 40px rgba(255,255,255,0.1); }
+        .btn-arena { margin-top: 5rem; padding: 0.8rem 2.5rem; border: 1px solid #262626; background: transparent; color: #fff; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2rem; text-transform: uppercase; opacity: 0; transition: 0.5s; cursor: pointer; border-radius: 4px; }
+        .btn-arena:hover { background: #fff; color: #000; border-color: #fff; }
 
-        /* SYSTEM HEADER */
-        .system-header { position: fixed; top: 8vh; width: 100%; text-align: center; z-index: 500; opacity: 0; transition: 1s; }
-        .s-title { font-family: var(--brand); font-size: 1.5rem; letter-spacing: 0.6rem; font-weight: 700; color: #fff; }
-        .s-status { font-size: 9px; color: #444; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+        /* SMOOTH WARP TRANSITION */
+        .warp-overlay { position: fixed; inset: 0; background: #000; z-index: 900; opacity: 0; pointer-events: none; transition: 0.6s ease; transform: scale(1.1); filter: blur(20px); }
+        .warp-active { opacity: 1; transform: scale(1); filter: blur(0px); }
 
-        /* PROGRESS TRACKER */
-        .progress-container { position: fixed; top: 18vh; width: 100%; display: flex; justify-content: center; z-index: 500; opacity: 0; transition: 1s; }
-        .progress-track { width: 60%; max-width: 300px; height: 2px; background: #0a0a0a; border-radius: 10px; overflow: hidden; }
+        /* STICKY SYSTEM UI */
+        .system-header { position: fixed; top: 10vh; width: 100%; text-align: center; z-index: 500; opacity: 0; transition: 1.5s; }
+        .s-title { font-family: var(--brand); font-size: 1.6rem; letter-spacing: 0.5rem; font-weight: 700; color: #fff; text-transform: uppercase; }
+        .s-status { font-size: 8px; color: #444; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+
+        .progress-container { position: fixed; top: 22vh; width: 100%; display: flex; justify-content: center; z-index: 500; opacity: 0; transition: 1s; }
+        .progress-track { width: 50%; max-width: 200px; height: 2px; background: #0a0a0a; overflow: hidden; }
         .progress-fill { height: 100%; width: 25%; background: #fff; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px #fff; }
 
-        /* CONTENT ARCHITECTURE */
+        /* CARD ARCHITECTURE */
         #main-view { display: flex; align-items: center; justify-content: center; height: 100vh; width: 100%; }
-        .system-card { width: 92%; max-width: 400px; padding: 4rem 3rem; background: #050505; border: 1px solid #0f0f0f; border-radius: 8px; display: none; opacity: 0; transform: translateY(20px); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .system-card { width: 92%; max-width: 380px; padding: 4rem 2.5rem; background: #000; border: 1px solid #111; border-radius: 8px; display: none; opacity: 0; transform: translateY(10px); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         .system-card.active { display: block; opacity: 1; transform: translateY(0); }
 
-        /* TYPOGRAPHY & INPUTS */
-        .label { font-size: 10px; font-weight: 600; color: #333; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 3.5rem; text-align: center; }
-        .input-box { margin-bottom: 3rem; position: relative; }
-        input, select { background: transparent; border: none; border-bottom: 1px solid #111; width: 100%; padding: 0.8rem 0; color: #fff; font-size: 1.15rem; font-weight: 400; outline: none; transition: 0.3s; border-radius: 0; }
+        .label { font-size: 10px; font-weight: 500; color: #525252; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 3.5rem; text-align: center; }
+        .input-box { margin-bottom: 3.5rem; }
+        input, select { background: transparent; border: none; border-bottom: 1px solid #171717; width: 100%; padding: 0.7rem 0; color: #fff; font-size: 1.1rem; outline: none; transition: 0.3s; border-radius: 0; }
         input:focus { border-bottom-color: #fff; }
         
-        .primary-btn { background: #fff; color: #000; width: 100%; padding: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border: none; border-radius: 4px; font-size: 0.85rem; transition: 0.2s; }
-        .primary-btn:active { transform: scale(0.98); background: #ccc; }
-        
-        .tg-btn { background: #229ED9; color: #fff; }
-        .error-hint { color: #ff3333; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; display: none; }
+        /* MINIMIZED BUTTONS */
+        .primary-btn { background: #fff; color: #000; width: auto; min-width: 140px; margin: 0 auto; display: block; padding: 0.8rem 2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border: none; border-radius: 4px; font-size: 0.8rem; transition: 0.2s; }
+        .primary-btn:active { transform: scale(0.97); background: #e5e5e5; }
+        .btn-tg { background: #229ED9; color: #fff; min-width: 180px; }
 
-        /* SLASH EFFECT */
-        #slash { position: fixed; inset: 0; background: #fff; z-index: 1500; mix-blend-mode: difference; display: none; }
+        .error-hint { color: #ef4444; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; text-align: center; display: none; }
+        .id-box { border: 1px solid #171717; padding: 2rem; background: #050505; text-align: center; cursor: pointer; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div id="slash"></div>
+    <div id="warp" class="warp-overlay"></div>
 
     <!-- 1. INTRO SCREEN -->
     <div id="intro">
@@ -76,58 +77,54 @@
 
     <!-- 3. MAIN APPLICATION -->
     <div id="main-view">
-        <!-- STEP 1: AUTH -->
         <div id="step1" class="system-card active">
             <span class="label">Authentication</span>
             <div class="input-box"><input type="email" id="email" placeholder="Gmail Address" autocomplete="off"></div>
-            <button onclick="sendOTP()" id="gBtn" class="primary-btn">Request Access</button>
+            <button onclick="sendOTP()" id="gBtn" class="primary-btn">Request</button>
             <div id="otpBox" class="hidden mt-10">
                 <div class="input-box">
                     <input type="text" id="emailOtp" placeholder="6-Digit OTP" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                    <p id="eErr" class="error-hint">Authorization Failed: Invalid OTP</p>
+                    <p id="eErr" class="error-hint">Sync Failed: Invalid OTP</p>
                 </div>
-                <button onclick="verifyOTP()" id="cBtn" class="primary-btn">Verify Identity</button>
+                <button onclick="verifyOTP()" id="cBtn" class="primary-btn">Verify</button>
             </div>
         </div>
 
-        <!-- STEP 2: PROFILE -->
         <div id="step2" class="system-card">
-            <span class="label">Identity Mapping</span>
+            <span class="label">Identity Sync</span>
             <div class="input-box"><input type="text" id="name" placeholder="Actual Name"></div>
             <div class="input-box"><input type="text" id="nick" placeholder="FF Nickname"></div>
             <div class="input-box"><input type="text" id="uid" placeholder="FF UID"></div>
             <div class="input-box">
                 <select id="exp">
-                    <option value="" disabled selected>Combat Experience</option>
+                    <option value="" disabled selected>Experience Level</option>
                     <option value="Rookie">Rookie (0-1 Yr)</option>
                     <option value="Veteran">Veteran (2-3 Yrs)</option>
                     <option value="Elite">Elite (4+ Yrs)</option>
                 </select>
             </div>
-            <button onclick="move(3)" class="primary-btn">Commit Profile</button>
+            <button onclick="move(3)" class="primary-btn">Proceed</button>
         </div>
 
-        <!-- STEP 3: SECURITY -->
         <div id="step3" class="system-card">
-            <span class="label">Secure Uplink</span>
+            <span class="label">Secure Link</span>
             <div class="input-box"><input type="text" id="tgUser" placeholder="Telegram @Username"></div>
-            <button onclick="window.open('https://t.me/CMAccessBot')" class="primary-btn tg-btn mb-8">Generate Key</button>
+            <button onclick="window.open('https://t.me/CMAccessBot')" class="primary-btn btn-tg mb-8">Get Code</button>
             <div class="input-box">
                 <input type="text" id="tgCode" placeholder="4-Digit Security Key" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                <p id="tErr" class="error-hint">Security Error: Key Rejected</p>
+                <p id="tErr" class="error-hint">Security Error: Rejected</p>
             </div>
-            <button onclick="verifyTg()" id="tBtn" class="primary-btn tg-btn">Authorize Link</button>
+            <button onclick="verifyTg()" id="tBtn" class="primary-btn btn-tg">Authorize</button>
         </div>
 
-        <!-- STEP 4: FINAL -->
         <div id="step4" class="system-card text-center">
-            <svg class="w-8 mx-auto mb-8 opacity-20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <svg class="w-8 mx-auto mb-10 opacity-30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span class="label">Protocol Finalized</span>
-            <div class="border border-[#111] p-10 mb-8 cursor-pointer bg-[#020202]" onclick="copyId()">
-                <div id="idDisplay" class="font-mono text-2xl tracking-[4px]">********</div>
-                <p class="text-[8px] text-gray-700 mt-4 tracking-[3px]">CLICK TO COPY CREDENTIALS</p>
+            <div class="id-box mb-8 cursor-pointer" onclick="copyId()">
+                <div id="idDisplay" class="font-mono text-xl tracking-[4px]">********</div>
             </div>
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="primary-btn tg-btn block">Join Arena</a>
+            <p class="text-[8px] text-gray-700 mb-12 uppercase tracking-widest">Keep it private</p>
+            <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="primary-btn btn-tg block">Join Arena</a>
         </div>
     </div>
 
@@ -141,14 +138,15 @@
         };
 
         function initArena() {
-            document.getElementById('slash').style.display = 'block';
+            const warp = document.getElementById('warp');
+            warp.classList.add('warp-active');
             setTimeout(() => {
                 document.getElementById('intro').style.display = 'none';
                 document.getElementById('sHeader').style.opacity = '1';
                 document.getElementById('pWrap').style.opacity = '1';
                 document.getElementById('step1').classList.add('active');
-                document.getElementById('slash').style.display = 'none';
-            }, 500);
+                warp.classList.remove('warp-active');
+            }, 600);
         }
 
         function move(s) {
@@ -164,7 +162,7 @@
 
         async function sendOTP() {
             const e = document.getElementById('email').value; if(!e.includes("@")) return;
-            document.getElementById('gBtn').innerText = "Processing...";
+            document.getElementById('gBtn').innerText = "Sending...";
             fetch(API, {method:'POST', body:JSON.stringify({action:"sendEmailOTP", email:e})});
             document.getElementById('otpBox').classList.remove('hidden');
             document.getElementById('gBtn').style.display = "none";
@@ -175,7 +173,7 @@
             document.getElementById('cBtn').innerText = "Verifying...";
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyEmailOTP", email:document.getElementById('email').value, otp:o})});
             let res = await r.json();
-            if(res.success) move(2); else { document.getElementById('eErr').style.display = 'block'; document.getElementById('cBtn').innerText = "Verify Identity"; }
+            if(res.success) move(2); else { document.getElementById('eErr').style.display = 'block'; document.getElementById('cBtn').innerText = "Verify"; }
         }
 
         async function verifyTg() {
@@ -184,7 +182,7 @@
             document.getElementById('tBtn').innerText = "Authorizing...";
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyTelegram", username:u, code:c})});
             let res = await r.json();
-            if(res.success) move(4); else { document.getElementById('tErr').style.display = 'block'; document.getElementById('tBtn').innerText = "Authorize Link"; }
+            if(res.success) move(4); else { document.getElementById('tErr').style.display = 'block'; document.getElementById('tBtn').innerText = "Authorize"; }
         }
 
         function runDecrypt() {
