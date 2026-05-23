@@ -3,126 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CRAZE MODE | Arena</title>
+    <title>CRAZE MODE | Sovereign System</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --raj: 'Rajdhani', sans-serif; --inter: 'Inter', sans-serif; }
-        body { background: #000; color: #fff; font-family: var(--inter); margin: 0; overflow: hidden; height: 100vh; -webkit-font-smoothing: antialiased; }
+        :root { --brand: 'Rajdhani', sans-serif; --system: 'Inter', sans-serif; }
+        body { background: #000; color: #fff; font-family: var(--system); margin: 0; overflow: hidden; -webkit-font-smoothing: antialiased; }
 
-        /* SOVEREIGN INTRO - Apple Reveal Style */
-        #intro { position: fixed; inset: 0; background: #000; z-index: 500; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .welcome-msg { font-family: var(--raj); font-weight: 300; letter-spacing: 0.6rem; color: #555; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 1rem; opacity: 0; transform: translateY(10px); }
-        .brand-reveal { font-family: var(--raj); font-size: clamp(2.5rem, 12vw, 4.5rem); font-weight: 700; letter-spacing: 3rem; opacity: 0; transition: 3s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; filter: blur(10px); }
-        .brand-reveal.active { opacity: 1; letter-spacing: 0.6rem; filter: blur(0px); }
-        .brand-sub { font-family: var(--raj); font-weight: 300; letter-spacing: 0.3rem; color: #333; opacity: 0; margin-top: 0.8rem; font-size: 0.9rem; }
+        /* CINEMATIC INTRO */
+        #intro { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .welcome-label { font-size: 0.7rem; letter-spacing: 0.6rem; color: #444; text-transform: uppercase; margin-bottom: 1rem; width: 0; overflow: hidden; white-space: nowrap; border-right: 1px solid #fff; animation: typing 1.5s steps(15) forwards; }
+        @keyframes typing { from { width: 0; } to { width: 110px; } }
         
-        /* PREMIUM BUTTONS - Apple Architectural Precision */
-        .btn-enter { margin-top: 5rem; padding: 0.9rem 3rem; background: #fff; color: #000; font-family: var(--raj); font-weight: 700; letter-spacing: 0.3rem; opacity: 0; cursor: pointer; border-radius: 2px; border: none; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase; }
-        .btn-enter:hover { letter-spacing: 0.5rem; transform: scale(1.05); box-shadow: 0 0 50px rgba(255,255,255,0.2); }
-
-        /* STICKY UI - Google Precision */
-        .sticky-brand { position: fixed; top: 10vh; width: 100%; text-align: center; z-index: 100; opacity: 0; transition: 1.5s ease-out; pointer-events: none; }
-        .s-title { font-family: var(--raj); font-weight: 700; letter-spacing: 0.8rem; font-size: 1.8rem; text-transform: uppercase; background: linear-gradient(to bottom, #fff, #555); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .brand-text { font-family: var(--brand); font-size: clamp(2.2rem, 10vw, 4rem); letter-spacing: 2.5rem; opacity: 0; transition: 2.5s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; }
+        .brand-text.active { opacity: 1; letter-spacing: 0.5rem; }
+        .brand-sub { font-family: var(--brand); font-size: 0.8rem; letter-spacing: 0.3rem; color: #222; opacity: 0; transition: 1.5s; margin-top: 0.5rem; }
         
-        .progress-container { position: fixed; top: 22vh; width: 50%; left: 25%; z-index: 100; opacity: 0; transition: 1.5s; }
-        .p-bg { height: 2px; background: #111; border-radius: 5px; overflow: hidden; }
-        .p-fill { height: 100%; width: 25%; background: #fff; box-shadow: 0 0 15px #fff; transition: 1s cubic-bezier(0.65, 0, 0.35, 1); }
+        .btn-arena { margin-top: 5rem; padding: 1rem 3.5rem; border: 1px solid #1a1a1a; background: transparent; color: #fff; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.3rem; text-transform: uppercase; opacity: 0; transition: 0.5s; cursor: pointer; border-radius: 4px; }
+        .btn-arena:hover { background: #fff; color: #000; border-color: #fff; box-shadow: 0 0 40px rgba(255,255,255,0.1); }
 
-        /* ARCHITECTURAL CARDS */
-        #app { display: flex; align-items: center; justify-content: center; height: 100vh; width: 100%; }
-        .card { width: 90%; max-width: 400px; padding: 4rem 2.5rem; background: rgba(5,5,5,0.7); backdrop-filter: blur(40px); border: 1px solid rgba(255,255,255,0.05); border-radius: 4px; display: none; opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
-        .card.active { display: block; opacity: 1; transform: translateY(0); }
+        /* SYSTEM HEADER */
+        .system-header { position: fixed; top: 8vh; width: 100%; text-align: center; z-index: 500; opacity: 0; transition: 1s; }
+        .s-title { font-family: var(--brand); font-size: 1.5rem; letter-spacing: 0.6rem; font-weight: 700; color: #fff; }
+        .s-status { font-size: 9px; color: #444; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
 
-        /* INPUTS - High Readability */
-        .section-label { font-size: 11px; font-weight: 500; letter-spacing: 4px; color: #888; text-transform: uppercase; margin-bottom: 4rem; display: block; text-align: center; }
-        .input-group { margin-bottom: 4rem; position: relative; }
-        input, select { background: transparent; border: none; border-bottom: 1px solid #222; width: 100%; padding: 1rem 0; color: #fff; font-size: 1.25rem; font-weight: 400; outline: none; transition: 0.4s; border-radius: 0; }
-        input:focus, select:focus { border-bottom-color: #fff; transform: translateY(-2px); }
+        /* PROGRESS TRACKER */
+        .progress-container { position: fixed; top: 18vh; width: 100%; display: flex; justify-content: center; z-index: 500; opacity: 0; transition: 1s; }
+        .progress-track { width: 60%; max-width: 300px; height: 2px; background: #0a0a0a; border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 25%; background: #fff; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px #fff; }
+
+        /* CONTENT ARCHITECTURE */
+        #main-view { display: flex; align-items: center; justify-content: center; height: 100vh; width: 100%; }
+        .system-card { width: 92%; max-width: 400px; padding: 4rem 3rem; background: #050505; border: 1px solid #0f0f0f; border-radius: 8px; display: none; opacity: 0; transform: translateY(20px); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .system-card.active { display: block; opacity: 1; transform: translateY(0); }
+
+        /* TYPOGRAPHY & INPUTS */
+        .label { font-size: 10px; font-weight: 600; color: #333; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 3.5rem; text-align: center; }
+        .input-box { margin-bottom: 3rem; position: relative; }
+        input, select { background: transparent; border: none; border-bottom: 1px solid #111; width: 100%; padding: 0.8rem 0; color: #fff; font-size: 1.15rem; font-weight: 400; outline: none; transition: 0.3s; border-radius: 0; }
+        input:focus { border-bottom-color: #fff; }
         
-        /* ACTION BUTTONS */
-        .btn-action { background: #fff; color: #000; width: 100%; padding: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; border: none; transition: 0.3s; border-radius: 2px; font-size: 0.9rem; }
-        .btn-action:active { transform: scale(0.97); }
-        .btn-tg { background: #229ED9; color: #fff; }
+        .primary-btn { background: #fff; color: #000; width: 100%; padding: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border: none; border-radius: 4px; font-size: 0.85rem; transition: 0.2s; }
+        .primary-btn:active { transform: scale(0.98); background: #ccc; }
+        
+        .tg-btn { background: #229ED9; color: #fff; }
+        .error-hint { color: #ff3333; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; display: none; }
 
-        /* SLASH & STREAK */
-        #slash { position: fixed; inset: 0; background: #fff; z-index: 600; mix-blend-mode: difference; display: none; }
+        /* SLASH EFFECT */
+        #slash { position: fixed; inset: 0; background: #fff; z-index: 1500; mix-blend-mode: difference; display: none; }
     </style>
 </head>
 <body>
 
     <div id="slash"></div>
 
-    <!-- INTRO -->
+    <!-- 1. INTRO SCREEN -->
     <div id="intro">
-        <p class="welcome-msg" id="wMsg">Welcome to</p>
-        <h1 class="brand-reveal" id="rTitle">CRAZE MODE</h1>
+        <p class="welcome-label">Welcome to</p>
+        <h1 class="brand-text" id="rTitle">CRAZE MODE</h1>
         <p class="brand-sub" id="rSub">Where Skill Takes the Spotlight</p>
-        <button class="btn-enter" id="enterBtn" onclick="slashOut()">Enter Arena</button>
+        <button class="btn-arena" id="eBtn" onclick="initArena()">Enter Arena</button>
     </div>
 
-    <!-- UI LAYER -->
-    <div class="sticky-brand" id="sBrand">
+    <!-- 2. STICKY SYSTEM UI -->
+    <div class="system-header" id="sHeader">
         <h1 class="s-title">CRAZE MODE</h1>
+        <p class="s-status">System Authorization Active</p>
     </div>
-    <div class="progress-container" id="pCont">
-        <div class="p-bg"><div class="p-fill" id="pBar"></div></div>
+    <div class="progress-container" id="pWrap">
+        <div class="progress-track"><div class="progress-fill" id="pFill"></div></div>
     </div>
 
-    <div id="app">
-        <!-- STEP 1: GMAIL -->
-        <div id="step1" class="card active">
-            <span class="section-label">Authentication</span>
-            <div class="input-group"><input type="email" id="email" placeholder="Gmail Address" autocomplete="off"></div>
-            <button onclick="sendOTP()" id="gBtn" class="btn-action">Verify Account</button>
+    <!-- 3. MAIN APPLICATION -->
+    <div id="main-view">
+        <!-- STEP 1: AUTH -->
+        <div id="step1" class="system-card active">
+            <span class="label">Authentication</span>
+            <div class="input-box"><input type="email" id="email" placeholder="Gmail Address" autocomplete="off"></div>
+            <button onclick="sendOTP()" id="gBtn" class="primary-btn">Request Access</button>
             <div id="otpBox" class="hidden mt-10">
-                <div class="input-group">
-                    <input type="text" id="emailOtp" placeholder="6-Digit OTP" maxlength="6" inputmode="numeric">
+                <div class="input-box">
+                    <input type="text" id="emailOtp" placeholder="6-Digit OTP" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                    <p id="eErr" class="error-hint">Authorization Failed: Invalid OTP</p>
                 </div>
-                <button onclick="verifyOTP()" id="cBtn" class="btn-action">Complete Sync</button>
+                <button onclick="verifyOTP()" id="cBtn" class="primary-btn">Verify Identity</button>
             </div>
         </div>
 
         <!-- STEP 2: PROFILE -->
-        <div id="step2" class="card">
-            <span class="section-label">Player Profile</span>
-            <div class="input-group"><input type="text" id="name" placeholder="Actual Name"></div>
-            <div class="input-group">
-                <input type="text" id="nick" placeholder="FF Nickname">
-                <p style="font-size: 9px; color: #444; letter-spacing: 2px; margin-top: 10px;">LOBBY IDENTIFIER</p>
-            </div>
-            <div class="input-group"><input type="text" id="uid" placeholder="FF UID"></div>
-            <div class="input-group">
+        <div id="step2" class="system-card">
+            <span class="label">Identity Mapping</span>
+            <div class="input-box"><input type="text" id="name" placeholder="Actual Name"></div>
+            <div class="input-box"><input type="text" id="nick" placeholder="FF Nickname"></div>
+            <div class="input-box"><input type="text" id="uid" placeholder="FF UID"></div>
+            <div class="input-box">
                 <select id="exp">
-                    <option value="" disabled selected>Experience Level</option>
+                    <option value="" disabled selected>Combat Experience</option>
                     <option value="Rookie">Rookie (0-1 Yr)</option>
                     <option value="Veteran">Veteran (2-3 Yrs)</option>
                     <option value="Elite">Elite (4+ Yrs)</option>
                 </select>
             </div>
-            <button onclick="move(3)" class="btn-action">Proceed</button>
+            <button onclick="move(3)" class="primary-btn">Commit Profile</button>
         </div>
 
         <!-- STEP 3: SECURITY -->
-        <div id="step3" class="card">
-            <span class="section-label">Security Link</span>
-            <div class="input-group"><input type="text" id="tgUser" placeholder="Telegram @Username"></div>
-            <button onclick="window.open('https://t.me/CMAccessBot')" class="btn-action btn-tg mb-8">Generate Code</button>
-            <div class="input-group">
-                <input type="text" id="tgCode" placeholder="4-Digit Code" maxlength="4" inputmode="numeric">
+        <div id="step3" class="system-card">
+            <span class="label">Secure Uplink</span>
+            <div class="input-box"><input type="text" id="tgUser" placeholder="Telegram @Username"></div>
+            <button onclick="window.open('https://t.me/CMAccessBot')" class="primary-btn tg-btn mb-8">Generate Key</button>
+            <div class="input-box">
+                <input type="text" id="tgCode" placeholder="4-Digit Security Key" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+                <p id="tErr" class="error-hint">Security Error: Key Rejected</p>
             </div>
-            <button onclick="verifyTg()" id="tBtn" class="btn-action">Authorize</button>
+            <button onclick="verifyTg()" id="tBtn" class="primary-btn tg-btn">Authorize Link</button>
         </div>
 
-        <!-- STEP 4: ALLOCATION -->
-        <div id="step4" class="card text-center">
-            <svg class="w-10 mx-auto mb-8 opacity-20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span class="section-label">Allocation Complete</span>
-            <div id="idBox" class="border border-[#111] p-10 mb-8 cursor-pointer" onclick="copyId()">
-                <div id="idDisplay" class="font-mono text-2xl tracking-[5px]">********</div>
-                <p style="font-size: 8px; color: #333; margin-top: 15px; letter-spacing: 3px;">TAP TO COPY CREDENTIALS</p>
+        <!-- STEP 4: FINAL -->
+        <div id="step4" class="system-card text-center">
+            <svg class="w-8 mx-auto mb-8 opacity-20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span class="label">Protocol Finalized</span>
+            <div class="border border-[#111] p-10 mb-8 cursor-pointer bg-[#020202]" onclick="copyId()">
+                <div id="idDisplay" class="font-mono text-2xl tracking-[4px]">********</div>
+                <p class="text-[8px] text-gray-700 mt-4 tracking-[3px]">CLICK TO COPY CREDENTIALS</p>
             </div>
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="btn-action btn-tg block">Enter Private Arena</a>
+            <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="primary-btn tg-btn block">Join Arena</a>
         </div>
     </div>
 
@@ -130,26 +135,25 @@
         const API = "https://script.google.com/macros/s/AKfycbzMHjL1PicDlmO5Eo0mg4tGAdouQvHUSk_zTCfm-kvvTjozYFbWjjUPL6ucyqrRD6Lx/exec";
 
         window.onload = () => {
-            setTimeout(() => { document.getElementById('wMsg').style.opacity = "1"; document.getElementById('wMsg').style.transform = "translateY(0)"; }, 500);
-            setTimeout(() => { document.getElementById('rTitle').classList.add('active'); }, 1200);
-            setTimeout(() => { document.getElementById('rSub').style.opacity = "1"; }, 2200);
-            setTimeout(() => { document.getElementById('enterBtn').style.opacity = "1"; }, 3000);
+            setTimeout(() => { document.getElementById('rTitle').classList.add('active'); 
+            setTimeout(() => { document.getElementById('rSub').style.opacity = "1"; 
+            setTimeout(() => { document.getElementById('eBtn').style.opacity = "1"; }, 800); }, 1000); }, 1500);
         };
 
-        function slashOut() {
-            document.getElementById('slash').style.display = "block";
+        function initArena() {
+            document.getElementById('slash').style.display = 'block';
             setTimeout(() => {
-                document.getElementById('intro').style.display = "none";
-                document.getElementById('sBrand').style.opacity = "1";
-                document.getElementById('pCont').style.opacity = "1";
+                document.getElementById('intro').style.display = 'none';
+                document.getElementById('sHeader').style.opacity = '1';
+                document.getElementById('pWrap').style.opacity = '1';
                 document.getElementById('step1').classList.add('active');
-                document.getElementById('slash').style.display = "none";
-            }, 600);
+                document.getElementById('slash').style.display = 'none';
+            }, 500);
         }
 
         function move(s) {
-            document.getElementById('pBar').style.width = (s * 25) + "%";
-            document.querySelectorAll('.card').forEach(x => { x.classList.remove('active'); x.style.display = "none"; });
+            document.getElementById('pFill').style.width = (s * 25) + "%";
+            document.querySelectorAll('.system-card').forEach(x => { x.classList.remove('active'); x.style.display = "none"; });
             setTimeout(() => { 
                 const next = document.getElementById('step'+s);
                 next.style.display = "block";
@@ -160,27 +164,27 @@
 
         async function sendOTP() {
             const e = document.getElementById('email').value; if(!e.includes("@")) return;
-            document.getElementById('gBtn').innerText = "Initiating...";
+            document.getElementById('gBtn').innerText = "Processing...";
             fetch(API, {method:'POST', body:JSON.stringify({action:"sendEmailOTP", email:e})});
             document.getElementById('otpBox').classList.remove('hidden');
             document.getElementById('gBtn').style.display = "none";
         }
 
         async function verifyOTP() {
-            const o = document.getElementById('emailOtp').value;
-            document.getElementById('cBtn').innerText = "Syncing...";
+            const o = document.getElementById('emailOtp').value; if(o.length !== 6) return;
+            document.getElementById('cBtn').innerText = "Verifying...";
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyEmailOTP", email:document.getElementById('email').value, otp:o})});
             let res = await r.json();
-            if(res.success) move(2); else document.getElementById('cBtn').innerText = "Retry Sync";
+            if(res.success) move(2); else { document.getElementById('eErr').style.display = 'block'; document.getElementById('cBtn').innerText = "Verify Identity"; }
         }
 
         async function verifyTg() {
             const u = document.getElementById('tgUser').value;
-            const c = document.getElementById('tgCode').value;
+            const c = document.getElementById('tgCode').value; if(c.length !== 4) return;
             document.getElementById('tBtn').innerText = "Authorizing...";
             let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyTelegram", username:u, code:c})});
             let res = await r.json();
-            if(res.success) move(4); else document.getElementById('tBtn').innerText = "Retry Access";
+            if(res.success) move(4); else { document.getElementById('tErr').style.display = 'block'; document.getElementById('tBtn').innerText = "Authorize Link"; }
         }
 
         function runDecrypt() {
@@ -190,8 +194,8 @@
             const timer = setInterval(() => {
                 document.getElementById('idDisplay').innerText = gid.split("").map((l, idx) => idx < i ? gid[idx] : chars[Math.floor(Math.random()*36)]).join("");
                 if(i >= gid.length) clearInterval(timer);
-                i += 1/3;
-            }, 50);
+                i += 1/4;
+            }, 40);
             window.finalId = gid;
         }
 
