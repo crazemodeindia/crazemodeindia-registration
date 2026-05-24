@@ -1,223 +1,1900 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CRAZE MODE | Sovereign</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --brand: 'Rajdhani', sans-serif; --system: 'Inter', sans-serif; --glow: rgba(168, 85, 247, 0.4); }
-        body { background: #000; color: #fff; font-family: var(--system); margin: 0; overflow: hidden; height: 100vh; -webkit-font-smoothing: antialiased; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Craze Mode - Premium Registration Engine</title>
+  <style>
+    /* Google Fonts: Oxanium (Gaming Brand) & Space Mono (High-End Monospace) */
+    @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
-        /* HEARTBEAT LOGO ON TOP */
-        .top-brand { position: fixed; top: 8vh; width: 100%; text-align: center; z-index: 500; opacity: 0; transition: 1s; }
-        .top-brand h1 { font-family: var(--brand); font-size: 1.6rem; letter-spacing: 0.6rem; font-weight: 700; text-transform: uppercase; animation: pulseGlow 4s infinite ease-in-out; }
-        .top-brand p { font-size: 8px; color: #444; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
-        @keyframes pulseGlow { 0%, 100% { opacity: 0.8; filter: blur(0px); } 50% { opacity: 1; filter: drop-shadow(0 0 10px #fff); } }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
 
-        /* INTRO */
-        #intro { position: fixed; inset: 0; background: #000; z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .welcome-flicker { font-size: 0.8rem; letter-spacing: 0.6rem; color: #666; text-transform: uppercase; margin-bottom: 1rem; opacity: 0; animation: flicker 1s steps(2) 1 forwards; }
-        @keyframes flicker { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
-        
-        .brand-reveal { font-family: var(--brand); font-size: clamp(2rem, 10vw, 3.5rem); font-weight: 700; letter-spacing: 1.5rem; opacity: 0; transition: 2s cubic-bezier(0.16, 1, 0.3, 1); white-space: nowrap; margin: 1rem 0; }
-        .brand-reveal.active { opacity: 1; letter-spacing: 0.4rem; }
-        .brand-sub { font-family: var(--brand); font-size: 0.8rem; font-weight: 300; letter-spacing: 0.2rem; color: #333; opacity: 0; transition: 1s; white-space: nowrap; }
+    body {
+      background-color: #000000;
+      color: #FFFFFF;
+      font-family: 'Oxanium', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
 
-        /* INTERACTIVE BUTTONS - AI ERA */
-        .btn-neural { margin-top: 5rem; padding: 0.8rem 2.8rem; background: transparent; color: #fff; border: 1px solid #1a1a1a; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.3rem; text-transform: uppercase; opacity: 0; cursor: pointer; border-radius: 2px; transition: 0.4s; position: relative; overflow: hidden; }
-        .btn-neural::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: 0.5s; }
-        .btn-neural:hover::before { left: 100%; }
-        .btn-neural:hover { border-color: #fff; box-shadow: 0 0 30px var(--glow); background: #fff; color: #000; }
+    /* 1. INTRO SPLASH SCREEN */
+    .splash-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #000000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
 
-        /* SCANNING INTERACTION */
-        #scan { position: fixed; inset: 0; z-index: 900; background: #000; display: none; }
-        .scan-line { position: absolute; height: 1px; width: 100%; background: #fff; top: 0; box-shadow: 0 0 20px #fff; animation: scanMove 0.8s ease-in-out forwards; }
-        @keyframes scanMove { 0% { top: 0; } 100% { top: 100vh; } }
+    /* Unified Brand Typography */
+    .brand-logo-unified {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: 5px;
+      color: #FFFFFF;
+      text-transform: uppercase;
+    }
 
-        /* PROGRESS */
-        .prog-line { position: fixed; top: 18vh; width: 30%; left: 35%; height: 1px; background: #0a0a0a; z-index: 500; opacity: 0; transition: 1s; }
-        .prog-fill { height: 100%; width: 25%; background: #fff; box-shadow: 0 0 10px #fff; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+    .splash-logo {
+      margin-bottom: 8px;
+    }
 
-        /* CARD */
-        #main-view { display: flex; align-items: center; justify-content: center; height: 100vh; width: 100%; }
-        .card { width: 90%; max-width: 380px; padding: 4.5rem 2.5rem; background: #000; border: 1px solid #0a0a0a; border-radius: 8px; display: none; opacity: 0; transform: translateY(10px); transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-        .card.active { display: block; opacity: 1; transform: translateY(0); }
+    .splash-sub {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 2px;
+      color: #444444;
+      text-transform: uppercase;
+    }
 
-        .label { font-size: 10px; font-weight: 600; color: #333; text-transform: uppercase; letter-spacing: 3px; display: block; margin-bottom: 3.5rem; text-align: center; }
-        .input-box { margin-bottom: 3.5rem; }
-        input, .custom-select { background: transparent; border: none; border-bottom: 1px solid #111; width: 100%; padding: 0.8rem 0; color: #fff; font-size: 1.15rem; outline: none; transition: 0.3s; border-radius: 0; }
-        input:focus { border-bottom-color: #fff; }
+    /* Mobile-Friendly Proportional Viewport */
+    .viewport {
+      width: 100%;
+      max-width: 440px;
+      height: 100vh; /* Responsive height fit for mobile screens */
+      max-height: 820px; /* Locked maximum scale for desktops */
+      background-color: #0A0A0A;
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
 
-        /* CUSTOM DROPDOWN */
-        .dropdown-container { position: relative; }
-        .dropdown-list { position: absolute; top: 100%; left: 0; width: 100%; background: #080808; border: 1px solid #111; z-index: 10; display: none; max-height: 200px; overflow-y: auto; }
-        .dropdown-item { padding: 12px 20px; font-size: 0.9rem; color: #888; cursor: pointer; transition: 0.2s; }
-        .dropdown-item:hover { background: #111; color: #fff; }
+    /* HEADER */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
 
-        .primary-btn { background: #fff; color: #000; width: auto; min-width: 140px; margin: 0 auto; display: block; padding: 0.8rem 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; cursor: pointer; border: none; border-radius: 2px; font-size: 0.8rem; transition: 0.3s; }
-        .primary-btn:active { transform: scale(0.96); opacity: 0.8; }
-        .tg-btn { background: #229ED9; color: #fff; }
-        .err-msg { color: #ff3333; font-size: 9px; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; text-align: center; display: none; }
-    </style>
+    .header-left .title {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: #7A7A7A; /* Higher contrast gray label */
+    }
+
+    .header-right {
+      text-align: right;
+    }
+
+    .logo-brand {
+      font-size: 16px;
+    }
+
+    .logo-sub {
+      font-size: 7px;
+      letter-spacing: 0.5px;
+      color: #444444;
+      margin-top: 3px;
+    }
+
+    /* Thin Horizontal Divider under Header */
+    .header-divider {
+      width: 100%;
+      height: 1px;
+      background-color: #161616;
+      margin-bottom: 20px;
+    }
+
+    /* STATUS TRACKER BAR - Now permanently anchored on top below headerdivider */
+    .status-section {
+      width: 100%;
+      margin-bottom: 24px;
+    }
+
+    .status-label {
+      font-size: 11px; /* Scaled up for mobile readability */
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: #7A7A7A;
+      margin-bottom: 6px;
+    }
+
+    .status-bar {
+      width: 100%;
+      height: 2px;
+      background-color: #161616;
+      position: relative;
+    }
+
+    /* Animated progress fill */
+    .status-bar-fill {
+      width: 20%;
+      height: 100%;
+      background: linear-gradient(90deg, #ffffff 0%, #777777 50%, #ffffff 100%);
+      background-size: 200% auto;
+      animation: status-glow 2.5s linear infinite;
+      box-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+      transition: width 0.3s ease;
+    }
+
+    /* High-end mild gradient completed gaming status bar */
+    .status-bar-fill.completed {
+      background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50%, #00F2FE 100%) !important;
+      background-size: 200% auto !important;
+      box-shadow: 0 0 8px rgba(0, 242, 254, 0.6) !important;
+      animation: status-glow 2s linear infinite !important;
+    }
+
+    @keyframes status-glow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    /* CARDS CONTAINER */
+    .cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-height: 330px; /* Increased slightly to utilize freed space */
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .cards-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card {
+      width: 100%;
+      height: 48px;
+      background-color: #000000;
+      border: 1px solid #161616;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0 !important; /* Strict lock preventing card compression on multi-stacks */
+      transition: all 0.2s ease;
+    }
+
+    /* Card Glow shine animation */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 80px;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255, 255, 255, 0.12),
+        transparent
+      );
+      transform: skewX(-20deg);
+      pointer-events: none;
+    }
+
+    .card.shine-sweep::before {
+      animation: sweep 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes sweep {
+      0% { left: -150%; }
+      100% { left: 150%; }
+    }
+
+    /* Active verification border glow */
+    .card.mild-shine {
+      animation: border-glow-pulsing 2s infinite alternate;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.04);
+    }
+
+    @keyframes border-glow-pulsing {
+      0% { border-color: #161616; }
+      50% { border-color: #444444; }
+      100% { border-color: #777777; }
+    }
+
+    /* Card States */
+    .card.success-gmail {
+      border-color: #61A843 !important;
+    }
+
+    .card.success-telegram {
+      border-color: #0088cc !important;
+    }
+
+    .card.success-profile {
+      border-color: #FFFFFF !important;
+    }
+
+    /* High-frequency micro-vibration error */
+    .card.error-state {
+      border-color: #ff3d00 !important;
+      animation: micro-vibrate 0.15s linear infinite;
+    }
+
+    @keyframes micro-vibrate {
+      0%, 100% { transform: translate(0, 0); }
+      10% { transform: translate(-0.5px, 0.5px); }
+      20% { transform: translate(0.5px, -0.5px); }
+      30% { transform: translate(-0.5px, -0.5px); }
+      40% { transform: translate(0.5px, 0.5px); }
+      50% { transform: translate(-0.5px, 0.5px); }
+      60% { transform: translate(0.5px, -0.5px); }
+      70% { transform: translate(-0.5px, -0.5px); }
+      80% { transform: translate(0.5px, 0.5px); }
+      90% { transform: translate(-0.5px, -0.5px); }
+    }
+
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .card-label {
+      font-size: 11px; /* Scaled up for mobile readability */
+      font-weight: 600;
+      color: #7A7A7A; 
+      letter-spacing: 1px;
+      margin-bottom: 1px;
+      text-transform: uppercase;
+    }
+
+    .card-value {
+      font-size: 15px; /* Scaled up for mobile readability */
+      font-weight: 500;
+      color: #EAEAEA; 
+      letter-spacing: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card.success-gmail .card-value,
+    .card.success-telegram .card-value,
+    .card.success-profile .card-value {
+      color: #FFFFFF;
+    }
+
+    /* Checkbox representation */
+    .checkbox-icon {
+      width: 14px;
+      height: 14px;
+      border: 1px solid #161616;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .card.success-gmail .checkbox-icon {
+      border-color: #61A843;
+      background-color: #61A843;
+    }
+
+    .card.success-telegram .checkbox-icon {
+      border-color: #0088cc;
+      background-color: #0088cc;
+    }
+
+    .card.success-profile .checkbox-icon {
+      border-color: #FFFFFF;
+      background-color: #FFFFFF;
+    }
+
+    .checkmark {
+      width: 6px;
+      height: 4px;
+      border-left: 2px solid #000000;
+      border-bottom: 2px solid #000000;
+      transform: rotate(-45deg);
+      display: none;
+      margin-top: -1px;
+    }
+
+    .card.success-gmail .checkmark,
+    .card.success-telegram .checkmark,
+    .card.success-profile .checkmark {
+      display: block;
+    }
+
+    /* Verification Status Spinner */
+    .verify-animation-box {
+      display: none;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top-color: #FFFFFF;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .card.verifying .verify-animation-box {
+      display: block;
+    }
+    
+    .card.verifying .checkbox-icon {
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* CODE OTP DISPLAY BOXES */
+    .code-boxes {
+      display: flex;
+      gap: 6px;
+    }
+
+    .code-box-display {
+      width: 12px;
+      height: 16px;
+      border: 1px solid #161616;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 11px;
+      line-height: 16px;
+      font-family: 'Space Mono', monospace;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .code-box-display.active {
+      border-color: #FFFFFF;
+    }
+
+    /* Falling numbers cascading error effect */
+    .code-box-display span {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      transition: none;
+    }
+
+    .code-box-display.falling span {
+      animation: fall-off 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes fall-off {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(50px) rotate(45deg); opacity: 0; }
+    }
+
+    /* Staggered cascading delay */
+    .code-box-display.falling:nth-child(1) span { animation-delay: 0.0s; }
+    .code-box-display.falling:nth-child(2) span { animation-delay: 0.08s; }
+    .code-box-display.falling:nth-child(3) span { animation-delay: 0.16s; }
+    .code-box-display.falling:nth-child(4) span { animation-delay: 0.24s; }
+    .code-box-display.falling:nth-child(5) span { animation-delay: 0.32s; }
+    .code-box-display.falling:nth-child(6) span { animation-delay: 0.40s; }
+
+    /* INLINE CARD DROPDOWN */
+    .card.dropdown-active {
+      height: auto;
+      min-height: 140px;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .dropdown-list-inline {
+      width: 100%;
+      margin-top: 8px;
+      border-top: 1px dashed #161616;
+      padding-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .dropdown-option-inline {
+      font-size: 11px;
+      color: #666666;
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+
+    .dropdown-option-inline:hover {
+      color: #FFFFFF;
+    }
+
+    .dropdown-option-inline.selected {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    /* STATIONARY BOTTOM ZONE (Optimized height for zero text merging & perfect spacing) */
+    .bottom-container {
+      position: absolute;
+      bottom: 105px; /* Moderately lowered to free up upper card space while remaining easy to use */
+      left: 32px;
+      right: 32px;
+      height: 196px; 
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end; 
+      gap: 16px;
+      z-index: 50;
+    }
+
+    /* Fixed Height Typing Container */
+    .interactive-panel {
+      width: 100%;
+      height: 110px; /* Locked panel height */
+      background-color: #000000;
+      border: 1px solid #161616;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 12px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Bracket Text Display with Thin Blinking Cursor */
+    .bracket-display {
+      font-family: 'Space Mono', monospace;
+      font-size: 16px; /* Scaled up for high legibility */
+      letter-spacing: 1.5px;
+      color: #333333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .bracket-display.placeholder {
+      color: #333333;
+    }
+
+    /* Native embedded text field to allow full-line cursor editing */
+    .real-embedded-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #FFFFFF;
+      font-family: 'Space Mono', monospace;
+      font-size: 16px;
+      letter-spacing: 1.5px;
+      text-align: center;
+      width: 280px;
+      caret-color: #FFFFFF; 
+    }
+
+    .real-embedded-input::placeholder {
+      color: #333333;
+    }
+
+    /* NEXT / VERIFY ACTION BUTTON */
+    .action-button {
+      width: 100%;
+      height: 52px;
+      background-color: #FFFFFF;
+      border: 1px solid #FFFFFF;
+      color: #000000;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      text-transform: uppercase;
+      transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .action-button:hover {
+      background-color: #000000;
+      color: #FFFFFF;
+    }
+
+    .action-button:active {
+      background-color: #111111;
+      color: #FFFFFF;
+    }
+
+    .telegram-icon {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+    }
+
+    /* Vector Clipboard Copy Icon styling */
+    .copy-icon {
+      width: 13px;
+      height: 13px;
+      fill: #666666;
+      cursor: pointer;
+      margin-left: 8px;
+      display: inline-block;
+      vertical-align: middle;
+      transition: fill 0.15s;
+    }
+
+    .copy-icon:hover {
+      fill: #FFFFFF;
+    }
+
+    /* Back Link */
+    .back-link {
+      align-self: flex-start;
+      background: none;
+      border: none;
+      color: #444444;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      cursor: pointer;
+      margin-top: 4px;
+      transition: color 0.15s;
+    }
+
+    .back-link:hover {
+      color: #FFFFFF;
+    }
+
+    /* Game ID Display */
+    .id-display {
+      font-size: 18px;
+      letter-spacing: 4px;
+      color: #FFFFFF;
+      font-weight: bold;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* ==========================================================================
+       9. GAMER PASS CONFIRMATION CARD (Highly Unique, Pure Solid Black Card)
+       ========================================================================== */
+    .confirmation-card {
+      width: 100%;
+      background-color: #000000;
+      border: 1px solid #1E1E1E; /* Pure B&W minimalist solid border */
+      /* Subtly textured coordinate dot-grid background for raw gaming schematic feel */
+      background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 8px 8px;
+      padding: 24px; /* More spacing for true premium feel */
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    /* Floating dashed inner blueprint line offset by exactly 6px */
+    .confirmation-card::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      right: 6px;
+      bottom: 6px;
+      border: 1px dashed rgba(255, 255, 255, 0.08);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Slow vertical cyber scanning bar */
+    .confirmation-card-scanner {
+      position: absolute;
+      top: -40px;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.04), transparent);
+      pointer-events: none;
+      z-index: 3;
+      animation: vertical-scan 5s linear infinite;
+    }
+
+    @keyframes vertical-scan {
+      0% { top: -40px; }
+      100% { top: 100%; }
+    }
+
+    /* Premium but highly minimal card glow sweep */
+    .confirmation-card-sweep-layer {
+      position: absolute;
+      top: 0;
+      left: -150%;
+      width: 120px;
+      height: 100%;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(255, 255, 255, 0.08), /* Extremely subtle gloss */
+        transparent
+      );
+      transform: skewX(-20deg);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .confirmation-card-sweep-layer.run-sweep {
+      animation: sweep 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .confirmation-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed #161616;
+      padding-bottom: 8px;
+    }
+
+    .confirmation-title {
+      font-size: 12px;
+      color: #FFFFFF;
+    }
+
+    .confirmation-badge {
+      font-size: 8px;
+      border: 1px solid #FFFFFF;
+      padding: 3px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .confirmation-badge svg {
+      width: 8px;
+      height: 8px;
+      fill: #FFFFFF;
+    }
+
+    .confirmation-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      position: relative;
+      z-index: 4; /* Keeps content layered perfectly above blueprint details */
+    }
+
+    .confirmation-item label {
+      font-size: 10px; /* Enhanced legibility */
+      color: #7A7A7A;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .confirmation-item span {
+      font-size: 13px; /* Enhanced legibility */
+      color: #FFFFFF;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Stacked ID representation format */
+    .confirmation-id-row {
+      grid-column: span 2;
+      border-top: 1px dashed #161616;
+      padding-top: 10px;
+      text-align: left;
+    }
+
+    .confirmation-id-row label {
+      font-size: 10px;
+      color: #7A7A7A;
+      display: block;
+      margin-bottom: 3px;
+      text-transform: uppercase;
+    }
+
+    .confirmation-id-row span {
+      font-size: 17px; /* Enhanced legibility */
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: #FFFFFF;
+      font-family: 'Space Mono', monospace;
+      display: block;
+    }
+
+    /* Typing effect container styling */
+    .typing-text-message {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: #888888;
+      letter-spacing: 0.5px;
+      text-align: left;
+      line-height: 1.6;
+      margin-top: 15px;
+      padding: 0 4px;
+    }
+
+    /* Premium Cybernetic Motto Layout Footer */
+    .motto-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      width: 100%;
+      margin-top: 30px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .motto-container.visible {
+      opacity: 1;
+    }
+
+    .motto-line {
+      flex-grow: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #161616, transparent);
+    }
+
+    .motto-text-final {
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 4px;
+      color: var(--text-active);
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    /* Toast Warn Box */
+    .toast-system {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--text-active);
+      border: 1px solid var(--text-active);
+      color: var(--bg-dark);
+      padding: 8px 16px;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .toast-system.show {
+      opacity: 1;
+    }
+  </style>
 </head>
 <body>
 
-    <div id="scan"><div class="scan-line"></div></div>
+  <!-- SPLASH SCREEN INTRO MODULE -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="splash-logo brand-logo-unified">CRAZE_MODE</div>
+    <div class="splash-sub">INITIALIZING SECURE SESSION...</div>
+  </div>
 
-    <!-- 1. INTRO LAYER -->
-    <div id="intro">
-        <p class="welcome-flicker">Welcome to</p>
-        <h1 class="brand-reveal" id="rTitle">CRAZE MODE</h1>
-        <p class="brand-sub" id="rSub">Where Skill Takes the Spotlight</p>
-        <button class="btn-neural" id="eBtn" onclick="initScan()">Enter Arena</button>
+  <div class="toast-system" id="toast">INVALID DATA</div>
+
+  <div class="viewport">
+    
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-left">
+        <div id="stepHeader" class="title">NEW USER ACCOUNT</div>
+      </div>
+      <div class="header-right">
+        <!-- Unified brand logo style applied -->
+        <div class="logo-brand brand-logo-unified" style="font-size: 16px; letter-spacing: 3px;">CRAZE_MODE</div>
+        <div class="logo-sub">SKILL-BASED_MOBILE_TOURNAMENTS</div>
+      </div>
     </div>
 
-    <!-- 2. STICKY TOP BRAND -->
-    <div class="top-brand" id="tBrand">
-        <h1>CRAZE MODE</h1>
-        <p>Sovereign Protocol Active</p>
-    </div>
-    <div class="prog-line" id="pLine"><div class="prog-fill" id="pFill"></div></div>
+    <!-- Thin Divider -->
+    <div class="header-divider"></div>
 
-    <!-- 3. MAIN INTERFACE -->
-    <div id="main-view">
-        <!-- STEP 1 -->
-        <div id="step1" class="card active">
-            <span class="label">Authentication</span>
-            <div class="input-box"><input type="email" id="email" placeholder="Gmail Address" autocomplete="off"></div>
-            <button onclick="sendOTP()" id="gBtn" class="primary-btn">Request</button>
-            <div id="otpBox" class="hidden mt-10">
-                <div class="input-box">
-                    <input type="text" id="emailOtp" placeholder="6-Digit OTP" maxlength="6" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                    <p id="eErr" class="err-msg">Invalid Sync Code</p>
-                </div>
-                <button onclick="verifyOTP()" id="cBtn" class="primary-btn">Sync</button>
-            </div>
-        </div>
-
-        <!-- STEP 2 -->
-        <div id="step2" class="card">
-            <span class="label">Identity Mapping</span>
-            <div class="input-box"><input type="text" id="name" placeholder="Actual Name"></div>
-            <div class="input-box"><input type="text" id="nick" placeholder="Free Fire Nickname"></div>
-            <div class="input-box"><input type="text" id="uid" placeholder="FF UID"></div>
-            <div class="input-box dropdown-container">
-                <div class="custom-select" id="expDisplay" onclick="toggleDrop()" style="cursor:pointer; color:#666;">Experience Level</div>
-                <div class="dropdown-list" id="expList">
-                    <div class="dropdown-item" onclick="selectExp('Amateur')">Amateur</div>
-                    <div class="dropdown-item" onclick="selectExp('Trained')">Trained</div>
-                    <div class="dropdown-item" onclick="selectExp('Experienced')">Experienced</div>
-                    <div class="dropdown-item" onclick="selectExp('Advanced')">Advanced</div>
-                    <div class="dropdown-item" onclick="selectExp('Pro')">Pro</div>
-                </div>
-            </div>
-            <button onclick="move(3)" class="primary-btn">Commit</button>
-        </div>
-
-        <!-- STEP 3 -->
-        <div id="step3" class="card">
-            <span class="label">Secure Link</span>
-            <div class="input-box"><input type="text" id="tgUser" placeholder="Telegram @Username"></div>
-            <button onclick="window.open('https://t.me/CMAccessBot')" class="primary-btn tg-btn mb-10">Get Code</button>
-            <div class="input-box">
-                <input type="text" id="tgCode" placeholder="4-Digit Code" maxlength="4" inputmode="numeric" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-                <p id="tErr" class="err-msg">Authorization Rejected</p>
-            </div>
-            <button onclick="verifyTg()" id="tBtn" class="primary-btn tg-btn">Link</button>
-        </div>
-
-        <!-- STEP 4 -->
-        <div id="step4" class="card text-center">
-            <svg class="w-8 mx-auto mb-10 opacity-30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span class="label">System Verified</span>
-            <div class="border border-[#111] p-10 mb-8 cursor-pointer bg-[#020202]" onclick="copyId()">
-                <div id="idDisplay" class="font-mono text-xl tracking-[4px]">********</div>
-            </div>
-            <p class="text-[8px] text-gray-700 mb-12 uppercase tracking-[4px]">Keep it private</p>
-            <a href="https://t.me/+3xRCpmBV3yA4NGM1" onclick="finalSubmit()" class="primary-btn tg-btn block">Join Arena</a>
-        </div>
+    <!-- STATUS TRACKER - Now permanently anchored on top below headerdivider -->
+    <div class="status-section">
+      <div class="status-label">STATUS</div>
+      <div class="status-bar">
+        <div class="status-bar-fill" id="statusBarFill"></div>
+      </div>
     </div>
 
-    <script>
-        const API = "https://script.google.com/macros/s/AKfycbzMHjL1PicDlmO5Eo0mg4tGAdouQvHUSk_zTCfm-kvvTjozYFbWjjUPL6ucyqrRD6Lx/exec";
+    <!-- UPPER CARDS STACK DISPLAY -->
+    <div id="topCardsContainer" class="cards-container">
+      <!-- Populated dynamically -->
+    </div>
 
-        window.onload = () => {
-            setTimeout(() => { document.getElementById('rTitle').classList.add('active'); 
-            setTimeout(() => { document.getElementById('rSub').style.opacity = "1"; 
-            setTimeout(() => { document.getElementById('eBtn').style.opacity = "1"; }, 800); }, 1200); }, 1000);
-        };
+    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON -->
+    <div class="bottom-container">
+      <div class="interactive-panel" id="interactivePanel">
+        <!-- Rendered inputs dynamically with ZERO vertical layout shifts -->
+      </div>
+      
+      <button class="action-button" id="actionButton">GET CODE</button>
+      <button class="back-link" id="backButton">[ Back ]</button>
+    </div>
+  </div>
 
-        function initScan() {
-            document.getElementById('scan').style.display = 'block';
+  <script>
+    // ==========================================================================
+    // FRONTEND CONTROLLER (CONNECTED TO SERVERSIDE GOOGLE APPS SCRIPT API)
+    // ==========================================================================
+    
+    // Paste your deployed Google Apps Script Web App URL here
+    const API_URL = "https://script.google.com/macros/s/AKfycbwT1LJSii25JN0e_SIfnj717mjOQC4_yAlgmgp4_M2afpLfM6zHGIZ8cGaH2HldaGImBg/exec"; 
+    
+    let currentStep = 0;
+    let audioCtx = null; // Globally managed audio state
+    let activeSessionToken = ""; // Dynamic Telegram OTP session validation tracking
+
+    const state = {
+      email: "",
+      emailVerified: false,
+      username: "",
+      ffNickname: "",
+      ffUid: "",
+      experienceLevel: "",
+      telegramUser: "",
+      telegramVerified: false,
+      gameId: "CM-GEN-PENDING" // This will be overwritten with the unique ID generated by Google Sheets
+    };
+
+    // Sequential steps
+    const steps = [
+      {
+        id: "EMAIL_INPUT",
+        title: "NEW USER ACCOUNT",
+        progress: 15,
+        cards: [{ id: "email", label: "PLAYER_EMAIL", valKey: "email", placeholder: "XXXXXXXXXXXXXXXXXXXX" }],
+        placeholder: "ENTER_EMAIL_ADDRESS",
+        btnText: "GET CODE"
+      },
+      {
+        id: "EMAIL_VERIFY",
+        title: "NEW USER ACCOUNT",
+        progress: 30,
+        cards: [
+          { id: "email", label: "PLAYER_EMAIL", valKey: "email", glowState: true }, // Gmail bar pulses with gaming glow
+          { id: "code", label: "ENTER_CODE", isCode: true }
+        ],
+        placeholder: "ENTER_CODE",
+        btnText: "VERIFY"
+      },
+      {
+        id: "NAME_INPUT",
+        title: "NEW USER ACCOUNT",
+        progress: 42,
+        cards: [
+          { id: "email", label: "PLAYER_EMAIL", valKey: "email" },
+          { id: "name", label: "USER_NAME", valKey: "username", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
+        ],
+        placeholder: "ENTER_YOUR_NAME",
+        btnText: "CONTINUE"
+      },
+      {
+        id: "FF_NICK_INPUT",
+        title: "NEW USER ACCOUNT",
+        progress: 54,
+        cards: [
+          { id: "email", label: "PLAYER_EMAIL", valKey: "email" },
+          { id: "name", label: "USER_NAME", valKey: "username" },
+          { id: "ff_nick", label: "FF_NICKNAME", valKey: "ffNickname", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
+        ],
+        placeholder: "ENTER_FF_NICKNAME",
+        btnText: "CONTINUE"
+      },
+      {
+        id: "FF_UID_INPUT",
+        title: "NEW USER ACCOUNT",
+        progress: 66,
+        cards: [
+          { id: "email", label: "PLAYER_EMAIL", valKey: "email" },
+          { id: "name", label: "USER_NAME", valKey: "username" },
+          { id: "ff_nick", label: "FF_NICKNAME", valKey: "ffNickname" },
+          { id: "ff_uid", label: "FF_UID", valKey: "ffUid", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
+        ],
+        placeholder: "ENTER_FF_UID",
+        btnText: "CONTINUE"
+      },
+      {
+        id: "EXPERIENCE",
+        title: "NEW USER ACCOUNT",
+        progress: 75,
+        cards: [
+          { id: "email", label: "PLAYER_EMAIL", valKey: "email" }, // Restored: Gmail bar stays visible during dropdown selection
+          { id: "name", label: "USER_NAME", valKey: "username" },
+          { id: "ff_nick", label: "FF_NICKNAME", valKey: "ffNickname" },
+          { id: "ff_uid", label: "FF_UID", valKey: "ffUid" },
+          { id: "exp", label: "EXPERIENCE_LEVEL", valKey: "experienceLevel", placeholder: "SELECT YOUR EXPERIENCE LEVEL", dropdownActive: true }
+        ],
+        isDropdown: true,
+        btnText: "NEXT"
+      },
+      {
+        id: "TELEGRAM_INPUT",
+        title: "NEW USER ACCOUNT",
+        progress: 85,
+        cards: [
+          // Isolated: only Telegram visible on top stack
+          { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser", placeholder: "@XXXXXXXXXXXXXXXX" }
+        ],
+        placeholder: "ENTER_TELEGRAM_HANDLE",
+        btnText: "GET CODE"
+      },
+      {
+        id: "TELEGRAM_VERIFY",
+        title: "NEW USER ACCOUNT",
+        progress: 92,
+        cards: [
+          // Isolated: only Telegram cards visible with glow state
+          { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser", glowState: true }, 
+          { id: "tg_code", label: "ENTER_CODE", isCode: true }
+        ],
+        placeholder: "ENTER_CODE",
+        btnText: "VERIFY",
+        hasTelegramIcon: true
+      },
+      {
+        id: "UNLOCK_PROMPT", // Intermediate step for Identity activation - NO bottom text panel
+        title: "NEW USER ACCOUNT",
+        progress: 96,
+        cards: [
+          { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser" },
+          { id: "lock-identity", label: "ACTIVATE_IDENTITY", isLockCard: true }
+        ],
+        noTextPanel: true, // Complete removal of bottom texting panel
+        btnText: "ACTIVATE ID"
+      },
+      {
+        id: "ID_GENERATE",
+        title: "NEW USER ACCOUNT",
+        progress: 100,
+        cards: [
+          { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser" },
+          { id: "id-reveal-bar", label: "CRAZE_MODE_ID", isRevealBar: true }
+        ],
+        noTextPanel: true, // Complete removal of bottom texting panel
+        btnText: "VIEW PASS"
+      },
+      {
+        id: "FINAL_PASS",
+        title: "NEW USER ACCOUNT",
+        progress: 100,
+        cards: [], // Card loaded separately in pass layout
+        noTextPanel: true,
+        isFinalPass: true,
+        btnText: "ENTER ARENA"
+      }
+    ];
+
+    const stepHeader = document.getElementById("stepHeader");
+    const topCardsContainer = document.getElementById("topCardsContainer");
+    const statusBarFill = document.getElementById("statusBarFill");
+    const interactivePanel = document.getElementById("interactivePanel");
+    const actionButton = document.getElementById("actionButton");
+    const backButton = document.getElementById("backButton");
+    const toast = document.getElementById("toast");
+
+    // Vector Telegram SVG Logo
+    const tgLogoSVG = `
+      <svg class="telegram-icon" viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.37.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+      </svg>
+    `;
+
+    // Vector Shield Icon
+    const shieldLogoSVG = `
+      <svg viewBox="0 0 24 24" style="display:inline-block; vertical-align:middle; fill:currentColor;">
+        <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 15l-4-4 1.41-1.41L10 13.17l5.59-5.59L17 9l-7 7z"/>
+      </svg>
+    `;
+
+    // Clipboard Copy SVG Icon
+    const copySVG = `
+      <svg class="copy-icon" viewBox="0 0 24 24" onclick="copyIdToClipboard()">
+        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+      </svg>
+    `;
+
+    // Splash Screen Transition Trigger
+    window.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        const splash = document.getElementById("splashScreen");
+        splash.style.opacity = "0";
+        setTimeout(() => {
+          splash.style.display = "none";
+        }, 600);
+      }, 1800);
+    });
+
+    renderStep();
+
+    // Clipboard Copy Execution Handler (with in-app webview fallback)
+    function copyIdToClipboard() {
+      if (state.gameId) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(state.gameId).then(() => {
+            triggerToast("ID COPIED TO CLIPBOARD", true);
+          }).catch(() => fallbackCopyToClipboard(state.gameId));
+        } else {
+          fallbackCopyToClipboard(state.gameId);
+        }
+      }
+    }
+
+    function fallbackCopyToClipboard(text) {
+      const el = document.createElement('textarea');
+      el.value = text;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      try {
+        document.execCommand('copy');
+        triggerToast("ID COPIED TO CLIPBOARD", true);
+      } catch (err) {
+        triggerToast("COPY FAILED");
+      }
+      document.body.removeChild(el);
+    }
+
+    // Custom Web Audio API Synthesizer (Generates structural mechanical alarm buzz)
+    function playErrorBeep() {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        const osc1 = audioCtx.createOscillator();
+        const osc2 = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc1.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(110, audioCtx.currentTime);
+        osc1.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.22);
+
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(140, audioCtx.currentTime);
+        osc2.frequency.exponentialRampToValueAtTime(40, audioCtx.currentTime + 0.22);
+
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.22);
+
+        osc1.connect(gain);
+        osc2.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc1.start();
+        osc2.start();
+        osc1.stop(audioCtx.currentTime + 0.22);
+        osc2.stop(audioCtx.currentTime + 0.22);
+      } catch (err) {
+        console.log("AudioContext blocked or unsupported.");
+      }
+    }
+
+    function triggerToast(msg, isSuccess = false) {
+      toast.textContent = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2000);
+    }
+
+    // Interactive sweep animation trigger
+    function triggerCardShineSweep(cardId) {
+      const card = document.getElementById(`card-${cardId}`);
+      if (card) {
+        card.classList.remove("shine-sweep");
+        void card.offsetWidth; 
+        card.classList.add("shine-sweep");
+      }
+    }
+
+    function renderStep() {
+      const step = steps[currentStep];
+
+      // Update headers
+      stepHeader.textContent = step.title;
+      
+      // Update status track fill
+      if (step.isFinalPass) {
+        // Shifting progress labels and tracks to fully completed on the pass screen
+        document.querySelector(".status-label").textContent = "COMPLETED";
+        statusBarFill.classList.add("completed");
+        statusBarFill.style.width = "100%";
+      } else {
+        document.querySelector(".status-label").textContent = "STATUS";
+        statusBarFill.classList.remove("completed");
+        statusBarFill.style.width = `${step.progress}%`;
+      }
+      
+      if (step.hasTelegramIcon) {
+        actionButton.innerHTML = `${tgLogoSVG} ${step.btnText}`;
+      } else {
+        actionButton.textContent = step.btnText;
+      }
+
+      // Hide active action button during experience select dropdown and ID generation
+      if (step.id === "EXPERIENCE" || step.id === "ID_GENERATE") {
+        actionButton.style.visibility = "hidden";
+      } else {
+        actionButton.style.visibility = "visible";
+      }
+
+      // Render top cards with correct completed checkmarks
+      topCardsContainer.innerHTML = "";
+      step.cards.forEach(c => {
+        const cardDiv = document.createElement("div");
+        cardDiv.className = "card";
+        cardDiv.id = `card-${c.id}`;
+
+        // Dynamic checkmarks and glowing borders matching steps
+        if (c.id === "email" && state.emailVerified) cardDiv.className = "card success-gmail";
+        else if (c.id === "tg" && state.telegramVerified) cardDiv.className = "card success-telegram";
+        else if (c.id === "name" && currentStep > 2) cardDiv.className = "card success-profile";
+        else if (c.id === "ff_nick" && currentStep > 3) cardDiv.className = "card success-profile";
+        else if (c.id === "ff_uid" && currentStep > 4) cardDiv.className = "card success-profile";
+        else if (c.id === "exp" && currentStep > 5) cardDiv.className = "card success-profile";
+
+        // Apply dynamic gaming glow border to email card while code verify is active
+        if (c.glowState && ((c.id === "email" && !state.emailVerified) || (c.id === "tg" && !state.telegramVerified))) {
+          cardDiv.className += " mild-shine";
+        }
+
+        if (c.isCode) {
+          cardDiv.innerHTML = `
+            <div class="card-content">
+              <div class="card-label">${c.label}</div>
+              <div class="code-boxes" id="cardCodeContainer">
+                <div class="code-box-display"><span></span></div>
+                <div class="code-box-display"><span></span></div>
+                <div class="code-box-display"><span></span></div>
+                <div class="code-box-display"><span></span></div>
+                <div class="code-box-display"><span></span></div>
+                <div class="code-box-display"><span></span></div>
+              </div>
+            </div>
+            <div class="verify-animation-box"></div>
+          `;
+        } else if (c.dropdownActive) {
+          // Render inline dropdown inside the 4th top bar
+          cardDiv.className += " dropdown-active";
+          const displayVal = state.experienceLevel || "SELECT YOUR EXPERIENCE LEVEL";
+          cardDiv.innerHTML = `
+            <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+              <div class="card-content">
+                <div class="card-label">${c.label}</div>
+                <div class="card-value" style="color: ${state.experienceLevel ? '#FFFFFF' : '#888888'};">${displayVal}</div>
+              </div>
+              <div class="checkbox-icon">
+                <span class="checkmark"></span>
+              </div>
+            </div>
+            <div class="dropdown-list-inline">
+              <div class="dropdown-option-inline" onclick="setExperience('Beginner')">[ ] Beginner</div>
+              <div class="dropdown-option-inline" onclick="setExperience('Intermediate')">[ ] Intermediate</div>
+              <div class="dropdown-option-inline" onclick="setExperience('Advanced')">[ ] Advanced</div>
+              <div class="dropdown-option-inline" onclick="setExperience('Competitive')">[ ] Competitive</div>
+            </div>
+          `;
+        } else if (c.isLockCard) {
+          // Sleek Identity Lock Card
+          cardDiv.innerHTML = `
+            <div class="card-content" style="display:flex; flex-direction:row; align-items:center; gap:8px;">
+              <svg class="telegram-icon" viewBox="0 0 24 24" style="width:14px; height:14px; fill:#555;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+              <div class="card-value" style="color: #fff; font-size: 11.5px; letter-spacing: 0.5px;">Activate your Craze Mode identity</div>
+            </div>
+          `;
+        } else if (c.isRevealBar) {
+          // Dynamic ID Reveal Bar
+          cardDiv.innerHTML = `
+            <div class="card-content">
+              <div class="card-label">${c.label}</div>
+              <div class="card-value" id="idRevealDisplay" style="color: #fff; font-size:13px; font-weight:700;">DECRYPTING_SIGNATURE...</div>
+            </div>
+          `;
+        } else {
+          const val = state[c.valKey] || c.placeholder;
+          cardDiv.innerHTML = `
+            <div class="card-content">
+              <div class="card-label">${c.label}</div>
+              <div class="card-value">${val}</div>
+            </div>
+            <div class="checkbox-icon">
+              <span class="checkmark"></span>
+            </div>
+          `;
+        }
+
+        topCardsContainer.appendChild(cardDiv);
+      });
+
+      // Render bottom elements - completely hides texting panel for a cleaner, minimal aesthetic on prompt & pass screens
+      if (step.noTextPanel) {
+        interactivePanel.style.display = "none";
+      } else {
+        interactivePanel.style.display = "flex";
+      }
+
+      if (step.isDropdown) {
+        // Keep bottom workspace empty while dropdown is handled inside the 4th card
+        interactivePanel.innerHTML = `
+          <div class="bracket-display placeholder" style="font-size: 11px;">
+            [ SELECT EXPERIENCE LEVEL IN 4TH BAR ABOVE ]
+          </div>
+        `;
+      } else if (step.isFinalPass) {
+        // Flat rectangular confirmation pass - completely UID-less
+        // Unified brand pass logo styling applied
+        topCardsContainer.innerHTML = `
+          <div class="confirmation-card" id="finalPassCard">
+            <!-- Slow vertical cyber scanning bar -->
+            <div class="confirmation-card-scanner"></div>
+            <!-- Mild, minimal sweep layer -->
+            <div class="confirmation-card-sweep-layer" id="finalPassSweep"></div>
+            <div class="confirmation-header">
+              <div class="confirmation-title brand-logo-unified" id="finalPassBrand" style="font-size: 13px; letter-spacing: 2px;"></div>
+              <div class="confirmation-badge" id="finalPassBadge" style="visibility:hidden; display:flex; align-items:center; gap:4px; padding:3px 6px;">
+                ${shieldLogoSVG}
+                <span style="font-family:'Space Mono', monospace; font-size:8px;">CONFIRMED</span>
+              </div>
+            </div>
+            <div class="confirmation-grid">
+              <div class="confirmation-item">
+                <label id="lblPassGamer">GAMER_NAME</label>
+                <span id="passGamerName"></span>
+              </div>
+              <div class="confirmation-item">
+                <label id="lblPassNick">NICKNAME</label>
+                <span id="passFFNick"></span>
+              </div>
+              <div class="confirmation-id-row">
+                <label id="lblPassId">CRAZE MODE ID</label>
+                <span id="passCrazeId" style="font-size: 15px; font-weight: 700; letter-spacing: 4px; display:block;"></span>
+              </div>
+            </div>
+          </div>
+          <!-- Premium Cybernetic Motto Layout Footer -->
+          <div class="motto-container" id="mottoText">
+            <div class="motto-line"></div>
+            <div class="motto-text-final">LET SKILL DECIDE</div>
+            <div class="motto-line"></div>
+          </div>
+        `;
+
+        // Sequential Card Typing Reveal Trigger
+        triggerSequentialPassReveal();
+      } else if (!step.noTextPanel) {
+        // Native interactive bracket structure with precise cursor placement
+        interactivePanel.innerHTML = `
+          <div class="bracket-display" id="bracketDisplay">
+            [<input type="text" class="real-embedded-input" id="panelInput" placeholder="${step.placeholder}" autocomplete="off" />]
+          </div>
+        `;
+
+        const panelInput = document.getElementById("panelInput");
+        const bracketDisplay = document.getElementById("bracketDisplay");
+
+        // Focus catch and binding
+        panelInput.focus();
+        
+        let existingVal = "";
+        if (step.id === "EMAIL_INPUT") existingVal = state.email;
+        else if (step.id === "NAME_INPUT") existingVal = state.username;
+        else if (step.id === "FF_NICK_INPUT") existingVal = state.ffNickname;
+        else if (step.id === "FF_UID_INPUT") existingVal = state.ffUid;
+        else if (step.id === "TELEGRAM_INPUT") existingVal = state.telegramUser;
+
+        if (existingVal) {
+          panelInput.value = existingVal;
+          bracketDisplay.classList.add("active");
+        }
+
+        panelInput.addEventListener("input", (e) => {
+          let val = e.target.value; // Mixed casing strictly preserved
+
+          if (step.id === "TELEGRAM_INPUT") {
+            if (val && !val.startsWith("@")) val = "@" + val;
+            e.target.value = val;
+          } else if (step.id === "EMAIL_VERIFY" || step.id === "TELEGRAM_VERIFY") {
+            // Strict number lock filter
+            val = val.replace(/[^0-9]/g, '');
+            if (val.length > 6) val = val.substring(0, 6);
+            e.target.value = val;
+            syncVerificationBoxes(val);
+          }
+
+          if (step.id === "EMAIL_INPUT") {
+            state.email = val;
+            updateTopCard("email", val || "XXXXXXXXXXXXXXXXXXXX");
+          } else if (step.id === "NAME_INPUT") {
+            state.username = val;
+            updateTopCard("name", val || "XXXXXXXXXXXXXXXXXXXX");
+          } else if (step.id === "FF_NICK_INPUT") {
+            state.ffNickname = val;
+            updateTopCard("ff_nick", val || "XXXXXXXXXXXXXXXXXXXX");
+          } else if (step.id === "FF_UID_INPUT") {
+            state.ffUid = val;
+            updateTopCard("ff_uid", val || "XXXXXXXXXXXXXXXXXXXX");
+          } else if (step.id === "TELEGRAM_INPUT") {
+            state.telegramUser = val;
+            updateTopCard("tg", val || "@XXXXXXXXXXXXXXXX");
+          }
+
+          if (val) {
+            bracketDisplay.classList.add("active");
+          } else {
+            bracketDisplay.classList.remove("active");
+          }
+        });
+      }
+
+      backButton.style.display = (currentStep > 0 && !step.isFinalPass) ? "block" : "none";
+    }
+
+    function updateTopCard(id, text) {
+      const card = document.getElementById(`card-${id}`);
+      if (card) {
+        const valueDiv = card.querySelector(".card-value");
+        if (valueDiv) valueDiv.textContent = text;
+      }
+    }
+
+    // Sync input string into your 6 box UI inside top card
+    function syncVerificationBoxes(code) {
+      const boxes = document.querySelectorAll(".code-box-display");
+      boxes.forEach((box, i) => {
+        const textSpan = box.querySelector("span");
+        if (code[i]) {
+          textSpan.textContent = code[i];
+          box.classList.add("active");
+        } else {
+          textSpan.textContent = "";
+          box.classList.remove("active");
+        }
+      });
+    }
+
+    function setExperience(level) {
+      state.experienceLevel = level;
+      updateTopCard("exp", level);
+      triggerCardShineSweep("exp");
+      
+      setTimeout(() => {
+        currentStep++;
+        renderStep();
+      }, 350);
+    }
+
+    // Dynamic typewriter message effect builder
+    function runTypewriterMessage(element, text, speed = 40, callback) {
+      element.innerHTML = "";
+      let i = 0;
+      function type() {
+        if (i < text.length) {
+          element.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        } else if (callback) {
+          callback();
+        }
+      }
+      type();
+    }
+
+    // Core validation controller connecting securely to Google Web App
+    actionButton.onclick = () => {
+      const step = steps[currentStep];
+
+      // Safe Audio Context activation on user touch interaction
+      if (!audioCtx) {
+        try {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        } catch(e) {
+          console.log("AudioContext not supported");
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      if (step.id === "EMAIL_INPUT") {
+        const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        if (!gmailPattern.test(state.email)) {
+          triggerToast("INVALID EMAIL (MUST BE xxxx@gmail.com)");
+          return;
+        }
+
+        actionButton.disabled = true;
+        actionButton.textContent = "SENDING...";
+
+        // Real API Call to Google Sheets & Apps Script to deliver OTP and check duplicates
+        fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" }, // Standard cross-origin payload mapping
+          body: JSON.stringify({ action: "sendEmailOTP", email: state.email })
+        })
+        .then(res => res.json())
+        .then(res => {
+          actionButton.disabled = false;
+          actionButton.textContent = "GET CODE";
+
+          if (res.success) {
+            triggerCardShineSweep("email");
+            currentStep++;
+            renderStep();
+            triggerToast("OTP CODE DELIVERED", true);
+          } else {
+            triggerToast(res.message || "REGISTRATION FAILURE");
+          }
+        })
+        .catch(err => {
+          actionButton.disabled = false;
+          actionButton.textContent = "GET CODE";
+          triggerToast("CONNECTION ERROR");
+        });
+
+      } else if (step.id === "EMAIL_VERIFY") {
+        const inputVal = document.getElementById("panelInput").value;
+        const card = document.getElementById("card-code");
+        
+        if (!inputVal.trim() || inputVal.length !== 6) {
+          card.classList.add("error-state");
+          playErrorBeep();
+          triggerToast("INVALID CODE. MUST BE 6 DIGITS");
+          
+          const boxes = document.querySelectorAll(".code-box-display");
+          boxes.forEach(box => box.classList.add("falling"));
+          
+          setTimeout(() => {
+            card.classList.remove("error-state");
+            boxes.forEach(box => {
+              box.classList.remove("falling", "active");
+              box.querySelector("span").textContent = "";
+            });
+            document.getElementById("panelInput").value = "";
+            document.getElementById("bracketDisplay").classList.remove("active");
+          }, 1200);
+          return;
+        }
+
+        card.classList.add("verifying");
+        actionButton.disabled = true;
+        actionButton.textContent = "VERIFYING...";
+
+        // Real API Verification Call
+        fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ action: "verifyEmailOTP", email: state.email, code: inputVal })
+        })
+        .then(res => res.json())
+        .then(res => {
+          card.classList.remove("verifying");
+          actionButton.disabled = false;
+          actionButton.textContent = "VERIFY";
+
+          if (res.success) {
+            state.emailVerified = true;
+            triggerCardShineSweep("email");
+            currentStep++;
+            renderStep();
+            triggerToast("GMAIL VERIFIED", true);
+          } else {
+            card.classList.add("error-state");
+            playErrorBeep();
+            triggerToast(res.message || "INVALID CODE. MUST BE 6 DIGITS");
+            
+            const boxes = document.querySelectorAll(".code-box-display");
+            boxes.forEach(box => box.classList.add("falling"));
+            
             setTimeout(() => {
-                document.getElementById('intro').style.display = 'none';
-                document.getElementById('tBrand').style.opacity = '1';
-                document.getElementById('pLine').style.opacity = '1';
-                document.getElementById('step1').classList.add('active');
-                document.getElementById('scan').style.display = 'none';
+              card.classList.remove("error-state");
+              boxes.forEach(box => {
+                box.classList.remove("falling", "active");
+                box.querySelector("span").textContent = "";
+              });
+              document.getElementById("panelInput").value = "";
+              document.getElementById("bracketDisplay").classList.remove("active");
+            }, 1200);
+          }
+        })
+        .catch(err => {
+          card.classList.remove("verifying");
+          actionButton.disabled = false;
+          actionButton.textContent = "VERIFY";
+          triggerToast("CONNECTION ERROR");
+        });
+
+      } else if (step.id === "NAME_INPUT") {
+        if (!state.username.trim()) {
+          triggerToast("USER NAME CANNOT BE EMPTY");
+          return;
+        }
+        updateTopCard("name", state.username);
+        triggerCardShineSweep("name");
+        currentStep++;
+        renderStep();
+
+      } else if (step.id === "FF_NICK_INPUT") {
+        if (!state.ffNickname.trim()) {
+          triggerToast("NICKNAME CANNOT BE EMPTY");
+          return;
+        }
+        updateTopCard("ff_nick", state.ffNickname);
+        triggerCardShineSweep("ff_nick");
+        currentStep++;
+        renderStep();
+
+      } else if (step.id === "FF_UID_INPUT") {
+        if (!state.ffUid.trim()) {
+          triggerToast("UID CANNOT BE EMPTY");
+          return;
+        }
+        updateTopCard("ff_uid", state.ffUid);
+        triggerCardShineSweep("ff_uid");
+        currentStep++;
+        renderStep();
+
+      } else if (step.id === "TELEGRAM_INPUT") {
+        const tgPattern = /^@[a-zA-Z0-9_]{5,32}$/;
+        if (!tgPattern.test(state.telegramUser)) {
+          triggerToast("INVALID TG USERNAME");
+          return;
+        }
+
+        actionButton.disabled = true;
+        actionButton.textContent = "GENERATING...";
+
+        // Web App Telegram OTP Session initiation call
+        fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ action: "requestTelegramOTP", telegramUser: state.telegramUser })
+        })
+        .then(res => res.json())
+        .then(res => {
+          actionButton.disabled = false;
+          actionButton.textContent = "GET CODE";
+
+          if (res.success) {
+            activeSessionToken = res.sessionToken;
+            triggerCardShineSweep("tg");
+            currentStep++;
+            renderStep();
+            
+            // Redirect the user to deep-linked Telegram bot to retrieve secure code
+            triggerToast("REDIRECTING TO BOT...", true);
+            setTimeout(() => {
+              window.open(res.botLink, "_blank");
             }, 800);
+          } else {
+            triggerToast(res.message || "TELEGRAM INITIATION FAILED");
+          }
+        })
+        .catch(err => {
+          actionButton.disabled = false;
+          actionButton.textContent = "GET CODE";
+          triggerToast("CONNECTION ERROR");
+        });
+
+      } else if (step.id === "TELEGRAM_VERIFY") {
+        const inputVal = document.getElementById("panelInput").value;
+        const card = document.getElementById("card-tg_code");
+        
+        if (!inputVal.trim() || inputVal.length !== 6) {
+          card.classList.add("error-state");
+          playErrorBeep();
+          triggerToast("INVALID CODE. MUST BE 6 DIGITS");
+          
+          const boxes = document.querySelectorAll(".code-box-display");
+          boxes.forEach(box => box.classList.add("falling"));
+          
+          setTimeout(() => {
+            card.classList.remove("error-state");
+            boxes.forEach(box => {
+              box.classList.remove("falling", "active");
+              box.querySelector("span").textContent = "";
+            });
+            document.getElementById("panelInput").value = "";
+            document.getElementById("bracketDisplay").classList.remove("active");
+          }, 1200);
+          return;
         }
 
-        // Custom Dropdown Logic
-        function toggleDrop() { const d = document.getElementById('expList'); d.style.display = d.style.display === 'block' ? 'none' : 'block'; }
-        function selectExp(val) { document.getElementById('expDisplay').innerText = val; document.getElementById('expDisplay').style.color = "#fff"; toggleDrop(); window.expValue = val; }
+        card.classList.add("verifying");
+        actionButton.disabled = true;
+        actionButton.textContent = "VERIFYING...";
 
-        function move(s) {
-            document.getElementById('pFill').style.width = (s * 25) + "%";
-            document.querySelectorAll('.card').forEach(x => { x.classList.remove('active'); x.style.display = "none"; });
-            setTimeout(() => { 
-                const next = document.getElementById('step'+s);
-                next.style.display = "block";
-                setTimeout(() => next.classList.add('active'), 50);
-                if(s === 4) runDecrypt();
-            }, 300);
+        // Real Telegram code validation fetch
+        fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ action: "verifyTelegramOTP", sessionToken: activeSessionToken, code: inputVal })
+        })
+        .then(res => res.json())
+        .then(res => {
+          card.classList.remove("verifying");
+          actionButton.disabled = false;
+          actionButton.textContent = "VERIFY";
+
+          if (res.success) {
+            state.telegramVerified = true;
+            triggerCardShineSweep("tg");
+            currentStep++;
+            renderStep();
+            triggerToast("TELEGRAM VERIFIED", true);
+          } else {
+            card.classList.add("error-state");
+            playErrorBeep();
+            triggerToast(res.message || "INVALID CODE. MUST BE 6 DIGITS");
+            
+            const boxes = document.querySelectorAll(".code-box-display");
+            boxes.forEach(box => box.classList.add("falling"));
+            
+            setTimeout(() => {
+              card.classList.remove("error-state");
+              boxes.forEach(box => {
+                box.classList.remove("falling", "active");
+                box.querySelector("span").textContent = "";
+              });
+              document.getElementById("panelInput").value = "";
+              document.getElementById("bracketDisplay").classList.remove("active");
+            }, 1200);
+          }
+        })
+        .catch(err => {
+          card.classList.remove("verifying");
+          actionButton.disabled = false;
+          actionButton.textContent = "VERIFY";
+          triggerToast("CONNECTION ERROR");
+        });
+
+      } else if (step.id === "UNLOCK_PROMPT") {
+        actionButton.disabled = true;
+        actionButton.textContent = "REGISTERING...";
+
+        // Finalize Sheet Database Registration
+        fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({
+            action: "finalizeRegistration",
+            email: state.email,
+            username: state.username,
+            ffNickname: state.ffNickname,
+            ffUid: state.ffUid,
+            experienceLevel: state.experienceLevel,
+            telegramUser: state.telegramUser
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          actionButton.disabled = false;
+          actionButton.textContent = "ACTIVATE ID";
+
+          if (res.success) {
+            state.gameId = res.gameId; // Record the server-generated highly unique ID
+            currentStep++;
+            renderStep();
+            
+            const display = document.getElementById("idRevealDisplay");
+            scrambleReveal(display, state.gameId);
+          } else {
+            triggerToast(res.message || "REGISTRATION PROCESS FAILED");
+          }
+        })
+        .catch(err => {
+          actionButton.disabled = false;
+          actionButton.textContent = "ACTIVATE ID";
+          triggerToast("CONNECTION ERROR");
+        });
+
+      } else if (step.id === "FINAL_PASS") {
+        // Trigger haptic vibration feedback as requested
+        if (navigator.vibrate) {
+          navigator.vibrate([100, 50, 100]); // Short double-pulse haptic feedback [3]
         }
 
-        async function sendOTP() {
-            const e = document.getElementById('email').value; if(!e.includes("@")) return;
-            document.getElementById('gBtn').innerText = "Processing...";
-            const res = await fetch(API, {method:'POST', body:JSON.stringify({action:"sendEmailOTP", email:e})});
-            document.getElementById('otpBox').classList.remove('hidden');
-            document.getElementById('gBtn').style.display = "none";
-        }
+        actionButton.disabled = true;
+        actionButton.textContent = "CONNECTING...";
 
-        async function verifyOTP() {
-            const o = document.getElementById('emailOtp').value; if(o.length !== 6) return;
-            document.getElementById('cBtn').innerText = "Verifying...";
-            let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyEmailOTP", email:document.getElementById('email').value, otp:o})});
-            let res = await r.json();
-            if(res.success) move(2); else { document.getElementById('eErr').style.display = 'block'; document.getElementById('cBtn').innerText = "Sync"; }
-        }
+        // Record participant interest emoji "☑️" inside target "FINAL REVIEW" column on sheet
+        fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ action: "finalizeReview", gameId: state.gameId })
+        })
+        .then(res => res.json())
+        .then(() => {
+          actionButton.disabled = false;
+          actionButton.textContent = "ENTER ARENA";
+          
+          triggerToast("REDIRECTING...", true);
+          setTimeout(() => {
+            // Opens secure invitation link to Private Telegram Channel to Request Join
+            window.open("https://t.me/+Ah8ZbN2eKKAzZWJl", "_blank");
+          }, 600);
+        })
+        .catch(err => {
+          actionButton.disabled = false;
+          actionButton.textContent = "ENTER ARENA";
+          // Redirect anyway to prevent bottleneck, write update asynchronously
+          window.open("https://t.me/+Ah8ZbN2eKKAzZWJl", "_blank");
+        });
+      }
+    };
 
-        async function verifyTg() {
-            const u = document.getElementById('tgUser').value;
-            const c = document.getElementById('tgCode').value; if(c.length !== 4) return;
-            document.getElementById('tBtn').innerText = "Authenticating...";
-            let r = await fetch(API, {method:'POST', body:JSON.stringify({action:"verifyTelegram", username:u, code:c})});
-            let res = await r.json();
-            if(res.success) move(4); else { document.getElementById('tErr').style.display = 'block'; document.getElementById('tBtn').innerText = "Link"; }
-        }
+    backButton.onclick = () => {
+      if (currentStep > 0) {
+        currentStep--;
+        renderStep();
+      }
+    };
 
-        function runDecrypt() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            const gid = "CM-" + Math.random().toString(36).substring(2,6).toUpperCase() + "-" + Math.floor(1000+Math.random()*9000);
-            let i = 0;
-            const timer = setInterval(() => {
-                document.getElementById('idDisplay').innerText = gid.split("").map((l, idx) => idx < i ? gid[idx] : chars[Math.floor(Math.random()*36)]).join("");
-                if(i >= gid.length) clearInterval(timer);
-                i += 1/4;
-            }, 40);
-            window.finalId = gid;
-        }
+    // Minimal Monochrome Scramble Transition settling on bold format: CM-123-ABC on top card
+    function scrambleReveal(element, targetString) {
+      const bank = "0123456789";
+      const charBank = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      let frame = 0;
+      const totalFrames = 20;
 
-        function copyId() { navigator.clipboard.writeText(window.finalId); alert("Credentials Copied."); }
-
-        function finalSubmit() {
-            const f = { email: document.getElementById('email').value, name: document.getElementById('name').value, ffNick: document.getElementById('nick').value, ffUid: document.getElementById('uid').value, exp: window.expValue, tgUser: document.getElementById('tgUser').value, gameId: window.finalId };
-            fetch(API, {method:'POST', mode:'no-cors', body:JSON.stringify({action:"submitForm", f:f})});
+      const interval = setInterval(() => {
+        let displayStr = "";
+        for (let i = 0; i < targetString.length; i++) {
+          if (targetString[i] === '-') {
+            displayStr += '-';
+          } else if (frame > i * 2.5) {
+            displayStr += targetString[i];
+          } else {
+            // Numbers for 123 section, characters for ABC section
+            if (i >= 3 && i <= 5) {
+              displayStr += bank[Math.floor(Math.random() * bank.length)];
+            } else {
+              displayStr += charBank[Math.floor(Math.random() * charBank.length)];
+            }
+          }
         }
-    </script>
+        element.style.fontWeight = "700";
+        element.style.letterSpacing = "6px"; // Mild more letter spacing applied
+        element.textContent = displayStr;
+        frame++;
+
+        if (frame > totalFrames) {
+          clearInterval(interval);
+          element.textContent = targetString;
+          
+          // Render beautiful typing congrats message inside viewport below card stack
+          setTimeout(() => {
+            // Create target message div inside topCardsContainer directly below resolved ID card
+            const msgDiv = document.createElement("div");
+            msgDiv.className = "typing-text-message";
+            msgDiv.id = "congratsText";
+            topCardsContainer.appendChild(msgDiv);
+
+            const congratsMsg = "Congratulations! Your Craze Mode ID is active.";
+            
+            runTypewriterMessage(msgDiv, congratsMsg, 40, () => {
+              // Once typing concludes, display "VIEW PASS" button cleanly at bottom
+              actionButton.style.visibility = "visible";
+              actionButton.textContent = "VIEW PASS";
+              
+              actionButton.onclick = () => {
+                currentStep = 10; // Transitions to final Pass screen
+                renderStep();
+              };
+            });
+          }, 800);
+        }
+      }, 55);
+    }
+
+    // Orchestrates the beautiful typewriter pass text reveal sequencially
+    function triggerSequentialPassReveal() {
+      const passCard = document.getElementById("finalPassCard");
+      const brand = document.getElementById("finalPassBrand");
+      const badge = document.getElementById("finalPassBadge");
+      
+      const lblGamer = document.getElementById("lblPassGamer");
+      const valGamer = document.getElementById("passGamerName");
+      
+      const lblNick = document.getElementById("lblPassNick");
+      const valNick = document.getElementById("passFFNick");
+      
+      const lblId = document.getElementById("lblPassId");
+      const valId = document.getElementById("passCrazeId");
+
+      const motto = document.getElementById("mottoText");
+      const sweepLayer = document.getElementById("finalPassSweep");
+
+      // Keep card empty and run mild shine sweep
+      lblGamer.style.visibility = "hidden";
+      lblNick.style.visibility = "hidden";
+      lblId.style.visibility = "hidden";
+      
+      passCard.className = "confirmation-card";
+      
+      setTimeout(() => {
+        // Step 1: Type out brand name CRAZE_MODE
+        runTypewriterMessage(brand, "CRAZE_MODE", 35, () => {
+          
+          // Step 2: Smoothly fade in top right Shield badge
+          badge.style.visibility = "visible";
+          badge.style.opacity = "0";
+          badge.style.transition = "opacity 0.4s ease";
+          void badge.offsetWidth;
+          badge.style.opacity = "1";
+          
+          setTimeout(() => {
+            // Step 3: Type out labels and Gamer name
+            lblGamer.style.visibility = "visible";
+            runTypewriterMessage(valGamer, state.username, 35, () => {
+              
+              setTimeout(() => {
+                // Step 4: Type out labels and Nickname
+                lblNick.style.visibility = "visible";
+                runTypewriterMessage(valNick, state.ffNickname, 35, () => {
+                  
+                  setTimeout(() => {
+                    // Step 5: Type out labels and bold white ID
+                    lblId.style.visibility = "visible";
+                    // Appends minimal custom copy-clip vector icon right next to the ID block
+                    valId.innerHTML = `${state.gameId} ${copySVG}`;
+                    runTypewriterMessage(valId, state.gameId, 35, () => {
+                      valId.innerHTML = `${state.gameId} ${copySVG}`;
+                      
+                      // Final Step: Trigger mild diagonal shine sweep ONCE at the end!
+                      sweepLayer.classList.add("run-sweep");
+                      
+                      setTimeout(() => {
+                        // Softly fade in the High-Impact Closing Motto
+                        motto.classList.add("visible");
+
+                        actionButton.style.visibility = "visible";
+                        actionButton.textContent = "ENTER ARENA";
+                      }, 400);
+                    });
+                  }, 250);
+                });
+              }, 250);
+            });
+          }, 350);
+        });
+      }, 600);
+    }
+  </script>
 </body>
 </html>
