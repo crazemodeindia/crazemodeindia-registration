@@ -807,7 +807,7 @@
   <!-- SPLASH SCREEN INTRO MODULE -->
   <div class="splash-screen" id="splashScreen">
     <div class="splash-logo brand-logo-unified">CRAZE_MODE</div>
-    <div class="splash-sub">INITIALIZING SECURE SESSION...</div>
+    <div class="splash-sub">PROVE YOUR SKILL</div>
   </div>
 
   <div class="toast-system" id="toast">INVALID DATA</div>
@@ -842,7 +842,7 @@
       <!-- Populated dynamically -->
     </div>
 
-    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON -->
+    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON (Elevated Upwards) -->
     <div class="bottom-container">
       <div class="interactive-panel" id="interactivePanel">
         <!-- Rendered inputs dynamically with ZERO vertical layout shifts -->
@@ -903,7 +903,7 @@
           { id: "name", label: "USER_NAME", valKey: "username", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
         ],
         placeholder: "ENTER_YOUR_NAME",
-        btnText: "CONTINUE"
+        btnText: "NEXT" // Wording set to NEXT [3]
       },
       {
         id: "FF_NICK_INPUT",
@@ -915,7 +915,7 @@
           { id: "ff_nick", label: "FF_NICKNAME", valKey: "ffNickname", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
         ],
         placeholder: "ENTER_FF_NICKNAME",
-        btnText: "CONTINUE"
+        btnText: "NEXT" // Wording set to NEXT [3]
       },
       {
         id: "FF_UID_INPUT",
@@ -928,7 +928,7 @@
           { id: "ff_uid", label: "FF_UID", valKey: "ffUid", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
         ],
         placeholder: "ENTER_FF_UID",
-        btnText: "CONTINUE"
+        btnText: "NEXT" // Wording set to NEXT [3]
       },
       {
         id: "EXPERIENCE",
@@ -954,7 +954,7 @@
           { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser", placeholder: "@XXXXXXXXXXXXXXXX" }
         ],
         placeholder: "ENTER_TELEGRAM_HANDLE",
-        btnText: "GET CODE"
+        btnText: "GET CODE" // Wording set to GET CODE [3]
       },
       {
         id: "TELEGRAM_VERIFY",
@@ -966,7 +966,7 @@
           { id: "tg_code", label: "ENTER_CODE", isCode: true }
         ],
         placeholder: "ENTER_CODE",
-        btnText: "VERIFY",
+        btnText: "VERIFY", // Wording set to VERIFY [3]
         hasTelegramIcon: true
       },
       {
@@ -1140,8 +1140,15 @@
 
     function triggerToast(msg, isSuccess = false) {
       toast.textContent = msg;
-      toast.style.backgroundColor = isSuccess ? "#61A843" : "#FF3D00";
-      toast.style.color = "#FFFFFF";
+      if (isSuccess) {
+        toast.style.backgroundColor = "#61A843";
+        toast.style.borderColor = "#61A843";
+        toast.style.color = "#FFFFFF";
+      } else {
+        toast.style.backgroundColor = "#FF3D00";
+        toast.style.borderColor = "#FF3D00";
+        toast.style.color = "#FFFFFF";
+      }
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 2000);
     }
@@ -1172,6 +1179,14 @@
         document.querySelector(".status-label").textContent = "STATUS";
         statusBarFill.classList.remove("completed");
         statusBarFill.style.width = `${step.progress}%`;
+      }
+
+      // Hide or show bottom control container completely based on Experience step config
+      const bottomContainer = document.querySelector(".bottom-container");
+      if (step.id === "EXPERIENCE") {
+        bottomContainer.style.display = "none"; // Dropdown options are fully accessible [3]
+      } else {
+        bottomContainer.style.display = "flex";
       }
       
       if (step.hasTelegramIcon) {
@@ -1359,6 +1374,15 @@
         panelInput.addEventListener("input", (e) => {
           let val = e.target.value; // Mixed casing strictly preserved
 
+          // Gmail Auto-Complete on '@' symbol entry
+          if (step.id === "EMAIL_INPUT") {
+            if (val.endsWith("@")) {
+              val = val + "gmail.com";
+              e.target.value = val;
+              e.target.setSelectionRange(val.length, val.length); // Restore active caret cursor to end of text
+            }
+          }
+
           if (step.id === "TELEGRAM_INPUT") {
             if (val && !val.startsWith("@")) val = "@" + val;
             e.target.value = val;
@@ -1432,7 +1456,7 @@
       }, 350);
     }
 
-    // Dynamic typewriter message effect builder
+    // Typewriter effect builder
     function runTypewriterMessage(element, text, speed = 40, callback) {
       element.innerHTML = "";
       let i = 0;
@@ -1484,7 +1508,7 @@
             triggerCardShineSweep("email");
             currentStep++;
             renderStep();
-            triggerToast("OTP CODE DELIVERED", true);
+            triggerToast("CODE SENT", true); // Centred green CODE SENT Toast successfully triggered [3]
           } else {
             triggerToast(res.message || "REGISTRATION FAILURE");
           }
@@ -1615,7 +1639,7 @@
             renderStep();
             
             // Redirect the user to deep-linked Telegram bot to retrieve secure code
-            triggerToast("REDIRECTING TO BOT...", true);
+            triggerToast("CODE SENT", true); // Centred green Toast on Telegram OTP send [3]
             setTimeout(() => {
               window.open(res.botLink, "_blank");
             }, 800);
@@ -1626,7 +1650,7 @@
         .catch(err => {
           actionButton.disabled = false;
           actionButton.textContent = "GET CODE";
-          triggerToast("CONNECTION ERROR");
+          triggerToast(err.message || "CONNECTION ERROR");
         });
 
       } else if (step.id === "TELEGRAM_VERIFY") {
@@ -1693,7 +1717,7 @@
           card.classList.remove("verifying");
           actionButton.disabled = false;
           actionButton.textContent = "VERIFY";
-          triggerToast("CONNECTION ERROR");
+          triggerToast(err.message || "CONNECTION ERROR");
         });
 
       } else if (step.id === "UNLOCK_PROMPT") {
