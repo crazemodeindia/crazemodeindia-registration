@@ -480,8 +480,8 @@
       width: 100%;
     }
 
-    .bracket-display.placeholder {
-      color: #333333;
+    .bracket-display.active {
+      color: #FFFFFF;
     }
 
     /* Native embedded text field to allow full-line cursor editing */
@@ -851,7 +851,7 @@
     // FRONTEND CONTROLLER (CONNECTED TO SERVERSIDE GOOGLE APPS SCRIPT API)
     // ==========================================================================
     
-    // Paste your deployed Google Apps Script Web App URL here
+    // Deployed Google Apps Script Web App URL integrated
     const API_URL = "https://script.google.com/macros/s/AKfycbwT1LJSii25JN0e_SIfnj717mjOQC4_yAlgmgp4_M2afpLfM6zHGIZ8cGaH2HldaGImBg/exec"; 
     
     let currentStep = 0;
@@ -1070,6 +1070,33 @@
       document.body.removeChild(el);
     }
 
+    // Secure communication pipeline with robust error trapping and console logging
+    function callBackend(payload) {
+      return fetch(API_URL, {
+        method: "POST",
+        headers: {
+          // Using text/plain is crucial to prevent preflight OPTIONS requests to Google Apps Script
+          "Content-Type": "text/plain"
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network connection error. Server returned code " + response.status);
+        }
+        return response.text(); // Get raw text first to prevent JSON parse crashes on HTML error pages
+      })
+      .then(text => {
+        try {
+          return JSON.parse(text);
+        } catch (err) {
+          // If it's not JSON, it means Apps Script returned an HTML error/auth page
+          console.error("Non-JSON raw server response:", text);
+          throw new Error("Your backend Spreadsheet ID or Permissions are not configured correctly. Please check your console (F12) for details.");
+        }
+      });
+    }
+
     // Custom Web Audio API Synthesizer (Generates structural mechanical alarm buzz)
     function playErrorBeep() {
       try {
@@ -1109,6 +1136,8 @@
 
     function triggerToast(msg, isSuccess = false) {
       toast.textContent = msg;
+      toast.style.backgroundColor = isSuccess ? "#61A843" : "#FF3D00";
+      toast.style.color = "#FFFFFF";
       toast.classList.add("show");
       setTimeout(() => toast.classList.remove("show"), 2000);
     }
@@ -1415,7 +1444,7 @@
       type();
     }
 
-    // Core validation controller connecting securely to Google Web App
+    // Core validation controller connecting securely to Google Web App API
     actionButton.onclick = () => {
       const step = steps[currentStep];
 
@@ -1442,12 +1471,7 @@
         actionButton.textContent = "SENDING...";
 
         // Real API Call to Google Sheets & Apps Script to deliver OTP and check duplicates
-        fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" }, // Standard cross-origin payload mapping
-          body: JSON.stringify({ action: "sendEmailOTP", email: state.email })
-        })
-        .then(res => res.json())
+        callBackend({ action: "sendEmailOTP", email: state.email })
         .then(res => {
           actionButton.disabled = false;
           actionButton.textContent = "GET CODE";
@@ -1464,7 +1488,7 @@
         .catch(err => {
           actionButton.disabled = false;
           actionButton.textContent = "GET CODE";
-          triggerToast("CONNECTION ERROR");
+          triggerToast(err.message || "CONNECTION ERROR");
         });
 
       } else if (step.id === "EMAIL_VERIFY") {
@@ -1496,12 +1520,7 @@
         actionButton.textContent = "VERIFYING...";
 
         // Real API Verification Call
-        fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ action: "verifyEmailOTP", email: state.email, code: inputVal })
-        })
-        .then(res => res.json())
+        callBackend({ action: "verifyEmailOTP", email: state.email, code: inputVal })
         .then(res => {
           card.classList.remove("verifying");
           actionButton.disabled = false;
@@ -1536,7 +1555,7 @@
           card.classList.remove("verifying");
           actionButton.disabled = false;
           actionButton.textContent = "VERIFY";
-          triggerToast("CONNECTION ERROR");
+          triggerToast(err.message || "CONNECTION ERROR");
         });
 
       } else if (step.id === "NAME_INPUT") {
@@ -1580,12 +1599,7 @@
         actionButton.textContent = "GENERATING...";
 
         // Web App Telegram OTP Session initiation call
-        fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ action: "requestTelegramOTP", telegramUser: state.telegramUser })
-        })
-        .then(res => res.json())
+        callBackend({ action: "requestTelegramOTP", telegramUser: state.telegramUser })
         .then(res => {
           actionButton.disabled = false;
           actionButton.textContent = "GET CODE";
@@ -1608,7 +1622,7 @@
         .catch(err => {
           actionButton.disabled = false;
           actionButton.textContent = "GET CODE";
-          triggerToast("CONNECTION ERROR");
+          triggerToast(err.message || "CONNECTION ERROR");
         });
 
       } else if (step.id === "TELEGRAM_VERIFY") {
@@ -1640,12 +1654,7 @@
         actionButton.textContent = "VERIFYING...";
 
         // Real Telegram code validation fetch
-        fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ action: "verifyTelegramOTP", sessionToken: activeSessionToken, code: inputVal })
-        })
-        .then(res => res.json())
+        callBackend({ action: "verifyTelegramOTP", sessionToken: activeSessionToken, code: inputVal })
         .then(res => {
           card.classList.remove("verifying");
           actionButton.disabled = false;
@@ -1680,7 +1689,7 @@
           card.classList.remove("verifying");
           actionButton.disabled = false;
           actionButton.textContent = "VERIFY";
-          triggerToast("CONNECTION ERROR");
+          triggerToast(err.message || "CONNECTION ERROR");
         });
 
       } else if (step.id === "UNLOCK_PROMPT") {
@@ -1688,20 +1697,15 @@
         actionButton.textContent = "REGISTERING...";
 
         // Finalize Sheet Database Registration
-        fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({
-            action: "finalizeRegistration",
-            email: state.email,
-            username: state.username,
-            ffNickname: state.ffNickname,
-            ffUid: state.ffUid,
-            experienceLevel: state.experienceLevel,
-            telegramUser: state.telegramUser
-          })
+        callBackend({
+          action: "finalizeRegistration",
+          email: state.email,
+          username: state.username,
+          ffNickname: state.ffNickname,
+          ffUid: state.ffUid,
+          experienceLevel: state.experienceLevel,
+          telegramUser: state.telegramUser
         })
-        .then(res => res.json())
         .then(res => {
           actionButton.disabled = false;
           actionButton.textContent = "ACTIVATE ID";
@@ -1720,7 +1724,7 @@
         .catch(err => {
           actionButton.disabled = false;
           actionButton.textContent = "ACTIVATE ID";
-          triggerToast("CONNECTION ERROR");
+          triggerToast(err.message || "CONNECTION ERROR");
         });
 
       } else if (step.id === "FINAL_PASS") {
@@ -1733,13 +1737,8 @@
         actionButton.textContent = "CONNECTING...";
 
         // Record participant interest emoji "☑️" inside target "FINAL REVIEW" column on sheet
-        fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain" },
-          body: JSON.stringify({ action: "finalizeReview", gameId: state.gameId })
-        })
-        .then(res => res.json())
-        .then(() => {
+        callBackend({ action: "finalizeReview", gameId: state.gameId })
+        .then(res => {
           actionButton.disabled = false;
           actionButton.textContent = "ENTER ARENA";
           
