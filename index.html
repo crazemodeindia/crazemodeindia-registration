@@ -149,7 +149,7 @@
 
     /* High-end mild gradient completed gaming status bar */
     .status-bar-fill.completed {
-      background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50%, #00F2FE 100%) !important;
+      background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50., #00F2FE 100%) !important;
       background-size: 200% auto !important;
       box-shadow: 0 0 8px rgba(0, 242, 254, 0.6) !important;
       animation: status-glow 2s linear infinite !important;
@@ -165,7 +165,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 330px; /* Increased slightly to utilize freed space */
+      max-height: 380px; /* Sized up from 330px to prevent mobile drop-down cutoffs */
       overflow-y: auto;
       scrollbar-width: none;
     }
@@ -419,11 +419,11 @@
       padding-top: 8px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px; /* Balanced spacing */
     }
 
     .dropdown-option-inline {
-      font-size: 11px;
+      font-size: 13px; /* Enlarged for complete legibility */
       color: #666666;
       cursor: pointer;
       transition: color 0.15s;
@@ -480,8 +480,8 @@
       width: 100%;
     }
 
-    .bracket-display.placeholder {
-      color: #333333;
+    .bracket-display.active {
+      color: #FFFFFF;
     }
 
     /* Native embedded text field to allow full-line cursor editing */
@@ -835,7 +835,7 @@
       <!-- Populated dynamically -->
     </div>
 
-    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON (Elevated Upwards) -->
+    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON -->
     <div class="bottom-container">
       <div class="interactive-panel" id="interactivePanel">
         <!-- Rendered inputs dynamically with ZERO vertical layout shifts -->
@@ -847,10 +847,6 @@
   </div>
 
   <script>
-    // ==========================================================================
-    // FRONTEND CONTROLLER (CONNECTED TO SERVERSIDE GOOGLE APPS SCRIPT API)
-    // ==========================================================================
-    
     // Deployed Google Apps Script Web App URL integrated
     const API_URL = "https://script.google.com/macros/s/AKfycbwT1LJSii25JN0e_SIfnj717mjOQC4_yAlgmgp4_M2afpLfM6zHGIZ8cGaH2HldaGImBg/exec"; 
     
@@ -1026,49 +1022,6 @@
         <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
       </svg>
     `;
-
-    // Splash Screen Transition Trigger
-    window.addEventListener("DOMContentLoaded", () => {
-      setTimeout(() => {
-        const splash = document.getElementById("splashScreen");
-        splash.style.opacity = "0";
-        setTimeout(() => {
-          splash.style.display = "none";
-        }, 600);
-      }, 1800);
-    });
-
-    renderStep();
-
-    // Clipboard Copy Execution Handler (with in-app webview fallback)
-    function copyIdToClipboard() {
-      if (state.gameId) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(state.gameId).then(() => {
-            triggerToast("ID COPIED TO CLIPBOARD", true);
-          }).catch(() => fallbackCopyToClipboard(state.gameId));
-        } else {
-          fallbackCopyToClipboard(state.gameId);
-        }
-      }
-    }
-
-    function fallbackCopyToClipboard(text) {
-      const el = document.createElement('textarea');
-      el.value = text;
-      el.setAttribute('readonly', '');
-      el.style.position = 'absolute';
-      el.style.left = '-9999px';
-      document.body.appendChild(el);
-      el.select();
-      try {
-        document.execCommand('copy');
-        triggerToast("ID COPIED TO CLIPBOARD", true);
-      } catch (err) {
-        triggerToast("COPY FAILED");
-      }
-      document.body.removeChild(el);
-    }
 
     // Secure communication pipeline with robust error trapping and console logging
     function callBackend(payload) {
@@ -1736,7 +1689,7 @@
         actionButton.disabled = true;
         actionButton.textContent = "CONNECTING...";
 
-        // Record participant interest emoji "☑️" inside target "FINAL REVIEW" column on sheet
+        // Record participant interest emoji "☑" inside target "FINAL REVIEW" column on sheet
         callBackend({ action: "finalizeReview", gameId: state.gameId })
         .then(res => {
           actionButton.disabled = false;
@@ -1745,14 +1698,14 @@
           triggerToast("REDIRECTING...", true);
           setTimeout(() => {
             // Opens secure invitation link to Private Telegram Channel to Request Join
-            window.open("https://t.me/+Ah8ZbN2eKKAzZWJl", "_blank");
+            window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; // Direct redirect to prevent browser popup block [3]
           }, 600);
         })
         .catch(err => {
           actionButton.disabled = false;
           actionButton.textContent = "ENTER ARENA";
           // Redirect anyway to prevent bottleneck, write update asynchronously
-          window.open("https://t.me/+Ah8ZbN2eKKAzZWJl", "_blank");
+          window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; // Direct redirect [3]
         });
       }
     };
