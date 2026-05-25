@@ -1131,14 +1131,6 @@
       }
     }
 
-    function triggerToast(msg, isSuccess = false) {
-      toast.textContent = msg;
-      toast.style.backgroundColor = isSuccess ? "#61A843" : "#FF3D00";
-      toast.style.color = "#FFFFFF";
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2000);
-    }
-
     // Interactive sweep animation trigger
     function triggerCardShineSweep(cardId) {
       const card = document.getElementById(`card-${cardId}`);
@@ -1372,8 +1364,7 @@
           } else if (step.id === "FF_NICK_INPUT") {
             state.ffNickname = val;
             updateTopCard("ff_nick", val || "XXXXXXXXXXXXXXXXXXXX");
-          } else Rely on `doPost` to catch standard state data bindings
-          else if (step.id === "FF_UID_INPUT") {
+          } else if (step.id === "FF_UID_INPUT") {
             state.ffUid = val;
             updateTopCard("ff_uid", val || "XXXXXXXXXXXXXXXXXXXX");
           } else if (step.id === "TELEGRAM_INPUT") {
