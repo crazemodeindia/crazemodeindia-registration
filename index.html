@@ -935,6 +935,7 @@
           { id: "exp", label: "EXPERIENCE_LEVEL", valKey: "experienceLevel", placeholder: "SELECT YOUR EXPERIENCE LEVEL", dropdownActive: true }
         ],
         isDropdown: true,
+        noTextPanel: true, // Complete removal of bottom texting panel during Experience selection [3]
         btnText: "NEXT"
       },
       {
@@ -1371,7 +1372,8 @@
           } else if (step.id === "FF_NICK_INPUT") {
             state.ffNickname = val;
             updateTopCard("ff_nick", val || "XXXXXXXXXXXXXXXXXXXX");
-          } else if (step.id === "FF_UID_INPUT") {
+          } else Rely on `doPost` to catch standard state data bindings
+          else if (step.id === "FF_UID_INPUT") {
             state.ffUid = val;
             updateTopCard("ff_uid", val || "XXXXXXXXXXXXXXXXXXXX");
           } else if (step.id === "TELEGRAM_INPUT") {
@@ -1685,7 +1687,7 @@
           card.classList.remove("verifying");
           actionButton.disabled = false;
           actionButton.textContent = "VERIFY";
-          triggerToast(err.message || "CONNECTION ERROR");
+          triggerToast("CONNECTION ERROR");
         });
 
       } else if (step.id === "UNLOCK_PROMPT") {
