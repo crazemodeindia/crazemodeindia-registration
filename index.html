@@ -149,7 +149,7 @@
 
     /* High-end mild gradient completed gaming status bar */
     .status-bar-fill.completed {
-      background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50., #00F2FE 100%) !important;
+      background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50%, #00F2FE 100%) !important;
       background-size: 200% auto !important;
       box-shadow: 0 0 8px rgba(0, 242, 254, 0.6) !important;
       animation: status-glow 2s linear infinite !important;
@@ -165,7 +165,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 380px; /* Sized up from 330px to prevent mobile drop-down cutoffs */
+      max-height: 380px; /* Increased slightly to utilize freed space */
       overflow-y: auto;
       scrollbar-width: none;
     }
@@ -1023,6 +1023,49 @@
       </svg>
     `;
 
+    // Splash Screen Transition Trigger
+    window.addEventListener("DOMContentLoaded", () => {
+      setTimeout(() => {
+        const splash = document.getElementById("splashScreen");
+        splash.style.opacity = "0";
+        setTimeout(() => {
+          splash.style.display = "none";
+        }, 600);
+      }, 1800);
+    });
+
+    renderStep();
+
+    // Clipboard Copy Execution Handler (with in-app webview fallback)
+    function copyIdToClipboard() {
+      if (state.gameId) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(state.gameId).then(() => {
+            triggerToast("ID COPIED TO CLIPBOARD", true);
+          }).catch(() => fallbackCopyToClipboard(state.gameId));
+        } else {
+          fallbackCopyToClipboard(state.gameId);
+        }
+      }
+    }
+
+    function fallbackCopyToClipboard(text) {
+      const el = document.createElement('textarea');
+      el.value = text;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      try {
+        document.execCommand('copy');
+        triggerToast("ID COPIED TO CLIPBOARD", true);
+      } catch (err) {
+        triggerToast("COPY FAILED");
+      }
+      document.body.removeChild(el);
+    }
+
     // Secure communication pipeline with robust error trapping and console logging
     function callBackend(payload) {
       return fetch(API_URL, {
@@ -1677,7 +1720,7 @@
         .catch(err => {
           actionButton.disabled = false;
           actionButton.textContent = "ACTIVATE ID";
-          triggerToast(err.message || "CONNECTION ERROR");
+          triggerToast("CONNECTION ERROR");
         });
 
       } else if (step.id === "FINAL_PASS") {
