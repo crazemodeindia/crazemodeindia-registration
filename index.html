@@ -842,7 +842,7 @@
       <!-- Populated dynamically -->
     </div>
 
-    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON -->
+    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON (Elevated Upwards) -->
     <div class="bottom-container">
       <div class="interactive-panel" id="interactivePanel">
         <!-- Rendered inputs dynamically with ZERO vertical layout shifts -->
@@ -1717,7 +1717,7 @@
           card.classList.remove("verifying");
           actionButton.disabled = false;
           actionButton.textContent = "VERIFY";
-          triggerToast(err.message || "CONNECTION ERROR");
+          triggerToast("CONNECTION ERROR");
         });
 
       } else if (step.id === "UNLOCK_PROMPT") {
