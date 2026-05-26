@@ -842,7 +842,7 @@
       <!-- Populated dynamically -->
     </div>
 
-    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON (Elevated Upwards) -->
+    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON -->
     <div class="bottom-container">
       <div class="interactive-panel" id="interactivePanel">
         <!-- Rendered inputs dynamically with ZERO vertical layout shifts -->
@@ -1456,7 +1456,7 @@
       }, 350);
     }
 
-    // Typewriter effect builder
+    // Dynamic typewriter message effect builder
     function runTypewriterMessage(element, text, speed = 40, callback) {
       element.innerHTML = "";
       let i = 0;
@@ -1650,7 +1650,7 @@
         .catch(err => {
           actionButton.disabled = false;
           actionButton.textContent = "GET CODE";
-          triggerToast(err.message || "CONNECTION ERROR");
+          triggerToast("CONNECTION ERROR");
         });
 
       } else if (step.id === "TELEGRAM_VERIFY") {
