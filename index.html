@@ -169,7 +169,7 @@
       position: relative;
     }
 
-    /* Subtle passive circuit node terminals placed at precise step coordinates [2] */
+    /* Subtle passive circuit node terminals placed at precise step coordinates */
     .status-node {
       position: absolute;
       top: -1px;
@@ -182,7 +182,7 @@
       z-index: 2;
     }
 
-    /* Active progress fill with Matte White electric glow and energy wave [2] */
+    /* Active progress fill with Matte White electric glow and energy wave */
     .status-bar-fill {
       width: 0%;
       height: 100%;
@@ -194,7 +194,7 @@
       animation: status-energy-flow 1.5s linear infinite;
     }
 
-    /* Sharp vertical circuit capsule energy-tip connector (No round glow) [2] */
+    /* Sharp vertical circuit capsule energy-tip connector (No round glow) */
     .status-bar-fill::after {
       content: '';
       position: absolute;
@@ -208,7 +208,7 @@
       z-index: 5;
     }
 
-    /* Travelling percentage text floating elegantly above the active tip [2] */
+    /* Travelling percentage text floating elegantly above the active tip */
     .status-percentage-label {
       position: absolute;
       right: 0;
@@ -223,7 +223,7 @@
       transition: right 0.3s ease;
     }
 
-    /* High-end completed gaming status bar transition [2] */
+    /* High-end completed gaming status bar transition */
     .status-bar-fill.completed {
       background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50%, #00F2FE 100%) !important;
       background-size: 200% auto !important;
@@ -262,7 +262,7 @@
       display: none;
     }
 
-    /* Parent border container simulating flawless corner cuts [2] */
+    /* Parent border container simulating flawless corner cuts */
     .card {
       width: 100%;
       height: 52px;
@@ -270,7 +270,7 @@
       padding: 1px; /* 1px border width boundary */
       position: relative;
       flex-shrink: 0 !important; /* Strict lock preventing card compression on multi-stacks */
-      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut [2] */
+      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut */
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -628,7 +628,7 @@
       background-color: #FFFFFF; /* Acts as solid fill or outer border boundary */
       padding: 1px;
       cursor: pointer;
-      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); /* Cyber cut [2] */
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); /* Cyber cut */
       transition: background-color 0.15s, transform 0.1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -719,13 +719,13 @@
     }
 
     /* ==========================================================================
-       9. GAMER PASS CONFIRMATION CARD (Futuristic Asymmetrical Diagonal Cut) [2]
+       9. GAMER PASS CONFIRMATION CARD (Futuristic Asymmetrical Diagonal Cut)
        ========================================================================== */
     .confirmation-card-wrapper {
       width: 100%;
       background-color: #1E1E1E; /* Outer solid border container */
       padding: 1px; /* 1px border width wrapper */
-      clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px); /* Perfect asymmetrical corner cuts [2] */
+      clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px); /* Perfect asymmetrical corner cuts */
       transition: background-color 0.2s ease;
     }
 
@@ -745,7 +745,7 @@
       clip-path: polygon(23.5px 0, 100% 0, 100% calc(100% - 23.5px), calc(100% - 23.5px) 100%, 0 100%, 0 23.5px);
     }
 
-    /* Floating dashed inner blueprint line matching the exact outer asymmetrical cut [2] */
+    /* Floating dashed inner blueprint line matching the exact outer asymmetrical cut */
     .confirmation-card::before {
       content: '';
       position: absolute;
@@ -756,7 +756,7 @@
       border: 1px dashed rgba(255, 255, 255, 0.08);
       pointer-events: none;
       z-index: 2;
-      clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px); /* Internal matched cut [2] */
+      clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px); /* Internal matched cut */
     }
 
     /* Slow vertical cyber scanning bar */
@@ -1010,7 +1010,7 @@
 
   <script>
     // Live Web App URL integration [1]
-    const API_URL = "https://script.google.com/macros/s/AKfycbwt8gvFP7q8p634We8nv-aewx-Fmo98rgMZdZvzTMn3d6XcIFK-7e79ssep0bgef1Bk/exec"; 
+    const API_URL = "https://script.google.com/macros/s/AKfycbxuiAd_TMUG3YGKv9EgpTgedw--utmGtuhcPr9m5CqgcCswv77A8A9Wks0gjLP5QkHr/exec"; 
     
     let currentStep = 0;
     let audioCtx = null; 
@@ -1673,6 +1673,7 @@
             renderStep();
             triggerToast("CODE SENT", true); 
           } else {
+            // Gmail reuse error handled by logging to UI
             triggerCardError("email", res.message || "REGISTRATION PROCESS FAILED");
           }
         })
