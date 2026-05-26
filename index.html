@@ -528,56 +528,60 @@
       to { transform: rotate(360deg); }
     }
 
-    /* INLINE CARD DROPDOWN */
+    /* INLINE CARD DROPDOWN (TERMINAL SELECTION MENU) */
     .card.dropdown-active {
       height: auto;
-      min-height: 160px;
-    }
-
-    .card.dropdown-active .card-inner {
-      height: 100%;
-      min-height: 158px;
-      align-items: flex-start;
-      flex-direction: column;
-      cursor: pointer;
+      min-height: 250px; /* Sized to comfortably host option block grid inside safe limit */
     }
 
     .dropdown-list-inline {
       width: 100%;
       margin-top: 10px;
       border-top: 1px dashed #161616;
-      padding-top: 8px;
+      padding-top: 10px;
       display: flex;
       flex-direction: column;
       gap: 6px; 
     }
 
     .dropdown-option-inline {
-      font-size: 13px; 
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px; 
       font-weight: 600;
-      color: #666666;
+      color: #888888;
       cursor: pointer;
-      padding: 4px 0;
-      transition: color 0.15s, transform 0.05s ease;
-    }
-
-    .dropdown-option-inline:active {
-      transform: scale(0.97);
+      padding: 6px 12px;
+      border: 1px solid #161616;
+      background: #000000;
+      transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
     }
 
     .dropdown-option-inline:hover {
       color: #FFFFFF;
+      border-color: #333333;
+      background: #0A0A0A;
+    }
+
+    .dropdown-option-inline:active {
+      transform: scale(0.98);
     }
 
     .dropdown-option-inline.selected {
-      color: #FFFFFF;
+      color: #00F2FE;
+      border-color: #00F2FE;
+      background: #05141A;
       font-weight: 700;
+      text-shadow: 0 0 8px rgba(0, 242, 254, 0.3);
     }
 
-    /* STATIONARY BOTTOM ZONE (Clean action area) */
+    /* STATIONARY BOTTOM ZONE (Clean action area elevated for mobile safe limits) */
     .bottom-container {
       position: absolute;
-      bottom: 40px; /* Anchored slightly from bottom edge */
+      bottom: 58px; /* Elevated to sit inside mobile borders safely */
       left: 32px;
       right: 32px;
       height: auto;
@@ -975,12 +979,13 @@
   </div>
 
   <script>
-    // Live Web App URL integration [1]
+    // Live Web App URL integration
     const API_URL = "https://script.google.com/macros/s/AKfycbxuiAd_TMUG3YGKv9EgpTgedw--utmGtuhcPr9m5CqgcCswv77A8A9Wks0gjLP5QkHr/exec"; 
     
     let currentStep = 0;
     let audioCtx = null; 
     let activeSessionToken = ""; 
+    let actionLock = false; // Transition thread lock preventing rapid multi-firing
 
     const state = {
       email: "",
@@ -1262,6 +1267,7 @@
 
     // Helper: Triggers physical/visual error state on target active cards [2]
     function triggerCardError(cardId, errorMessage) {
+      actionLock = false; // Reset lock on error
       const card = document.getElementById(`card-${cardId}`);
       if (card) {
         card.classList.add("error-state");
@@ -1430,8 +1436,10 @@
           } else if (c.dropdownActive) {
             cardDiv.className += " dropdown-active";
             const displayVal = state.experienceLevel || "SELECT YOUR EXPERIENCE LEVEL";
+            
+            // Render beautiful custom terminal option selectors inline inside card
             innerHTML = `
-              <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+              <div style="display:flex; justify-content:space-between; width:100%; align-items:center; width:100%;">
                 <div class="card-content">
                   <div class="card-label">${c.label}</div>
                   <div class="card-value" style="color: ${state.experienceLevel ? '#FFFFFF' : '#888888'};">${displayVal}</div>
@@ -1441,10 +1449,18 @@
                 </div>
               </div>
               <div class="dropdown-list-inline">
-                <div class="dropdown-option-inline" onclick="setExperience('Beginner')">[ ] Beginner</div>
-                <div class="dropdown-option-inline" onclick="setExperience('Intermediate')">[ ] Intermediate</div>
-                <div class="dropdown-option-inline" onclick="setExperience('Advanced')">[ ] Advanced</div>
-                <div class="dropdown-option-inline" onclick="setExperience('Competitive')">[ ] Competitive</div>
+                <div class="dropdown-option-inline ${state.experienceLevel === 'Beginner' ? 'selected' : ''}" onclick="setExperience('Beginner')">
+                  <span class="cyber-bracket">${state.experienceLevel === 'Beginner' ? '[X]' : '[ ]'}</span> Beginner
+                </div>
+                <div class="dropdown-option-inline ${state.experienceLevel === 'Intermediate' ? 'selected' : ''}" onclick="setExperience('Intermediate')">
+                  <span class="cyber-bracket">${state.experienceLevel === 'Intermediate' ? '[X]' : '[ ]'}</span> Intermediate
+                </div>
+                <div class="dropdown-option-inline ${state.experienceLevel === 'Advanced' ? 'selected' : ''}" onclick="setExperience('Advanced')">
+                  <span class="cyber-bracket">${state.experienceLevel === 'Advanced' ? '[X]' : '[ ]'}</span> Advanced
+                </div>
+                <div class="dropdown-option-inline ${state.experienceLevel === 'Competitive' ? 'selected' : ''}" onclick="setExperience('Competitive')">
+                  <span class="cyber-bracket">${state.experienceLevel === 'Competitive' ? '[X]' : '[ ]'}</span> Competitive
+                </div>
               </div>
             `;
           } else if (c.isLockCard) {
@@ -1550,9 +1566,8 @@
           }
         };
 
+        // Standardized input listener cleans keyboard inputs flawlessly
         hiddenCodeCapture.addEventListener("input", handleCodeInput);
-        hiddenCodeCapture.addEventListener("keyup", handleCodeInput);
-        hiddenCodeCapture.addEventListener("change", handleCodeInput);
       }
     }
 
@@ -1584,6 +1599,8 @@
 
     // Core validation controller connected to Google Sheets Script Editor Backend
     actionButton.onclick = () => {
+      if (actionLock) return; // Prevent double-trigger step jumps
+      
       const step = steps[currentStep];
 
       if (!audioCtx) {
@@ -1604,6 +1621,7 @@
           return;
         }
 
+        actionLock = true;
         actionButton.style.pointerEvents = "none";
         actionButtonInner.textContent = "SENDING...";
 
@@ -1612,6 +1630,7 @@
         .then(res => {
           actionButton.style.pointerEvents = "auto";
           actionButtonInner.textContent = "GET CODE";
+          actionLock = false; // Release lock
 
           if (res.success) {
             triggerCardShineSweep("email");
@@ -1638,6 +1657,7 @@
           
           actionButton.style.pointerEvents = "auto";
           actionButtonInner.textContent = "GET CODE";
+          actionLock = false; // Release lock
           
           triggerCardShineSweep("email");
           currentStep++;
@@ -1656,6 +1676,7 @@
           return;
         }
 
+        actionLock = true;
         const card = document.getElementById("card-code");
         card.classList.add("verifying");
         actionButton.style.pointerEvents = "none";
@@ -1664,6 +1685,12 @@
         // Intercept local fallbacks before attempting script queries
         if (state.demoEmailOTP && inputVal === state.demoEmailOTP) {
           state.emailVerified = true;
+          
+          // Mobile Haptic Success Feedback
+          if (navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]); 
+          }
+
           const emailCard = document.getElementById("card-email");
           if (emailCard) {
             emailCard.className = "card success-gmail";
@@ -1673,6 +1700,8 @@
             card.classList.remove("verifying");
             actionButton.style.pointerEvents = "auto";
             actionButtonInner.textContent = "VERIFY";
+            actionLock = false; // Release lock
+
             currentStep++;
             renderStep();
             triggerToast("GMAIL VERIFIED", true);
@@ -1685,6 +1714,11 @@
         .then(res => {
           if (res.success) {
             state.emailVerified = true;
+
+            // Mobile Haptic Success Feedback
+            if (navigator.vibrate) {
+              navigator.vibrate([100, 50, 100]); 
+            }
             
             // Highlight player email border green on correct code verification
             const emailCard = document.getElementById("card-email");
@@ -1698,6 +1732,7 @@
               card.classList.remove("verifying");
               actionButton.style.pointerEvents = "auto";
               actionButtonInner.textContent = "VERIFY";
+              actionLock = false; // Release lock
               
               currentStep++;
               renderStep();
@@ -1751,6 +1786,7 @@
           return;
         }
 
+        actionLock = true;
         actionButton.style.pointerEvents = "none";
         actionButtonInner.textContent = "GENERATING...";
 
@@ -1759,6 +1795,7 @@
         .then(res => {
           actionButton.style.pointerEvents = "auto";
           actionButtonInner.textContent = "GET CODE";
+          actionLock = false; // Release lock
 
           if (res.success) {
             activeSessionToken = res.sessionToken;
@@ -1777,6 +1814,7 @@
           // Local fallback logic in case webviews intercept external popups/bot links
           actionButton.style.pointerEvents = "auto";
           actionButtonInner.textContent = "GET CODE";
+          actionLock = false; // Release lock
           activeSessionToken = "DEMO-SESSION-TOKEN";
           
           triggerCardShineSweep("tg");
@@ -1796,6 +1834,7 @@
           return;
         }
 
+        actionLock = true;
         const card = document.getElementById("card-tg_code");
         card.classList.add("verifying");
         actionButton.style.pointerEvents = "none";
@@ -1806,6 +1845,11 @@
         .then(res => {
           if (res.success) {
             state.telegramVerified = true;
+
+            // Mobile Haptic Success Feedback
+            if (navigator.vibrate) {
+              navigator.vibrate([100, 50, 100]); 
+            }
             
             // Highlight Telegram username card border blue on correct code verification
             const tgCard = document.getElementById("card-tg");
@@ -1819,6 +1863,7 @@
               card.classList.remove("verifying");
               actionButton.style.pointerEvents = "auto";
               actionButtonInner.textContent = "VERIFY";
+              actionLock = false; // Release lock
               
               currentStep++;
               renderStep();
