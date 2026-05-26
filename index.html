@@ -276,6 +276,12 @@
       box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
     }
 
+    /* Highlight card on active input focus */
+    .card:focus-within {
+      background-color: #555555 !important;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
+    }
+
     /* Card Glow shine animation */
     .card-inner::before {
       content: '';
@@ -502,7 +508,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      opacity: 0;
+      opacity: 0.01; /* Set to 0.01 to ensure mobile browsers paint focus successfully */
       cursor: text;
       border: none;
       outline: none;
@@ -1426,7 +1432,7 @@
                   <div class="code-box-display"><span></span></div>
                 </div>
               </div>
-              <input type="tel" class="hidden-code-input" id="hiddenCodeCapture" maxlength="6" autocomplete="off" />
+              <input type="text" pattern="[0-9]*" inputmode="numeric" class="hidden-code-input" id="hiddenCodeCapture" maxlength="6" autocomplete="off" />
               <div class="verify-animation-box"></div>
             `;
           } else if (c.editable) {
@@ -1494,7 +1500,10 @@
 
           // Force focus on click anywhere inside active input wrappers for high-performance touch feedback
           if (c.editable || c.isCode) {
-            cardDiv.addEventListener("click", () => {
+            cardDiv.addEventListener("click", (e) => {
+              if (e.target.classList.contains("hidden-code-input") || e.target.classList.contains("card-input")) {
+                return;
+              }
               const input = cardDiv.querySelector(".card-input, .hidden-code-input");
               if (input) input.focus();
             });
@@ -1504,7 +1513,7 @@
         // Initialize keyboard focus captures dynamically with a short layout paint delay
         setTimeout(() => {
           bindInlineInputs(step);
-        }, 50);
+        }, 100);
       }
 
       backButton.style.display = (currentStep > 0 && !step.isFinalPass) ? "block" : "none";
@@ -1618,7 +1627,7 @@
         actionButton.style.pointerEvents = "none";
         actionButtonInner.textContent = "SENDING...";
 
-        // Live API integration checking email uniqueness and dispatching actual verification code
+        // Live API integration checking email uniqueness and dispatching actual verification code [1]
         callBackend({ action: "sendEmailOTP", email: state.email })
         .then(res => {
           actionButton.style.pointerEvents = "auto";
