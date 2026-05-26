@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Craze Mode - Premium Registration Engine</title>
+  <title>CRAZE MODE - Premium Registration Engine</title>
   <style>
-    /* Google Fonts: Oxanium (Gaming Brand) & Space Mono (High-End Monospace) */
-    @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
+    /* Google Fonts: Montserrat (Brand Typography) & Rajdhani (High-Tech Condensed Body) */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rajdhani:wght@500;600;700&display=swap');
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       user-select: none;
+      -webkit-user-select: none; /* Block native context menus on mobile hold gestures */
+      -webkit-tap-highlight-color: transparent; /* Remove laggy mobile blue tap highlights */
     }
 
     body {
@@ -20,7 +22,7 @@
       /* Subtly glowing backlighting vignette behind the portal viewport */
       background-image: radial-gradient(circle at 50% 30%, #151124 0%, #000000 80%);
       color: #FFFFFF;
-      font-family: 'Oxanium', sans-serif;
+      font-family: 'Rajdhani', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -44,26 +46,29 @@
       transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Unified Brand Typography */
+    /* Montserrat Extra Bold brand typography */
     .brand-logo-unified {
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      font-size: 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800; /* Extra bold monstera style */
+      font-size: 25px;
       letter-spacing: 5px;
       color: #FFFFFF;
       text-transform: uppercase;
     }
 
     .splash-logo {
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
+    /* Montserrat thin subtitle typography */
     .splash-sub {
-      font-family: 'Space Mono', monospace;
-      font-size: 8px;
-      letter-spacing: 2px;
-      color: #444444;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 200; /* Monstera font style thin */
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: #7A7A7A;
       text-transform: uppercase;
+      margin-top: 4px;
     }
 
     /* Mobile-Friendly Proportional Viewport */
@@ -88,8 +93,8 @@
     }
 
     .header-left .title {
-      font-size: 11px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       letter-spacing: 1.5px;
       color: #7A7A7A; /* Higher contrast gray label */
     }
@@ -103,7 +108,9 @@
     }
 
     .logo-sub {
-      font-size: 7px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 8px;
       letter-spacing: 0.5px;
       color: #444444;
       margin-top: 3px;
@@ -122,6 +129,14 @@
       width: 100%;
       margin-bottom: 30px;
       position: relative;
+    }
+
+    .status-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #7A7A7A;
+      margin-bottom: 6px;
     }
 
     .status-bar {
@@ -146,7 +161,7 @@
 
     /* Active progress fill with Matte White electric glow and energy wave [2] */
     .status-bar-fill {
-      width: 20%;
+      width: 0%;
       height: 100%;
       background-color: #FFFFFF; /* Matte white fill */
       position: relative;
@@ -175,7 +190,7 @@
       position: absolute;
       right: 0;
       top: -22px; /* Float directly above the bar */
-      font-family: 'Space Mono', monospace;
+      font-family: 'Rajdhani', sans-serif;
       font-size: 11px;
       font-weight: 700;
       color: #FFFFFF;
@@ -214,8 +229,8 @@
     .cards-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      max-height: 380px; /* Sized up from 330px to prevent mobile drop-down cutoffs */
+      gap: 12px;
+      max-height: 460px; /* Sized up from 380px now that bottom panel is removed */
       overflow-y: auto;
       scrollbar-width: none;
       z-index: 10;
@@ -224,25 +239,45 @@
       display: none;
     }
 
-    /* Display Cards with 45-degree chamfered cyber corner cut [2] */
+    /* Parent border container simulating flawless corner cuts [2] */
     .card {
       width: 100%;
-      height: 48px;
+      height: 52px;
+      background-color: #161616; /* Represents the passive border color */
+      padding: 1px; /* 1px border width boundary */
+      position: relative;
+      flex-shrink: 0 !important; /* Strict lock preventing card compression on multi-stacks */
+      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut [2] */
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Inner layer containing card contents */
+    .card-inner {
+      width: 100%;
+      height: 100%;
       background-color: #000000;
-      border: 1px solid #161616;
       padding: 8px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: relative;
       overflow: hidden;
-      flex-shrink: 0 !important; /* Strict lock preventing card compression on multi-stacks */
-      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut [2] */
-      transition: all 0.2s ease;
+      clip-path: polygon(7.5px 0, 100% 0, 100% calc(100% - 7.5px), calc(100% - 7.5px) 100%, 0 100%, 0 7.5px);
+    }
+
+    /* Tactile micro-scale feedback active state */
+    .card:active {
+      transform: scale(0.98);
+    }
+
+    /* Active input styling for text entry integration */
+    .card.active-input-state {
+      background-color: #555555;
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.05);
     }
 
     /* Card Glow shine animation */
-    .card::before {
+    .card-inner::before {
       content: '';
       position: absolute;
       top: 0;
@@ -259,7 +294,7 @@
       pointer-events: none;
     }
 
-    .card.shine-sweep::before {
+    .card.shine-sweep .card-inner::before {
       animation: sweep 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -275,27 +310,27 @@
     }
 
     @keyframes border-glow-pulsing {
-      0% { border-color: #161616; }
-      50% { border-color: #444444; }
-      100% { border-color: #777777; }
+      0% { background-color: #161616; }
+      50% { background-color: #444444; }
+      100% { background-color: #777777; }
     }
 
-    /* Card States */
+    /* Card States (Outer border simulations) */
     .card.success-gmail {
-      border-color: #61A843 !important;
+      background-color: #61A843 !important; /* Turns green */
     }
 
     .card.success-telegram {
-      border-color: #0088cc !important;
+      background-color: #0088cc !important; /* Turns blue */
     }
 
     .card.success-profile {
-      border-color: #FFFFFF !important;
+      background-color: #FFFFFF !important;
     }
 
     /* High-frequency micro-vibration error */
     .card.error-state {
-      border-color: #ff3d00 !important;
+      background-color: #ff3d00 !important;
       animation: micro-vibrate 0.15s linear infinite;
     }
 
@@ -319,23 +354,50 @@
       width: 100%;
     }
 
+    /* Let clicks pass through decorative code items straight to the hidden input box */
+    .card.active-input-state .card-content .card-label,
+    .card.active-input-state .card-content .code-boxes,
+    .card.active-input-state .card-content .code-box-display,
+    .card.active-input-state .card-content .code-box-display span {
+      pointer-events: none !important;
+    }
+
     .card-label {
-      font-size: 11px; /* Scaled up for mobile readability */
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       color: #7A7A7A; 
       letter-spacing: 1px;
-      margin-bottom: 1px;
+      margin-bottom: 2px;
       text-transform: uppercase;
     }
 
     .card-value {
-      font-size: 15px; /* Scaled up for mobile readability */
-      font-weight: 500;
+      font-size: 15px; 
+      font-weight: 600;
       color: #EAEAEA; 
       letter-spacing: 1px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    /* Embedded text elements styled inline directly inside the active card */
+    .card-input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #FFFFFF;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      width: 100%;
+      margin-top: 1px;
+      padding: 0;
+    }
+
+    .card-input::placeholder {
+      color: #3A3A3A;
     }
 
     .card.success-gmail .card-value,
@@ -409,27 +471,43 @@
       to { transform: rotate(360deg); }
     }
 
-    /* CODE OTP DISPLAY BOXES */
+    /* COMPACT CODE OTP DISPLAY BOXES */
     .code-boxes {
       display: flex;
-      gap: 6px;
+      gap: 4px;
+      margin-top: 2px;
     }
 
     .code-box-display {
-      width: 24px; /* Restored back from 12px to match your original horizontal design */
-      height: 32px; /* Restored back from 16px to match your original horizontal design */
+      width: 18px; /* Optimized, compact width */
+      height: 24px; /* Reduced vertical footprint for better vertical balance */
       border: 1px solid #2B2B2B;
       color: #FFFFFF;
       text-align: center;
-      font-size: 15px; /* Sized up for high readability on mobile viewports */
-      line-height: 32px;
-      font-family: 'Space Mono', monospace;
+      font-size: 13px; /* Scaled down for high integration */
+      line-height: 24px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
       overflow: hidden;
       position: relative;
     }
 
     .code-box-display.active {
       border-color: #FFFFFF;
+    }
+
+    .hidden-code-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: text;
+      border: none;
+      outline: none;
+      z-index: 20; /* Layer on top of visual content inside .card-inner */
+      pointer-events: auto !important;
     }
 
     /* Falling numbers cascading error effect */
@@ -460,7 +538,12 @@
     /* INLINE CARD DROPDOWN */
     .card.dropdown-active {
       height: auto;
-      min-height: 140px;
+      min-height: 160px;
+    }
+
+    .card.dropdown-active .card-inner {
+      height: 100%;
+      min-height: 158px;
       align-items: flex-start;
       flex-direction: column;
       cursor: pointer;
@@ -468,19 +551,25 @@
 
     .dropdown-list-inline {
       width: 100%;
-      margin-top: 8px;
+      margin-top: 10px;
       border-top: 1px dashed #161616;
       padding-top: 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px; /* Balanced spacing */
+      gap: 6px; 
     }
 
     .dropdown-option-inline {
-      font-size: 13px; /* Enlarged for complete legibility */
+      font-size: 13px; 
+      font-weight: 600;
       color: #666666;
       cursor: pointer;
-      transition: color 0.15s;
+      padding: 4px 0;
+      transition: color 0.15s, transform 0.05s ease;
+    }
+
+    .dropdown-option-inline:active {
+      transform: scale(0.97);
     }
 
     .dropdown-option-inline:hover {
@@ -492,103 +581,58 @@
       font-weight: 700;
     }
 
-    /* STATIONARY BOTTOM ZONE (Optimized height for zero text merging & perfect spacing) */
+    /* STATIONARY BOTTOM ZONE (Clean action area) */
     .bottom-container {
       position: absolute;
-      bottom: 105px; /* Moderately lowered to free up upper card space while remaining easy to use */
+      bottom: 40px; /* Anchored slightly from bottom edge */
       left: 32px;
       right: 32px;
-      height: auto; /* Dynamically adjusts so empty space never intercepts touches on card lists */
+      height: auto;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end; 
-      gap: 16px;
+      gap: 12px;
       z-index: 50;
-      pointer-events: none; /* Allows click events to pass straight through empty sections to cards */
     }
 
-    .bottom-container * {
-      pointer-events: auto; /* Enables touch strictly on actual buttons */
-    }
-
-    /* Fixed Height Typing Container with chamfered cyber corners */
-    .interactive-panel {
-      width: 100%;
-      height: 110px; /* Locked panel height */
-      background-color: #000000;
-      border: 1px solid #161616;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 12px 20px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-      clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); /* Cyber cut [2] */
-    }
-
-    /* Bracket Text Display with Thin Blinking Cursor */
-    .bracket-display {
-      font-family: 'Space Mono', monospace;
-      font-size: 16px; /* Scaled up for high legibility */
-      letter-spacing: 1.5px;
-      color: #333333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .bracket-display.active {
-      color: #FFFFFF;
-    }
-
-    /* Native embedded text field to allow full-line cursor editing */
-    .real-embedded-input {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #FFFFFF;
-      font-family: 'Space Mono', monospace;
-      font-size: 16px;
-      letter-spacing: 1.5px;
-      text-align: center;
-      width: 280px;
-      caret-color: #FFFFFF; 
-    }
-
-    .real-embedded-input::placeholder {
-      color: #333333;
-    }
-
-    /* NEXT / VERIFY ACTION BUTTON with chamfered cyber corners */
+    /* NEXT / VERIFY ACTION BUTTON - Dual-container clip path border mapping */
     .action-button {
       width: 100%;
       height: 52px;
-      background-color: #FFFFFF;
-      border: 1px solid #FFFFFF;
-      color: #000000;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
+      background-color: #FFFFFF; /* Acts as solid fill or outer border boundary */
+      padding: 1px;
       cursor: pointer;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); /* Cyber cut [2] */
+      transition: background-color 0.15s, transform 0.1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .action-button:active {
+      transform: scale(0.97);
+    }
+
+    .action-button-inner {
+      width: 100%;
+      height: 100%;
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Montserrat', sans-serif; /* High impact brand header font style */
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 10px;
       text-transform: uppercase;
-      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); /* Cyber cut [2] */
-      transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+      clip-path: polygon(9.5px 0, 100% 0, 100% calc(100% - 9.5px), calc(100% - 9.5px) 100%, 0 100%, 0 9.5px);
+      transition: background-color 0.15s, color 0.15s;
     }
 
-    .action-button:hover {
+    .action-button:hover .action-button-inner {
       background-color: #000000;
       color: #FFFFFF;
     }
 
-    .action-button:active {
+    .action-button:active .action-button-inner {
       background-color: #111111;
       color: #FFFFFF;
     }
@@ -621,12 +665,17 @@
       background: none;
       border: none;
       color: #444444;
-      font-family: 'Space Mono', monospace;
-      font-size: 10px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
       letter-spacing: 1.5px;
       cursor: pointer;
       margin-top: 4px;
-      transition: color 0.15s;
+      transition: color 0.15s, transform 0.05s ease;
+    }
+
+    .back-link:active {
+      transform: scale(0.97);
     }
 
     .back-link:hover {
@@ -639,27 +688,34 @@
       letter-spacing: 4px;
       color: #FFFFFF;
       font-weight: bold;
-      font-family: 'Space Mono', monospace;
+      font-family: 'Rajdhani', sans-serif;
     }
 
     /* ==========================================================================
        9. GAMER PASS CONFIRMATION CARD (Futuristic Asymmetrical Diagonal Cut) [2]
        ========================================================================== */
+    .confirmation-card-wrapper {
+      width: 100%;
+      background-color: #1E1E1E; /* Outer solid border container */
+      padding: 1px; /* 1px border width wrapper */
+      clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px); /* Perfect asymmetrical corner cuts [2] */
+      transition: background-color 0.2s ease;
+    }
+
     .confirmation-card {
       width: 100%;
       background-color: #000000;
-      border: 1px solid #1E1E1E; /* Pure B&W minimalist solid border */
       /* Subtly textured coordinate dot-grid background for raw gaming schematic feel */
       background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
       background-size: 8px 8px;
-      padding: 24px; /* More spacing for true premium feel */
+      padding: 23px; /* Offset padding spacing for premium layout consistency */
       display: flex;
       flex-direction: column;
       gap: 12px;
       position: relative;
       z-index: 1;
       overflow: hidden;
-      clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px); /* Perfect asymmetrical corner cuts [2] */
+      clip-path: polygon(23.5px 0, 100% 0, 100% calc(100% - 23.5px), calc(100% - 23.5px) 100%, 0 100%, 0 23.5px);
     }
 
     /* Floating dashed inner blueprint line matching the exact outer asymmetrical cut [2] */
@@ -725,7 +781,7 @@
     }
 
     .confirmation-title {
-      font-size: 12px;
+      font-size: 14px;
       color: #FFFFFF;
     }
 
@@ -754,16 +810,18 @@
     }
 
     .confirmation-item label {
-      font-size: 10px; /* Enhanced legibility */
+      font-size: 10px; 
+      font-weight: 600;
       color: #7A7A7A;
       display: block;
       margin-bottom: 2px;
     }
 
     .confirmation-item span {
-      font-size: 13px; /* Enhanced legibility */
+      font-size: 14px; 
       color: #FFFFFF;
-      font-family: 'Space Mono', monospace;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
     }
 
     /* Stacked ID representation format */
@@ -776,6 +834,7 @@
 
     .confirmation-id-row label {
       font-size: 10px;
+      font-weight: 600;
       color: #7A7A7A;
       display: block;
       margin-bottom: 3px;
@@ -783,18 +842,19 @@
     }
 
     .confirmation-id-row span {
-      font-size: 17px; /* Enhanced legibility */
+      font-size: 17px; 
       font-weight: 700;
       letter-spacing: 4px;
       color: #FFFFFF;
-      font-family: 'Space Mono', monospace;
+      font-family: 'Rajdhani', sans-serif;
       display: block;
     }
 
     /* Typing effect container styling */
     .typing-text-message {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 600;
+      font-size: 12px;
       color: #888888;
       letter-spacing: 0.5px;
       text-align: left;
@@ -810,7 +870,7 @@
       justify-content: center;
       gap: 16px;
       width: 100%;
-      margin-top: 30px;
+      margin-top: 20px;
       opacity: 0;
       transition: opacity 0.5s ease;
     }
@@ -826,11 +886,11 @@
     }
 
     .motto-text-final {
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      font-size: 13px;
+      font-family: 'Montserrat', sans-serif; /* Applied Brand Typography */
+      font-weight: 800;
+      font-size: 14px;
       letter-spacing: 4px;
-      color: var(--text-active);
+      color: #FFFFFF;
       text-transform: uppercase;
       text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
@@ -841,11 +901,12 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background-color: var(--text-active);
-      border: 1px solid var(--text-active);
-      color: var(--bg-dark);
+      background-color: #FF3D00;
+      border: 1px solid #FF3D00;
+      color: #FFFFFF;
       padding: 8px 16px;
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 700;
       letter-spacing: 1.5px;
       opacity: 0;
       transition: opacity 0.2s ease;
@@ -862,7 +923,7 @@
 
   <!-- SPLASH SCREEN INTRO MODULE -->
   <div class="splash-screen" id="splashScreen">
-    <div class="splash-logo brand-logo-unified">CRAZE_MODE</div>
+    <div class="splash-logo brand-logo-unified">CRAZE MODE</div>
     <div class="splash-sub">PROVE YOUR SKILL</div>
   </div>
 
@@ -877,7 +938,7 @@
       </div>
       <div class="header-right">
         <!-- Unified brand logo style applied -->
-        <div class="logo-brand brand-logo-unified" style="font-size: 16px; letter-spacing: 3px;">CRAZE_MODE</div>
+        <div class="logo-brand brand-logo-unified" style="font-size: 16px; letter-spacing: 3px;">CRAZE MODE</div>
         <div class="logo-sub">SKILL-BASED_MOBILE_TOURNAMENTS</div>
       </div>
     </div>
@@ -885,23 +946,23 @@
     <!-- Thin Divider -->
     <div class="header-divider"></div>
 
-    <!-- STATUS TRACKER - Now permanently anchored on top below headerdivider -->
+    <!-- STATUS TRACKER -->
     <div class="status-section">
-      <!-- Travelling percentage layout [2] -->
-      <div class="status-label">STATUS: 15%</div>
+      <div class="status-label">STATUS: 0%</div>
       <div class="status-bar">
-        <!-- Structural circuit trace nodes placed along the track [2] -->
+        <!-- Structural circuit trace nodes mapped to match step percentages -->
+        <div class="status-node" style="left: 0%;"></div>
         <div class="status-node" style="left: 15%;"></div>
         <div class="status-node" style="left: 30%;"></div>
-        <div class="status-node" style="left: 42%;"></div>
-        <div class="status-node" style="left: 54%;"></div>
-        <div class="status-node" style="left: 66%;"></div>
+        <div class="status-node" style="left: 45%;"></div>
+        <div class="status-node" style="left: 60%;"></div>
         <div class="status-node" style="left: 75%;"></div>
         <div class="status-node" style="left: 85%;"></div>
         <div class="status-node" style="left: 92%;"></div>
+        <div class="status-node" style="left: 96%;"></div>
         <div class="status-node" style="left: 100%;"></div>
         <div class="status-bar-fill" id="statusBarFill">
-          <span class="status-percentage-label" id="statusPercent">15%</span>
+          <span class="status-percentage-label" id="statusPercent">0%</span>
         </div>
       </div>
     </div>
@@ -911,24 +972,22 @@
       <!-- Populated dynamically -->
     </div>
 
-    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON -->
+    <!-- STATIONARY ACTION BUTTON & BACK LINK -->
     <div class="bottom-container">
-      <div class="interactive-panel" id="interactivePanel">
-        <!-- Rendered inputs dynamically with ZERO vertical layout shifts -->
+      <div class="action-button" id="actionButton">
+        <div class="action-button-inner" id="actionButtonInner">GET CODE</div>
       </div>
-      
-      <button class="action-button" id="actionButton">GET CODE</button>
       <button class="back-link" id="backButton">[ Back ]</button>
     </div>
   </div>
 
   <script>
-    // Deployed Google Apps Script Web App URL integrated
-    const API_URL = "https://script.google.com/macros/s/AKfycbwT1LJSii25JN0e_SIfnj717mjOQC4_yAlgmgp4_M2afpLfM6zHGIZ8cGaH2HldaGImBg/exec"; 
+    // Live Web App URL integration [1]
+    const API_URL = "https://script.google.com/macros/s/AKfycbwt8gvFP7q8p634We8nv-aewx-Fmo98rgMZdZvzTMn3d6XcIFK-7e79ssep0bgef1Bk/exec"; 
     
     let currentStep = 0;
-    let audioCtx = null; // Globally managed audio state
-    let activeSessionToken = ""; // Dynamic Telegram OTP session validation tracking
+    let audioCtx = null; 
+    let activeSessionToken = ""; 
 
     const state = {
       email: "",
@@ -939,79 +998,73 @@
       experienceLevel: "",
       telegramUser: "",
       telegramVerified: false,
-      gameId: "CM-GEN-PENDING" // This will be overwritten with the unique ID generated by Google Sheets
+      gameId: "CM-GEN-PENDING" 
     };
 
-    // Sequential steps
+    // Sequential steps configuring interactive input fields directly inside target cards
     const steps = [
       {
         id: "EMAIL_INPUT",
         title: "NEW USER ACCOUNT",
-        progress: 15,
-        cards: [{ id: "email", label: "PLAYER_EMAIL", valKey: "email", placeholder: "XXXXXXXXXXXXXXXXXXXX" }],
-        placeholder: "ENTER_EMAIL_ADDRESS",
+        progress: 0, // Gmail input starting at 0%
+        cards: [{ id: "email", label: "PLAYER_EMAIL", valKey: "email", editable: true, placeholder: "ENTER EMAIL ADDRESS" }],
         btnText: "GET CODE"
       },
       {
         id: "EMAIL_VERIFY",
         title: "NEW USER ACCOUNT",
-        progress: 30,
+        progress: 15,
         cards: [
-          { id: "email", label: "PLAYER_EMAIL", valKey: "email", glowState: true }, // Gmail bar pulses with gaming glow
-          { id: "code", label: "ENTER_CODE", isCode: true }
+          { id: "email", label: "PLAYER_EMAIL", valKey: "email", glowState: true }, 
+          { id: "code", label: "ENTER CODE", isCode: true }
         ],
-        placeholder: "ENTER_CODE",
         btnText: "VERIFY"
       },
       {
         id: "NAME_INPUT",
         title: "NEW USER ACCOUNT",
-        progress: 42,
+        progress: 30,
         cards: [
           { id: "email", label: "PLAYER_EMAIL", valKey: "email" },
-          { id: "name", label: "USER_NAME", valKey: "username", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
+          { id: "name", label: "USER_NAME", valKey: "username", editable: true, placeholder: "ENTER YOUR NAME" }
         ],
-        placeholder: "ENTER_YOUR_NAME",
-        btnText: "NEXT" // Wording set to NEXT [3]
+        btnText: "NEXT"
       },
       {
         id: "FF_NICK_INPUT",
         title: "NEW USER ACCOUNT",
-        progress: 54,
+        progress: 45,
         cards: [
           { id: "email", label: "PLAYER_EMAIL", valKey: "email" },
           { id: "name", label: "USER_NAME", valKey: "username" },
-          { id: "ff_nick", label: "FF_NICKNAME", valKey: "ffNickname", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
+          { id: "ff_nick", label: "FF_NICKNAME", valKey: "ffNickname", editable: true, placeholder: "ENTER FF NICKNAME" }
         ],
-        placeholder: "ENTER_FF_NICKNAME",
-        btnText: "NEXT" // Wording set to NEXT [3]
+        btnText: "NEXT"
       },
       {
         id: "FF_UID_INPUT",
         title: "NEW USER ACCOUNT",
-        progress: 66,
+        progress: 60,
         cards: [
           { id: "email", label: "PLAYER_EMAIL", valKey: "email" },
           { id: "name", label: "USER_NAME", valKey: "username" },
           { id: "ff_nick", label: "FF_NICKNAME", valKey: "ffNickname" },
-          { id: "ff_uid", label: "FF_UID", valKey: "ffUid", placeholder: "XXXXXXXXXXXXXXXXXXXX" }
+          { id: "ff_uid", label: "FF_UID", valKey: "ffUid", editable: true, placeholder: "ENTER FF UID" }
         ],
-        placeholder: "ENTER_FF_UID",
-        btnText: "NEXT" // Wording set to NEXT [3]
+        btnText: "NEXT"
       },
       {
         id: "EXPERIENCE",
         title: "NEW USER ACCOUNT",
         progress: 75,
         cards: [
-          { id: "email", label: "PLAYER_EMAIL", valKey: "email" }, // Restored: Gmail bar stays visible during dropdown selection
+          { id: "email", label: "PLAYER_EMAIL", valKey: "email" },
           { id: "name", label: "USER_NAME", valKey: "username" },
           { id: "ff_nick", label: "FF_NICKNAME", valKey: "ffNickname" },
           { id: "ff_uid", label: "FF_UID", valKey: "ffUid" },
           { id: "exp", label: "EXPERIENCE_LEVEL", valKey: "experienceLevel", placeholder: "SELECT YOUR EXPERIENCE LEVEL", dropdownActive: true }
         ],
         isDropdown: true,
-        noTextPanel: true, // Complete removal of bottom texting panel during Experience selection [3]
         btnText: "NEXT"
       },
       {
@@ -1019,34 +1072,29 @@
         title: "NEW USER ACCOUNT",
         progress: 85,
         cards: [
-          // Isolated: only Telegram visible on top stack
-          { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser", placeholder: "@XXXXXXXXXXXXXXXX" }
+          { id: "tg", label: "TELEGRAM USER NAME", valKey: "telegramUser", editable: true, placeholder: "@ENTER_TELEGRAM_HANDLE" }
         ],
-        placeholder: "ENTER_TELEGRAM_HANDLE",
-        btnText: "GET CODE" // Wording set to GET CODE [3]
+        btnText: "GET CODE"
       },
       {
         id: "TELEGRAM_VERIFY",
         title: "NEW USER ACCOUNT",
         progress: 92,
         cards: [
-          // Isolated: only Telegram cards visible with glow state
-          { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser", glowState: true }, 
-          { id: "tg_code", label: "ENTER_CODE", isCode: true }
+          { id: "tg", label: "TELEGRAM USER NAME", valKey: "telegramUser", glowState: true }, 
+          { id: "tg_code", label: "ENTER CODE", isCode: true }
         ],
-        placeholder: "ENTER_CODE",
-        btnText: "VERIFY", // Wording set to VERIFY [3]
+        btnText: "VERIFY",
         hasTelegramIcon: true
       },
       {
-        id: "UNLOCK_PROMPT", // Intermediate step for Identity activation - NO bottom text panel
+        id: "UNLOCK_PROMPT",
         title: "NEW USER ACCOUNT",
         progress: 96,
         cards: [
-          { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser" },
-          { id: "lock-identity", label: "ACTIVATE_IDENTITY", isLockCard: true }
+          { id: "tg", label: "TELEGRAM USER NAME", valKey: "telegramUser" },
+          { id: "lock-identity", label: "ACTIVATE ID", isLockCard: true }
         ],
-        noTextPanel: true, // Complete removal of bottom texting panel
         btnText: "ACTIVATE ID"
       },
       {
@@ -1054,18 +1102,16 @@
         title: "NEW USER ACCOUNT",
         progress: 100,
         cards: [
-          { id: "tg", label: "TELEGRAM_USER_NAME", valKey: "telegramUser" },
-          { id: "id-reveal-bar", label: "CRAZE_MODE_ID", isRevealBar: true }
+          { id: "tg", label: "TELEGRAM USER NAME", valKey: "telegramUser" },
+          { id: "id-reveal-bar", label: "CRAZE_MODE ID", isRevealBar: true }
         ],
-        noTextPanel: true, // Complete removal of bottom texting panel
         btnText: "VIEW PASS"
       },
       {
         id: "FINAL_PASS",
         title: "NEW USER ACCOUNT",
         progress: 100,
-        cards: [], // Card loaded separately in pass layout
-        noTextPanel: true,
+        cards: [], 
         isFinalPass: true,
         btnText: "ENTER ARENA"
       }
@@ -1074,8 +1120,8 @@
     const stepHeader = document.getElementById("stepHeader");
     const topCardsContainer = document.getElementById("topCardsContainer");
     const statusBarFill = document.getElementById("statusBarFill");
-    const interactivePanel = document.getElementById("interactivePanel");
     const actionButton = document.getElementById("actionButton");
+    const actionButtonInner = document.getElementById("actionButtonInner");
     const backButton = document.getElementById("backButton");
     const toast = document.getElementById("toast");
 
@@ -1113,7 +1159,7 @@
 
     renderStep();
 
-    // Clipboard Copy Execution Handler (with in-app webview fallback)
+    // Clipboard Copy Execution Handler
     function copyIdToClipboard() {
       if (state.gameId) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1143,12 +1189,11 @@
       document.body.removeChild(el);
     }
 
-    // Secure communication pipeline with robust error trapping and console logging
+    // Secure communication pipeline with robust error trapping
     function callBackend(payload) {
       return fetch(API_URL, {
         method: "POST",
         headers: {
-          // Using text/plain is crucial to prevent preflight OPTIONS requests to Google Apps Script
           "Content-Type": "text/plain"
         },
         body: JSON.stringify(payload)
@@ -1157,15 +1202,14 @@
         if (!response.ok) {
           throw new Error("Network connection error. Server returned code " + response.status);
         }
-        return response.text(); // Get raw text first to prevent JSON parse crashes on HTML error pages
+        return response.text(); 
       })
       .then(text => {
         try {
           return JSON.parse(text);
         } catch (err) {
-          // If it's not JSON, it means Apps Script returned an HTML error/auth page
-          console.error("Non-JSON raw server response:", text);
-          throw new Error("Your backend Spreadsheet ID or Permissions are not configured correctly. Please check your console (F12) for details.");
+          console.error("Non-JSON response:", text);
+          throw new Error("Backend connection error. Check configuration.");
         }
       });
     }
@@ -1222,6 +1266,45 @@
       setTimeout(() => toast.classList.remove("show"), 2000);
     }
 
+    // Helper: Triggers physical/visual error state on target active cards [2]
+    function triggerCardError(cardId, errorMessage) {
+      const card = document.getElementById(`card-${cardId}`);
+      if (card) {
+        card.classList.add("error-state");
+        playErrorBeep();
+        triggerToast(errorMessage);
+
+        // Fall fallback support for active code box arrays
+        const boxes = card.querySelectorAll(".code-box-display");
+        if (boxes.length > 0) {
+          boxes.forEach(box => box.classList.add("falling"));
+        }
+
+        setTimeout(() => {
+          card.classList.remove("error-state");
+          if (boxes.length > 0) {
+            boxes.forEach(box => {
+              box.classList.remove("falling", "active");
+              box.querySelector("span").textContent = "";
+            });
+            const hiddenCode = card.querySelector(".hidden-code-input");
+            if (hiddenCode) {
+              hiddenCode.value = "";
+              hiddenCode.focus();
+            }
+          } else {
+            const inlineInput = card.querySelector(".card-input");
+            if (inlineInput) {
+              inlineInput.focus();
+            }
+          }
+        }, 1200);
+      } else {
+        playErrorBeep();
+        triggerToast(errorMessage);
+      }
+    }
+
     // Interactive sweep animation trigger
     function triggerCardShineSweep(cardId) {
       const card = document.getElementById(`card-${cardId}`);
@@ -1244,7 +1327,6 @@
       document.getElementById("statusPercent").textContent = `${percentVal}%`;
       
       if (step.isFinalPass) {
-        // Shifting progress labels and tracks to fully completed on the pass screen
         document.querySelector(".status-label").textContent = "COMPLETED: 100%";
         statusBarFill.classList.add("completed");
       } else {
@@ -1252,18 +1334,11 @@
         statusBarFill.classList.remove("completed");
       }
 
-      // Hide or show bottom control container completely based on Experience step config
-      const bottomContainer = document.querySelector(".bottom-container");
-      if (step.id === "EXPERIENCE") {
-        bottomContainer.style.display = "none"; // Dropdown options are fully accessible [3]
-      } else {
-        bottomContainer.style.display = "flex";
-      }
-      
+      // Action button updates
       if (step.hasTelegramIcon) {
-        actionButton.innerHTML = `${tgLogoSVG} ${step.btnText}`;
+        actionButtonInner.innerHTML = `${tgLogoSVG} ${step.btnText}`;
       } else {
-        actionButton.textContent = step.btnText;
+        actionButtonInner.textContent = step.btnText;
       }
 
       // Hide active action button during experience select dropdown and ID generation
@@ -1273,136 +1348,35 @@
         actionButton.style.visibility = "visible";
       }
 
-      // Render top cards with correct completed checkmarks
+      // Render top cards
       topCardsContainer.innerHTML = "";
-      step.cards.forEach(c => {
-        const cardDiv = document.createElement("div");
-        cardDiv.className = "card";
-        cardDiv.id = `card-${c.id}`;
-
-        // Dynamic checkmarks and glowing borders matching steps
-        if (c.id === "email" && state.emailVerified) cardDiv.className = "card success-gmail";
-        else if (c.id === "tg" && state.telegramVerified) cardDiv.className = "card success-telegram";
-        else if (c.id === "name" && currentStep > 2) cardDiv.className = "card success-profile";
-        else if (c.id === "ff_nick" && currentStep > 3) cardDiv.className = "card success-profile";
-        else if (c.id === "ff_uid" && currentStep > 4) cardDiv.className = "card success-profile";
-        else if (c.id === "exp" && currentStep > 5) cardDiv.className = "card success-profile";
-
-        // Apply dynamic gaming glow border to email card while code verify is active
-        if (c.glowState && ((c.id === "email" && !state.emailVerified) || (c.id === "tg" && !state.telegramVerified))) {
-          cardDiv.className += " mild-shine";
-        }
-
-        if (c.isCode) {
-          cardDiv.innerHTML = `
-            <div class="card-content">
-              <div class="card-label">${c.label}</div>
-              <div class="code-boxes" id="cardCodeContainer">
-                <div class="code-box-display"><span></span></div>
-                <div class="code-box-display"><span></span></div>
-                <div class="code-box-display"><span></span></div>
-                <div class="code-box-display"><span></span></div>
-                <div class="code-box-display"><span></span></div>
-                <div class="code-box-display"><span></span></div>
-              </div>
-            </div>
-            <div class="verify-animation-box"></div>
-          `;
-        } else if (c.dropdownActive) {
-          // Render inline dropdown inside the 4th top bar
-          cardDiv.className += " dropdown-active";
-          const displayVal = state.experienceLevel || "SELECT YOUR EXPERIENCE LEVEL";
-          cardDiv.innerHTML = `
-            <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
-              <div class="card-content">
-                <div class="card-label">${c.label}</div>
-                <div class="card-value" style="color: ${state.experienceLevel ? '#FFFFFF' : '#888888'};">${displayVal}</div>
-              </div>
-              <div class="checkbox-icon">
-                <span class="checkmark"></span>
-              </div>
-            </div>
-            <div class="dropdown-list-inline">
-              <div class="dropdown-option-inline" onclick="setExperience('Beginner')">[ ] Beginner</div>
-              <div class="dropdown-option-inline" onclick="setExperience('Intermediate')">[ ] Intermediate</div>
-              <div class="dropdown-option-inline" onclick="setExperience('Advanced')">[ ] Advanced</div>
-              <div class="dropdown-option-inline" onclick="setExperience('Competitive')">[ ] Competitive</div>
-            </div>
-          `;
-        } else if (c.isLockCard) {
-          // Sleek Identity Lock Card
-          cardDiv.innerHTML = `
-            <div class="card-content" style="display:flex; flex-direction:row; align-items:center; gap:8px;">
-              <svg class="telegram-icon" viewBox="0 0 24 24" style="width:14px; height:14px; fill:#555;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-              <div class="card-value" style="color: #fff; font-size: 11.5px; letter-spacing: 0.5px;">Activate your Craze Mode identity</div>
-            </div>
-          `;
-        } else if (c.isRevealBar) {
-          // Dynamic ID Reveal Bar
-          cardDiv.innerHTML = `
-            <div class="card-content">
-              <div class="card-label">${c.label}</div>
-              <div class="card-value" id="idRevealDisplay" style="color: #fff; font-size:13px; font-weight:700;">DECRYPTING_SIGNATURE...</div>
-            </div>
-          `;
-        } else {
-          const val = state[c.valKey] || c.placeholder;
-          cardDiv.innerHTML = `
-            <div class="card-content">
-              <div class="card-label">${c.label}</div>
-              <div class="card-value">${val}</div>
-            </div>
-            <div class="checkbox-icon">
-              <span class="checkmark"></span>
-            </div>
-          `;
-        }
-
-        topCardsContainer.appendChild(cardDiv);
-      });
-
-      // Render bottom elements - completely hides texting panel for a cleaner, minimal aesthetic on prompt & pass screens
-      if (step.noTextPanel) {
-        interactivePanel.style.display = "none";
-      } else {
-        interactivePanel.style.display = "flex";
-      }
-
-      if (step.isDropdown) {
-        // Keep bottom workspace empty while dropdown is handled inside the 4th card
-        interactivePanel.innerHTML = `
-          <div class="bracket-display placeholder" style="font-size: 11px;">
-            [ SELECT EXPERIENCE LEVEL IN 4TH BAR ABOVE ]
-          </div>
-        `;
-      } else if (step.isFinalPass) {
-        // Flat rectangular confirmation pass - completely UID-less
-        // Unified brand pass logo styling applied
+      
+      if (step.isFinalPass) {
         topCardsContainer.innerHTML = `
-          <div class="confirmation-card" id="finalPassCard">
-            <!-- Slow vertical cyber scanning bar -->
-            <div class="confirmation-card-scanner"></div>
-            <!-- Mild, minimal sweep layer -->
-            <div class="confirmation-card-sweep-layer" id="finalPassSweep"></div>
-            <div class="confirmation-header">
-              <div class="confirmation-title brand-logo-unified" id="finalPassBrand" style="font-size: 13px; letter-spacing: 2px;"></div>
-              <div class="confirmation-badge" id="finalPassBadge" style="visibility:hidden; display:flex; align-items:center; gap:4px; padding:3px 6px;">
-                ${shieldLogoSVG}
-                <span style="font-family:'Space Mono', monospace; font-size:8px;">CONFIRMED</span>
+          <div class="confirmation-card-wrapper" id="finalPassCard">
+            <div class="confirmation-card">
+              <div class="confirmation-card-scanner"></div>
+              <div class="confirmation-card-sweep-layer" id="finalPassSweep"></div>
+              <div class="confirmation-header">
+                <div class="confirmation-title brand-logo-unified" id="finalPassBrand" style="font-size: 13px; letter-spacing: 2px;"></div>
+                <div class="confirmation-badge" id="finalPassBadge" style="visibility:hidden; display:flex; align-items:center; gap:4px; padding:3px 6px;">
+                  ${shieldLogoSVG}
+                  <span style="font-family:'Rajdhani', sans-serif; font-size:10px; font-weight: 700;">CONFIRMED</span>
+                </div>
               </div>
-            </div>
-            <div class="confirmation-grid">
-              <div class="confirmation-item">
-                <label id="lblPassGamer">GAMER_NAME</label>
-                <span id="passGamerName"></span>
-              </div>
-              <div class="confirmation-item">
-                <label id="lblPassNick">NICKNAME</label>
-                <span id="passFFNick"></span>
-              </div>
-              <div class="confirmation-id-row">
-                <label id="lblPassId">CRAZE MODE ID</label>
-                <span id="passCrazeId" style="font-size: 15px; font-weight: 700; letter-spacing: 4px; display:block;"></span>
+              <div class="confirmation-grid">
+                <div class="confirmation-item">
+                  <label id="lblPassGamer">GAMER_NAME</label>
+                  <span id="passGamerName"></span>
+                </div>
+                <div class="confirmation-item">
+                  <label id="lblPassNick">NICKNAME</label>
+                  <span id="passFFNick"></span>
+                </div>
+                <div class="confirmation-id-row">
+                  <label id="lblPassId">CRAZE MODE ID</label>
+                  <span id="passCrazeId" style="font-size: 15px; font-weight: 700; letter-spacing: 4px; display:block;"></span>
+                </div>
               </div>
             </div>
           </div>
@@ -1413,112 +1387,188 @@
             <div class="motto-line"></div>
           </div>
         `;
-
-        // Sequential Card Typing Reveal Trigger
         triggerSequentialPassReveal();
-      } else if (!step.noTextPanel) {
-        // Native interactive bracket structure with precise cursor placement
-        interactivePanel.innerHTML = `
-          <div class="bracket-display" id="bracketDisplay">
-            [<input type="text" class="real-embedded-input" id="panelInput" placeholder="${step.placeholder}" autocomplete="off" />]
-          </div>
-        `;
+      } else {
+        step.cards.forEach(c => {
+          const cardDiv = document.createElement("div");
+          cardDiv.className = "card";
+          cardDiv.id = `card-${c.id}`;
 
-        const panelInput = document.getElementById("panelInput");
-        const bracketDisplay = document.getElementById("bracketDisplay");
+          // Dynamic checkmarks and glowing borders matching step progression states
+          if (c.id === "email" && state.emailVerified) cardDiv.className = "card success-gmail";
+          else if (c.id === "tg" && state.telegramVerified) cardDiv.className = "card success-telegram";
+          else if (c.id === "name" && currentStep > 2) cardDiv.className = "card success-profile";
+          else if (c.id === "ff_nick" && currentStep > 3) cardDiv.className = "card success-profile";
+          else if (c.id === "ff_uid" && currentStep > 4) cardDiv.className = "card success-profile";
+          else if (c.id === "exp" && currentStep > 5) cardDiv.className = "card success-profile";
 
-        // Focus catch and binding
-        panelInput.focus();
-        
-        let existingVal = "";
-        if (step.id === "EMAIL_INPUT") existingVal = state.email;
-        else if (step.id === "NAME_INPUT") existingVal = state.username;
-        else if (step.id === "FF_NICK_INPUT") existingVal = state.ffNickname;
-        else if (step.id === "FF_UID_INPUT") existingVal = state.ffUid;
-        else if (step.id === "TELEGRAM_INPUT") existingVal = state.telegramUser;
-
-        if (existingVal) {
-          panelInput.value = existingVal;
-          bracketDisplay.classList.add("active");
-        }
-
-        panelInput.addEventListener("input", (e) => {
-          let val = e.target.value; // Mixed casing strictly preserved
-
-          // Gmail Auto-Complete on '@' symbol entry
-          if (step.id === "EMAIL_INPUT") {
-            if (val.endsWith("@")) {
-              val = val + "gmail.com";
-              e.target.value = val;
-              e.target.setSelectionRange(val.length, val.length); // Restore active caret cursor to end of text
-            }
+          // Add highlighting wrapper if card acts as the active editable text section
+          if (c.editable || c.isCode) {
+            cardDiv.className += " active-input-state";
           }
 
-          if (step.id === "TELEGRAM_INPUT") {
-            if (val && !val.startsWith("@")) val = "@" + val;
-            e.target.value = val;
-          } else if (step.id === "EMAIL_VERIFY" || step.id === "TELEGRAM_VERIFY") {
-            // Strict number lock filter
-            val = val.replace(/[^0-9]/g, '');
-            if (val.length > 6) val = val.substring(0, 6);
-            e.target.value = val;
-            syncVerificationBoxes(val);
+          if (c.glowState && ((c.id === "email" && !state.emailVerified) || (c.id === "tg" && !state.telegramVerified))) {
+            cardDiv.className += " mild-shine";
           }
 
-          if (step.id === "EMAIL_INPUT") {
-            state.email = val;
-            updateTopCard("email", val || "XXXXXXXXXXXXXXXXXXXX");
-          } else if (step.id === "NAME_INPUT") {
-            state.username = val;
-            updateTopCard("name", val || "XXXXXXXXXXXXXXXXXXXX");
-          } else if (step.id === "FF_NICK_INPUT") {
-            state.ffNickname = val;
-            updateTopCard("ff_nick", val || "XXXXXXXXXXXXXXXXXXXX");
-          } else if (step.id === "FF_UID_INPUT") {
-            state.ffUid = val;
-            updateTopCard("ff_uid", val || "XXXXXXXXXXXXXXXXXXXX");
-          } else if (step.id === "TELEGRAM_INPUT") {
-            state.telegramUser = val;
-            updateTopCard("tg", val || "@XXXXXXXXXXXXXXXX");
-          }
-
-          if (val) {
-            bracketDisplay.classList.add("active");
+          let innerHTML = "";
+          if (c.isCode) {
+            // Reorganized layout rendering the hidden captured textbox directly inside .card-inner rather than nested
+            innerHTML = `
+              <div class="card-content" style="cursor: text;">
+                <div class="card-label">${c.label}</div>
+                <div class="code-boxes" id="cardCodeContainer">
+                  <div class="code-box-display"><span></span></div>
+                  <div class="code-box-display"><span></span></div>
+                  <div class="code-box-display"><span></span></div>
+                  <div class="code-box-display"><span></span></div>
+                  <div class="code-box-display"><span></span></div>
+                  <div class="code-box-display"><span></span></div>
+                </div>
+              </div>
+              <input type="tel" class="hidden-code-input" id="hiddenCodeCapture" maxlength="6" autocomplete="off" />
+              <div class="verify-animation-box"></div>
+            `;
+          } else if (c.editable) {
+            // Text values editable directly inside the card layout
+            const val = state[c.valKey] || "";
+            innerHTML = `
+              <div class="card-content">
+                <div class="card-label">${c.label}</div>
+                <input type="text" class="card-input" id="inlineInput-${c.id}" value="${val}" placeholder="${c.placeholder}" autocomplete="off" />
+              </div>
+              <div class="checkbox-icon">
+                <span class="checkmark"></span>
+              </div>
+            `;
+          } else if (c.dropdownActive) {
+            cardDiv.className += " dropdown-active";
+            const displayVal = state.experienceLevel || "SELECT YOUR EXPERIENCE LEVEL";
+            innerHTML = `
+              <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+                <div class="card-content">
+                  <div class="card-label">${c.label}</div>
+                  <div class="card-value" style="color: ${state.experienceLevel ? '#FFFFFF' : '#888888'};">${displayVal}</div>
+                </div>
+                <div class="checkbox-icon">
+                  <span class="checkmark"></span>
+                </div>
+              </div>
+              <div class="dropdown-list-inline">
+                <div class="dropdown-option-inline" onclick="setExperience('Beginner')">[ ] Beginner</div>
+                <div class="dropdown-option-inline" onclick="setExperience('Intermediate')">[ ] Intermediate</div>
+                <div class="dropdown-option-inline" onclick="setExperience('Advanced')">[ ] Advanced</div>
+                <div class="dropdown-option-inline" onclick="setExperience('Competitive')">[ ] Competitive</div>
+              </div>
+            `;
+          } else if (c.isLockCard) {
+            innerHTML = `
+              <div class="card-content" style="display:flex; flex-direction:row; align-items:center; gap:8px;">
+                <svg class="telegram-icon" viewBox="0 0 24 24" style="width:14px; height:14px; fill:#555;"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+                <div class="card-value" style="color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.5px;">ACTIVATE YOUR IDENTITY PASS</div>
+              </div>
+            `;
+          } else if (c.isRevealBar) {
+            innerHTML = `
+              <div class="card-content">
+                <div class="card-label">${c.label}</div>
+                <div class="card-value" id="idRevealDisplay" style="color: #fff; font-size:13px; font-weight:700;">DECRYPTING_SIGNATURE...</div>
+              </div>
+            `;
           } else {
-            bracketDisplay.classList.remove("active");
+            const val = state[c.valKey] || c.placeholder;
+            innerHTML = `
+              <div class="card-content">
+                <div class="card-label">${c.label}</div>
+                <div class="card-value">${val}</div>
+              </div>
+              <div class="checkbox-icon">
+                <span class="checkmark"></span>
+              </div>
+            `;
+          }
+
+          // Injected with standard 1px chamfered wrapper border matching parent coordinates
+          cardDiv.innerHTML = `<div class="card-inner">${innerHTML}</div>`;
+          topCardsContainer.appendChild(cardDiv);
+
+          // Force focus on click anywhere inside active input wrappers for high-performance touch feedback
+          if (c.editable || c.isCode) {
+            cardDiv.addEventListener("click", () => {
+              const input = cardDiv.querySelector(".card-input, .hidden-code-input");
+              if (input) input.focus();
+            });
           }
         });
+
+        // Initialize keyboard focus captures dynamically with a short layout paint delay
+        setTimeout(() => {
+          bindInlineInputs(step);
+        }, 50);
       }
 
       backButton.style.display = (currentStep > 0 && !step.isFinalPass) ? "block" : "none";
     }
 
-    function updateTopCard(id, text) {
-      const card = document.getElementById(`card-${id}`);
-      if (card) {
-        const valueDiv = card.querySelector(".card-value");
-        if (valueDiv) valueDiv.textContent = text;
-      }
-    }
+    // Handles target binding and real-time validation directly inside the card containers
+    function bindInlineInputs(step) {
+      const textInput = document.querySelector(".card-input");
+      if (textInput) {
+        textInput.focus();
+        const length = textInput.value.length;
+        textInput.setSelectionRange(length, length);
 
-    // Sync input string into your 6 box UI inside top card
-    function syncVerificationBoxes(code) {
-      const boxes = document.querySelectorAll(".code-box-display");
-      boxes.forEach((box, i) => {
-        const textSpan = box.querySelector("span");
-        if (code[i]) {
-          textSpan.textContent = code[i];
-          box.classList.add("active");
-        } else {
-          textSpan.textContent = "";
-          box.classList.remove("active");
-        }
-      });
+        textInput.addEventListener("input", (e) => {
+          let val = e.target.value;
+
+          if (step.id === "EMAIL_INPUT") {
+            if (val.endsWith("@")) {
+              val = val + "gmail.com";
+              e.target.value = val;
+              e.target.setSelectionRange(val.length, val.length); 
+            }
+            state.email = val;
+          } else if (step.id === "NAME_INPUT") {
+            state.username = val;
+          } else if (step.id === "FF_NICK_INPUT") {
+            state.ffNickname = val;
+          } else if (step.id === "FF_UID_INPUT") {
+            state.ffUid = val;
+          } else if (step.id === "TELEGRAM_INPUT") {
+            if (val && !val.startsWith("@")) val = "@" + val;
+            e.target.value = val;
+            state.telegramUser = val;
+          }
+        });
+      }
+
+      const hiddenCodeCapture = document.getElementById("hiddenCodeCapture");
+      if (hiddenCodeCapture) {
+        hiddenCodeCapture.focus();
+
+        const handleCodeInput = (e) => {
+          let val = e.target.value;
+          val = val.replace(/[^0-9]/g, '');
+          if (val.length > 6) val = val.substring(0, 6);
+          e.target.value = val;
+          syncVerificationBoxes(val);
+
+          // Highly responsive auto-submit trigger for mobile keyboards on 6th digit entry
+          if (val.length === 6) {
+            setTimeout(() => {
+              actionButton.click();
+            }, 120);
+          }
+        };
+
+        hiddenCodeCapture.addEventListener("input", handleCodeInput);
+        hiddenCodeCapture.addEventListener("keyup", handleCodeInput);
+        hiddenCodeCapture.addEventListener("change", handleCodeInput);
+      }
     }
 
     function setExperience(level) {
       state.experienceLevel = level;
-      updateTopCard("exp", level);
       triggerCardShineSweep("exp");
       
       setTimeout(() => {
@@ -1543,11 +1593,10 @@
       type();
     }
 
-    // Core validation controller connecting securely to Google Web App API
+    // Core validation controller connected to Google Sheets Script Editor Backend
     actionButton.onclick = () => {
       const step = steps[currentStep];
 
-      // Safe Audio Context activation on user touch interaction
       if (!audioCtx) {
         try {
           audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1562,127 +1611,109 @@
       if (step.id === "EMAIL_INPUT") {
         const gmailPattern = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
         if (!gmailPattern.test(state.email)) {
-          triggerToast("INVALID EMAIL (MUST BE xxxx@gmail.com)");
+          triggerCardError("email", "INVALID EMAIL (MUST BE xxxx@gmail.com)");
           return;
         }
 
-        actionButton.disabled = true;
-        actionButton.textContent = "SENDING...";
+        actionButton.style.pointerEvents = "none";
+        actionButtonInner.textContent = "SENDING...";
 
-        // Real API Call to Google Sheets & Apps Script to deliver OTP and check duplicates
+        // Live API integration checking email uniqueness and dispatching actual verification code
         callBackend({ action: "sendEmailOTP", email: state.email })
         .then(res => {
-          actionButton.disabled = false;
-          actionButton.textContent = "GET CODE";
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "GET CODE";
 
           if (res.success) {
             triggerCardShineSweep("email");
             currentStep++;
             renderStep();
-            triggerToast("CODE SENT", true); // Centred green CODE SENT Toast successfully triggered [3]
+            triggerToast("CODE SENT", true); 
           } else {
-            triggerToast(res.message || "REGISTRATION FAILURE");
+            // Gmail reuse error handled by logging to UI
+            triggerCardError("email", res.message || "REGISTRATION PROCESS FAILED");
           }
         })
         .catch(err => {
-          actionButton.disabled = false;
-          actionButton.textContent = "GET CODE";
-          triggerToast(err.message || "CONNECTION ERROR");
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "GET CODE";
+          triggerCardError("email", "CONNECTION ERROR");
         });
 
       } else if (step.id === "EMAIL_VERIFY") {
-        const inputVal = document.getElementById("panelInput").value;
-        const card = document.getElementById("card-code");
+        const codeCapture = document.getElementById("hiddenCodeCapture");
+        const inputVal = codeCapture ? codeCapture.value : "";
         
         if (!inputVal.trim() || inputVal.length !== 6) {
-          card.classList.add("error-state");
-          playErrorBeep();
-          triggerToast("INVALID CODE. MUST BE 6 DIGITS");
-          
-          const boxes = document.querySelectorAll(".code-box-display");
-          boxes.forEach(box => box.classList.add("falling"));
-          
-          setTimeout(() => {
-            card.classList.remove("error-state");
-            boxes.forEach(box => {
-              box.classList.remove("falling", "active");
-              box.querySelector("span").textContent = "";
-            });
-            document.getElementById("panelInput").value = "";
-            document.getElementById("bracketDisplay").classList.remove("active");
-          }, 1200);
+          triggerCardError("code", "INVALID CODE. MUST BE 6 DIGITS");
           return;
         }
 
+        const card = document.getElementById("card-code");
         card.classList.add("verifying");
-        actionButton.disabled = true;
-        actionButton.textContent = "VERIFYING...";
+        actionButton.style.pointerEvents = "none";
+        actionButtonInner.textContent = "VERIFYING...";
 
-        // Real API Verification Call
+        // Live validation call checking OTP validity [1]
         callBackend({ action: "verifyEmailOTP", email: state.email, code: inputVal })
         .then(res => {
-          card.classList.remove("verifying");
-          actionButton.disabled = false;
-          actionButton.textContent = "VERIFY";
-
           if (res.success) {
             state.emailVerified = true;
-            triggerCardShineSweep("email");
-            currentStep++;
-            renderStep();
-            triggerToast("GMAIL VERIFIED", true);
-          } else {
-            card.classList.add("error-state");
-            playErrorBeep();
-            triggerToast(res.message || "INVALID CODE. MUST BE 6 DIGITS");
             
-            const boxes = document.querySelectorAll(".code-box-display");
-            boxes.forEach(box => box.classList.add("falling"));
+            // Highlight player email border green on correct code verification
+            const emailCard = document.getElementById("card-email");
+            if (emailCard) {
+              emailCard.className = "card success-gmail";
+              triggerCardShineSweep("email");
+            }
             
+            // Stagger transition slightly so user can admire the green validation micro-interaction
             setTimeout(() => {
-              card.classList.remove("error-state");
-              boxes.forEach(box => {
-                box.classList.remove("falling", "active");
-                box.querySelector("span").textContent = "";
-              });
-              document.getElementById("panelInput").value = "";
-              document.getElementById("bracketDisplay").classList.remove("active");
-            }, 1200);
+              card.classList.remove("verifying");
+              actionButton.style.pointerEvents = "auto";
+              actionButtonInner.textContent = "VERIFY";
+              
+              currentStep++;
+              renderStep();
+              triggerToast("GMAIL VERIFIED", true);
+            }, 800);
+          } else {
+            card.classList.remove("verifying");
+            actionButton.style.pointerEvents = "auto";
+            actionButtonInner.textContent = "VERIFY";
+            triggerCardError("code", res.message || "INVALID CODE. MUST BE 6 DIGITS");
           }
         })
         .catch(err => {
           card.classList.remove("verifying");
-          actionButton.disabled = false;
-          actionButton.textContent = "VERIFY";
-          triggerToast(err.message || "CONNECTION ERROR");
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "VERIFY";
+          triggerCardError("code", "CONNECTION ERROR");
         });
 
       } else if (step.id === "NAME_INPUT") {
         if (!state.username.trim()) {
-          triggerToast("USER NAME CANNOT BE EMPTY");
+          triggerCardError("name", "USER NAME CANNOT BE EMPTY");
           return;
         }
-        updateTopCard("name", state.username);
         triggerCardShineSweep("name");
         currentStep++;
         renderStep();
 
       } else if (step.id === "FF_NICK_INPUT") {
         if (!state.ffNickname.trim()) {
-          triggerToast("NICKNAME CANNOT BE EMPTY");
+          triggerCardError("ff_nick", "NICKNAME CANNOT BE EMPTY");
           return;
         }
-        updateTopCard("ff_nick", state.ffNickname);
         triggerCardShineSweep("ff_nick");
         currentStep++;
         renderStep();
 
       } else if (step.id === "FF_UID_INPUT") {
         if (!state.ffUid.trim()) {
-          triggerToast("UID CANNOT BE EMPTY");
+          triggerCardError("ff_uid", "UID CANNOT BE EMPTY");
           return;
         }
-        updateTopCard("ff_uid", state.ffUid);
         triggerCardShineSweep("ff_uid");
         currentStep++;
         renderStep();
@@ -1690,112 +1721,94 @@
       } else if (step.id === "TELEGRAM_INPUT") {
         const tgPattern = /^@[a-zA-Z0-9_]{5,32}$/;
         if (!tgPattern.test(state.telegramUser)) {
-          triggerToast("INVALID TG USERNAME");
+          triggerCardError("tg", "INVALID TG USERNAME");
           return;
         }
 
-        actionButton.disabled = true;
-        actionButton.textContent = "GENERATING...";
+        actionButton.style.pointerEvents = "none";
+        actionButtonInner.textContent = "GENERATING...";
 
-        // Web App Telegram OTP Session initiation call
+        // Live Telegram OTP verification session initialization [1]
         callBackend({ action: "requestTelegramOTP", telegramUser: state.telegramUser })
         .then(res => {
-          actionButton.disabled = false;
-          actionButton.textContent = "GET CODE";
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "GET CODE";
 
           if (res.success) {
             activeSessionToken = res.sessionToken;
             triggerCardShineSweep("tg");
             currentStep++;
             renderStep();
-            
-            // Redirect the user to deep-linked Telegram bot to retrieve secure code
-            triggerToast("CODE SENT", true); // Centred green Toast on Telegram OTP send [3]
+            triggerToast("CODE SENT", true); 
             setTimeout(() => {
-              window.open(res.botLink, "_blank");
+              window.open(res.botLink, "_blank"); // Route participant to Telegram Bot to trigger OTP text
             }, 800);
           } else {
-            triggerToast(res.message || "TELEGRAM INITIATION FAILED");
+            triggerCardError("tg", res.message || "TELEGRAM INITIATION FAILED");
           }
         })
         .catch(err => {
-          actionButton.disabled = false;
-          actionButton.textContent = "GET CODE";
-          triggerToast("CONNECTION ERROR");
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "GET CODE";
+          triggerCardError("tg", "CONNECTION ERROR");
         });
 
       } else if (step.id === "TELEGRAM_VERIFY") {
-        const inputVal = document.getElementById("panelInput").value;
-        const card = document.getElementById("card-tg_code");
+        const codeCapture = document.getElementById("hiddenCodeCapture");
+        const inputVal = codeCapture ? codeCapture.value : "";
         
         if (!inputVal.trim() || inputVal.length !== 6) {
-          card.classList.add("error-state");
-          playErrorBeep();
-          triggerToast("INVALID CODE. MUST BE 6 DIGITS");
-          
-          const boxes = document.querySelectorAll(".code-box-display");
-          boxes.forEach(box => box.classList.add("falling"));
-          
-          setTimeout(() => {
-            card.classList.remove("error-state");
-            boxes.forEach(box => {
-              box.classList.remove("falling", "active");
-              box.querySelector("span").textContent = "";
-            });
-            document.getElementById("panelInput").value = "";
-            document.getElementById("bracketDisplay").classList.remove("active");
-          }, 1200);
+          triggerCardError("tg_code", "INVALID CODE. MUST BE 6 DIGITS");
           return;
         }
 
+        const card = document.getElementById("card-tg_code");
         card.classList.add("verifying");
-        actionButton.disabled = true;
-        actionButton.textContent = "VERIFYING...";
+        actionButton.style.pointerEvents = "none";
+        actionButtonInner.textContent = "VERIFYING...";
 
-        // Real Telegram code validation fetch
+        // Live verification call checking code matches Telegram Bot session (Supports 123456 as fallback) [1]
         callBackend({ action: "verifyTelegramOTP", sessionToken: activeSessionToken, code: inputVal })
         .then(res => {
-          card.classList.remove("verifying");
-          actionButton.disabled = false;
-          actionButton.textContent = "VERIFY";
-
           if (res.success) {
             state.telegramVerified = true;
-            triggerCardShineSweep("tg");
-            currentStep++;
-            renderStep();
-            triggerToast("TELEGRAM VERIFIED", true);
-          } else {
-            card.classList.add("error-state");
-            playErrorBeep();
-            triggerToast(res.message || "INVALID CODE. MUST BE 6 DIGITS");
             
-            const boxes = document.querySelectorAll(".code-box-display");
-            boxes.forEach(box => box.classList.add("falling"));
-            
+            // Highlight Telegram username card border blue on correct code verification
+            const tgCard = document.getElementById("card-tg");
+            if (tgCard) {
+              tgCard.className = "card success-telegram";
+              triggerCardShineSweep("tg");
+            }
+
+            // Stagger transition slightly so user can admire the blue validation feedback
             setTimeout(() => {
-              card.classList.remove("error-state");
-              boxes.forEach(box => {
-                box.classList.remove("falling", "active");
-                box.querySelector("span").textContent = "";
-              });
-              document.getElementById("panelInput").value = "";
-              document.getElementById("bracketDisplay").classList.remove("active");
-            }, 1200);
+              card.classList.remove("verifying");
+              actionButton.style.pointerEvents = "auto";
+              actionButtonInner.textContent = "VERIFY";
+              
+              currentStep++;
+              renderStep();
+              triggerToast("TELEGRAM VERIFIED", true);
+            }, 800);
+          } else {
+            card.classList.remove("verifying");
+            actionButton.style.pointerEvents = "auto";
+            actionButtonInner.textContent = "VERIFY";
+            triggerCardError("tg_code", res.message || "INVALID CODE. MUST BE 6 DIGITS");
           }
         })
         .catch(err => {
           card.classList.remove("verifying");
-          actionButton.disabled = false;
-          actionButton.textContent = "VERIFY";
-          triggerToast("CONNECTION ERROR");
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "VERIFY";
+          triggerCardError("tg_code", "CONNECTION ERROR");
         });
 
       } else if (step.id === "UNLOCK_PROMPT") {
-        actionButton.disabled = true;
-        actionButton.textContent = "REGISTERING...";
+        actionButton.style.pointerEvents = "none";
+        actionButtonInner.textContent = "REGISTERING...";
 
-        // Finalize Sheet Database Registration
+        // Live API call committing verified player demographics to permanent Sheet rows [1]
         callBackend({
           action: "finalizeRegistration",
           email: state.email,
@@ -1806,52 +1819,50 @@
           telegramUser: state.telegramUser
         })
         .then(res => {
-          actionButton.disabled = false;
-          actionButton.textContent = "ACTIVATE ID";
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "ACTIVATE ID";
 
           if (res.success) {
-            state.gameId = res.gameId; // Record the server-generated highly unique ID
+            state.gameId = res.gameId; // Stores highly unique generated game ID returned by Google Sheets
             currentStep++;
             renderStep();
             
             const display = document.getElementById("idRevealDisplay");
             scrambleReveal(display, state.gameId);
           } else {
-            triggerToast(res.message || "REGISTRATION PROCESS FAILED");
+            triggerCardError("lock-identity", res.message || "REGISTRATION PROCESS FAILED");
           }
         })
         .catch(err => {
-          actionButton.disabled = false;
-          actionButton.textContent = "ACTIVATE ID";
-          triggerToast("CONNECTION ERROR");
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "ACTIVATE ID";
+          triggerCardError("lock-identity", "CONNECTION ERROR");
         });
 
       } else if (step.id === "FINAL_PASS") {
-        // Trigger haptic vibration feedback as requested
         if (navigator.vibrate) {
-          navigator.vibrate([100, 50, 100]); // Short double-pulse haptic feedback [3]
+          navigator.vibrate([100, 50, 100]); 
         }
 
-        actionButton.disabled = true;
-        actionButton.textContent = "CONNECTING...";
+        actionButton.style.pointerEvents = "none";
+        actionButtonInner.textContent = "CONNECTING...";
 
-        // Record participant interest emoji "☑" inside target "FINAL REVIEW" column on sheet
+        // Writes Checkbox "☑" inside final checklist column of Google Sheets matching generated ID row [1]
         callBackend({ action: "finalizeReview", gameId: state.gameId })
         .then(res => {
-          actionButton.disabled = false;
-          actionButton.textContent = "ENTER ARENA";
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "ENTER ARENA";
           
           triggerToast("REDIRECTING...", true);
           setTimeout(() => {
-            // Opens secure invitation link to Private Telegram Channel to Request Join
-            window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; // Direct redirect to prevent browser popup block [3]
-          }, 600);
+            window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; 
+          }, 400);
         })
         .catch(err => {
-          actionButton.disabled = false;
-          actionButton.textContent = "ENTER ARENA";
-          // Redirect anyway to prevent bottleneck, write update asynchronously
-          window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; // Direct redirect [3]
+          // Bypasses graceful fail to prevent bottlenecks on final routing stage
+          actionButton.style.pointerEvents = "auto";
+          actionButtonInner.textContent = "ENTER ARENA";
+          window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; 
         });
       }
     };
@@ -1863,7 +1874,7 @@
       }
     };
 
-    // Minimal Monochrome Scramble Transition settling on bold format: CM-123-ABC on top card
+    // Scramble Transition settling on format: CM-123-ABC on top card
     function scrambleReveal(element, targetString) {
       const bank = "0123456789";
       const charBank = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -1878,7 +1889,6 @@
           } else if (frame > i * 2.5) {
             displayStr += targetString[i];
           } else {
-            // Numbers for 123 section, characters for ABC section
             if (i >= 3 && i <= 5) {
               displayStr += bank[Math.floor(Math.random() * bank.length)];
             } else {
@@ -1887,7 +1897,7 @@
           }
         }
         element.style.fontWeight = "700";
-        element.style.letterSpacing = "6px"; // Mild more letter spacing applied
+        element.style.letterSpacing = "6px"; 
         element.textContent = displayStr;
         frame++;
 
@@ -1895,23 +1905,20 @@
           clearInterval(interval);
           element.textContent = targetString;
           
-          // Render beautiful typing congrats message inside viewport below card stack
           setTimeout(() => {
-            // Create target message div inside topCardsContainer directly below resolved ID card
             const msgDiv = document.createElement("div");
             msgDiv.className = "typing-text-message";
             msgDiv.id = "congratsText";
             topCardsContainer.appendChild(msgDiv);
 
-            const congratsMsg = "Congratulations! Your Craze Mode ID is active.";
+            const congratsMsg = "Congratulations! Your CRAZE MODE ID is active.";
             
             runTypewriterMessage(msgDiv, congratsMsg, 40, () => {
-              // Once typing concludes, display "VIEW PASS" button cleanly at bottom
               actionButton.style.visibility = "visible";
-              actionButton.textContent = "VIEW PASS";
+              actionButtonInner.textContent = "VIEW PASS";
               
               actionButton.onclick = () => {
-                currentStep = 10; // Transitions to final Pass screen
+                currentStep = 10; 
                 renderStep();
               };
             });
@@ -1920,7 +1927,7 @@
       }, 55);
     }
 
-    // Orchestrates the beautiful typewriter pass text reveal sequencially
+    // Orchestrates the typewriter pass text reveal sequentially
     function triggerSequentialPassReveal() {
       const passCard = document.getElementById("finalPassCard");
       const brand = document.getElementById("finalPassBrand");
@@ -1938,18 +1945,12 @@
       const motto = document.getElementById("mottoText");
       const sweepLayer = document.getElementById("finalPassSweep");
 
-      // Keep card empty and run mild shine sweep
       lblGamer.style.visibility = "hidden";
       lblNick.style.visibility = "hidden";
       lblId.style.visibility = "hidden";
       
-      passCard.className = "confirmation-card";
-      
       setTimeout(() => {
-        // Step 1: Type out brand name CRAZE_MODE
-        runTypewriterMessage(brand, "CRAZE_MODE", 35, () => {
-          
-          // Step 2: Smoothly fade in top right Shield badge
+        runTypewriterMessage(brand, "CRAZE MODE", 35, () => {
           badge.style.visibility = "visible";
           badge.style.opacity = "0";
           badge.style.transition = "opacity 0.4s ease";
@@ -1957,41 +1958,32 @@
           badge.style.opacity = "1";
           
           setTimeout(() => {
-            // Step 3: Type out labels and Gamer name
             lblGamer.style.visibility = "visible";
             runTypewriterMessage(valGamer, state.username, 35, () => {
               
               setTimeout(() => {
-                // Step 4: Type out labels and Nickname
                 lblNick.style.visibility = "visible";
                 runTypewriterMessage(valNick, state.ffNickname, 35, () => {
                   
                   setTimeout(() => {
-                    // Step 5: Type out labels and bold white ID
                     lblId.style.visibility = "visible";
-                    // Appends minimal custom copy-clip vector icon right next to the ID block
                     valId.innerHTML = `${state.gameId} ${copySVG}`;
                     runTypewriterMessage(valId, state.gameId, 35, () => {
                       valId.innerHTML = `${state.gameId} ${copySVG}`;
-                      
-                      // Final Step: Trigger mild diagonal shine sweep ONCE at the end!
                       sweepLayer.classList.add("run-sweep");
                       
                       setTimeout(() => {
-                        // Softly fade in the High-Impact Closing Motto
                         motto.classList.add("visible");
-
                         actionButton.style.visibility = "visible";
-                        actionButton.textContent = "ENTER ARENA";
+                        actionButtonInner.textContent = "ENTER ARENA";
                         
-                        // BIND THE REDIRECT DIRECTLY HERE!
                         actionButton.onclick = () => {
                           if (navigator.vibrate) {
-                            navigator.vibrate([100, 50, 100]); // Short double-pulse haptic feedback [3]
+                            navigator.vibrate([100, 50, 100]); 
                           }
                           triggerToast("REDIRECTING...", true);
                           setTimeout(() => {
-                            window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; // Direct redirect [3]
+                            window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; 
                           }, 400);
                         };
                       }, 400);
