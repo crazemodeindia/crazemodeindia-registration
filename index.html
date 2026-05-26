@@ -357,6 +357,54 @@
       to { transform: rotate(360deg); }
     }
 
+    /* CODE OTP DISPLAY BOXES */
+    .code-boxes {
+      display: flex;
+      gap: 6px;
+    }
+
+    .code-box-display {
+      width: 24px; /* Restored back from 12px to match your original horizontal design */
+      height: 32px; /* Restored back from 16px to match your original horizontal design */
+      border: 1px solid #2B2B2B;
+      color: #FFFFFF;
+      text-align: center;
+      font-size: 15px; /* Sized up for high readability on mobile viewports */
+      line-height: 32px;
+      font-family: 'Space Mono', monospace;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .code-box-display.active {
+      border-color: #FFFFFF;
+    }
+
+    /* Falling numbers cascading error effect */
+    .code-box-display span {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      transition: none;
+    }
+
+    .code-box-display.falling span {
+      animation: fall-off 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
+    @keyframes fall-off {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(50px) rotate(45deg); opacity: 0; }
+    }
+
+    /* Staggered cascading delay */
+    .code-box-display.falling:nth-child(1) span { animation-delay: 0.0s; }
+    .code-box-display.falling:nth-child(2) span { animation-delay: 0.08s; }
+    .code-box-display.falling:nth-child(3) span { animation-delay: 0.16s; }
+    .code-box-display.falling:nth-child(4) span { animation-delay: 0.24s; }
+    .code-box-display.falling:nth-child(5) span { animation-delay: 0.32s; }
+    .code-box-display.falling:nth-child(6) span { animation-delay: 0.40s; }
+
     /* INLINE CARD DROPDOWN */
     .card.dropdown-active {
       height: auto;
@@ -794,7 +842,7 @@
       <!-- Populated dynamically -->
     </div>
 
-    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON (Elevated Upwards) -->
+    <!-- STATIONARY INTERACTIVE PANEL & ACTION BUTTON -->
     <div class="bottom-container">
       <div class="interactive-panel" id="interactivePanel">
         <!-- Rendered inputs dynamically with ZERO vertical layout shifts -->
@@ -1864,6 +1912,17 @@
 
                         actionButton.style.visibility = "visible";
                         actionButton.textContent = "ENTER ARENA";
+                        
+                        // BIND THE REDIRECT DIRECTLY HERE!
+                        actionButton.onclick = () => {
+                          if (navigator.vibrate) {
+                            navigator.vibrate([100, 50, 100]); // Short double-pulse haptic feedback [3]
+                          }
+                          triggerToast("REDIRECTING...", true);
+                          setTimeout(() => {
+                            window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; // Direct redirect [3]
+                          }, 400);
+                        };
                       }, 400);
                     });
                   }, 250);
