@@ -17,6 +17,8 @@
 
     body {
       background-color: #000000;
+      /* Subtly glowing backlighting vignette behind the portal viewport */
+      background-image: radial-gradient(circle at 50% 30%, #151124 0%, #000000 80%);
       color: #FFFFFF;
       font-family: 'Oxanium', sans-serif;
       display: flex;
@@ -112,31 +114,37 @@
       width: 100%;
       height: 1px;
       background-color: #161616;
-      margin-bottom: 20px;
+      margin-bottom: 30px; /* Increased margin for top-anchored progress bar spacing */
     }
 
-    /* STATUS TRACKER BAR - Now permanently anchored on top below headerdivider */
+    /* STATUS TRACKER BAR - Top-Anchored Circuit-Glow Track [2] */
     .status-section {
       width: 100%;
-      margin-bottom: 24px;
-    }
-
-    .status-label {
-      font-size: 11px; /* Scaled up for mobile readability */
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      color: #7A7A7A;
-      margin-bottom: 6px;
+      margin-bottom: 30px;
+      position: relative;
     }
 
     .status-bar {
       width: 100%;
       height: 2px;
-      background-color: #161616;
+      background-color: #16161a;
       position: relative;
     }
 
-    /* Animated progress fill with Matte White electric glow and energy wave [2] */
+    /* Subtle passive circuit node terminals placed at precise step coordinates [2] */
+    .status-node {
+      position: absolute;
+      top: -1px;
+      width: 4px;
+      height: 4px;
+      background-color: #16161a;
+      border: 1px solid #22222a;
+      border-radius: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    /* Active progress fill with Matte White electric glow and energy wave [2] */
     .status-bar-fill {
       width: 20%;
       height: 100%;
@@ -148,34 +156,36 @@
       animation: status-energy-flow 1.5s linear infinite;
     }
 
-    /* Concentrated glowing electric tip flare matching Free Fire reference style [2] */
+    /* Sharp vertical circuit capsule energy-tip connector (No round glow) [2] */
     .status-bar-fill::after {
       content: '';
       position: absolute;
-      right: -6px; /* Centered on leading tip */
-      top: 50%;
-      transform: translateY(-50%);
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
+      right: -1.5px; /* Line up exactly with flat edge */
+      top: -4px; /* Extends slightly above and below the 2px bar */
+      width: 3px;
+      height: 10px; /* Sharp vertical circuit connector capsule */
       background-color: #FFFFFF;
       box-shadow: 0 0 10px #FFFFFF,
-                  0 0 20px rgba(255, 255, 255, 0.8),
-                  0 0 35px rgba(255, 255, 255, 0.4);
-      animation: electric-glow-pulse 0.6s infinite alternate;
+                  0 0 20px rgba(255, 255, 255, 0.5);
+      z-index: 5;
     }
 
-    @keyframes status-energy-flow {
-      0% { background-position: -80px 0; }
-      100% { background-position: 150px 0; }
+    /* Travelling percentage text floating elegantly above the active tip [2] */
+    .status-percentage-label {
+      position: absolute;
+      right: 0;
+      top: -22px; /* Float directly above the bar */
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: #FFFFFF;
+      transform: translateX(50%); /* Centered over the lead capsule */
+      letter-spacing: 1px;
+      white-space: nowrap;
+      transition: right 0.3s ease;
     }
 
-    @keyframes electric-glow-pulse {
-      0% { transform: translateY(-50%) scale(0.9); opacity: 0.8; }
-      100% { transform: translateY(-50%) scale(1.3); opacity: 1; }
-    }
-
-    /* High-end mild gradient completed gaming status bar */
+    /* High-end completed gaming status bar transition [2] */
     .status-bar-fill.completed {
       background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50%, #00F2FE 100%) !important;
       background-size: 200% auto !important;
@@ -188,6 +198,11 @@
       box-shadow: 0 0 10px #00F2FE,
                   0 0 20px rgba(0, 242, 254, 0.8),
                   0 0 35px rgba(0, 242, 254, 0.4) !important;
+    }
+
+    @keyframes status-energy-flow {
+      0% { background-position: -80px 0; }
+      100% { background-position: 150px 0; }
     }
 
     @keyframes status-glow {
@@ -209,6 +224,7 @@
       display: none;
     }
 
+    /* Display Cards with 45-degree chamfered cyber corner cut [2] */
     .card {
       width: 100%;
       height: 48px;
@@ -221,6 +237,7 @@
       position: relative;
       overflow: hidden;
       flex-shrink: 0 !important; /* Strict lock preventing card compression on multi-stacks */
+      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut [2] */
       transition: all 0.2s ease;
     }
 
@@ -494,7 +511,7 @@
       pointer-events: auto; /* Enables touch strictly on actual buttons */
     }
 
-    /* Fixed Height Typing Container */
+    /* Fixed Height Typing Container with chamfered cyber corners */
     .interactive-panel {
       width: 100%;
       height: 110px; /* Locked panel height */
@@ -508,6 +525,7 @@
       text-align: center;
       position: relative;
       overflow: hidden;
+      clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px); /* Cyber cut [2] */
     }
 
     /* Bracket Text Display with Thin Blinking Cursor */
@@ -544,7 +562,7 @@
       color: #333333;
     }
 
-    /* NEXT / VERIFY ACTION BUTTON */
+    /* NEXT / VERIFY ACTION BUTTON with chamfered cyber corners */
     .action-button {
       width: 100%;
       height: 52px;
@@ -561,6 +579,7 @@
       align-items: center;
       gap: 10px;
       text-transform: uppercase;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); /* Cyber cut [2] */
       transition: background-color 0.15s, color 0.15s, border-color 0.15s;
     }
 
@@ -624,7 +643,7 @@
     }
 
     /* ==========================================================================
-       9. GAMER PASS CONFIRMATION CARD (Highly Unique, Pure Solid Black Card)
+       9. GAMER PASS CONFIRMATION CARD (Futuristic Asymmetrical Diagonal Cut) [2]
        ========================================================================== */
     .confirmation-card {
       width: 100%;
@@ -640,9 +659,10 @@
       position: relative;
       z-index: 1;
       overflow: hidden;
+      clip-path: polygon(24px 0, 100% 0, 100% calc(100% - 24px), calc(100% - 24px) 100%, 0 100%, 0 24px); /* Perfect asymmetrical corner cuts [2] */
     }
 
-    /* Floating dashed inner blueprint line offset by exactly 6px */
+    /* Floating dashed inner blueprint line matching the exact outer asymmetrical cut [2] */
     .confirmation-card::before {
       content: '';
       position: absolute;
@@ -653,6 +673,7 @@
       border: 1px dashed rgba(255, 255, 255, 0.08);
       pointer-events: none;
       z-index: 2;
+      clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px); /* Internal matched cut [2] */
     }
 
     /* Slow vertical cyber scanning bar */
@@ -782,7 +803,7 @@
       padding: 0 4px;
     }
 
-    /* Premium Cybernetic Motto Layout Footer with Asymmetrical Tactical Clip */
+    /* Premium Cybernetic Motto Layout Footer */
     .motto-container {
       display: flex;
       align-items: center;
@@ -866,9 +887,22 @@
 
     <!-- STATUS TRACKER - Now permanently anchored on top below headerdivider -->
     <div class="status-section">
-      <div class="status-label">STATUS</div>
+      <!-- Travelling percentage layout [2] -->
+      <div class="status-label">STATUS: 15%</div>
       <div class="status-bar">
-        <div class="status-bar-fill" id="statusBarFill"></div>
+        <!-- Structural circuit trace nodes placed along the track [2] -->
+        <div class="status-node" style="left: 15%;"></div>
+        <div class="status-node" style="left: 30%;"></div>
+        <div class="status-node" style="left: 42%;"></div>
+        <div class="status-node" style="left: 54%;"></div>
+        <div class="status-node" style="left: 66%;"></div>
+        <div class="status-node" style="left: 75%;"></div>
+        <div class="status-node" style="left: 85%;"></div>
+        <div class="status-node" style="left: 92%;"></div>
+        <div class="status-node" style="left: 100%;"></div>
+        <div class="status-bar-fill" id="statusBarFill">
+          <span class="status-percentage-label" id="statusPercent">15%</span>
+        </div>
       </div>
     </div>
 
@@ -1205,15 +1239,17 @@
       stepHeader.textContent = step.title;
       
       // Update status track fill
+      const percentVal = step.isFinalPass ? 100 : step.progress;
+      statusBarFill.style.width = `${percentVal}%`;
+      document.getElementById("statusPercent").textContent = `${percentVal}%`;
+      
       if (step.isFinalPass) {
         // Shifting progress labels and tracks to fully completed on the pass screen
-        document.querySelector(".status-label").textContent = "COMPLETED";
+        document.querySelector(".status-label").textContent = "COMPLETED: 100%";
         statusBarFill.classList.add("completed");
-        statusBarFill.style.width = "100%";
       } else {
-        document.querySelector(".status-label").textContent = "STATUS";
+        document.querySelector(".status-label").textContent = `STATUS: ${percentVal}%`;
         statusBarFill.classList.remove("completed");
-        statusBarFill.style.width = `${step.progress}%`;
       }
 
       // Hide or show bottom control container completely based on Experience step config
@@ -1685,7 +1721,7 @@
         .catch(err => {
           actionButton.disabled = false;
           actionButton.textContent = "GET CODE";
-          triggerToast(err.message || "CONNECTION ERROR");
+          triggerToast("CONNECTION ERROR");
         });
 
       } else if (step.id === "TELEGRAM_VERIFY") {
@@ -1752,7 +1788,7 @@
           card.classList.remove("verifying");
           actionButton.disabled = false;
           actionButton.textContent = "VERIFY";
-          triggerToast(err.message || "CONNECTION ERROR");
+          triggerToast("CONNECTION ERROR");
         });
 
       } else if (step.id === "UNLOCK_PROMPT") {
