@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CRAZE MODE - Premium Registration Engine</title>
   <style>
-    /* Google Fonts: Montserrat (Brand Typography) & Rajdhani (High-Tech Condensed Body) */
+    /* Google Fonts: Montserrat (Monstera Brand Style) & Rajdhani (High-Tech Condensed Body) */
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Rajdhani:wght@500;600;700&display=swap');
 
     * {
@@ -19,7 +19,7 @@
 
     body {
       background-color: #000000;
-      /* Subtly glowing backlighting vignette behind the portal viewport */
+      /* Glowing backlighting vignette behind the portal viewport */
       background-image: radial-gradient(circle at 50% 30%, #151124 0%, #000000 80%);
       color: #FFFFFF;
       font-family: 'Rajdhani', sans-serif;
@@ -30,7 +30,7 @@
       overflow: hidden;
     }
 
-    /* 1. INTRO SPLASH SCREEN */
+    /* 1. INTRO SPLASH SCREEN (HIGH IMPACT GAMING UNIFOLD EFFECT) */
     .splash-screen {
       position: absolute;
       top: 0;
@@ -46,18 +46,39 @@
       transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    /* Monstera Extra Bold Unfolding Animation */
+    @keyframes brand-unfold {
+      0% { letter-spacing: -4px; filter: blur(12px); opacity: 0; transform: scale(0.95); }
+      50% { text-shadow: 0 0 20px rgba(255, 255, 255, 0.6); }
+      100% { letter-spacing: 6px; filter: blur(0); opacity: 1; transform: scale(1); }
+    }
+
     /* Montserrat Extra Bold brand typography */
     .brand-logo-unified {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800; /* Extra bold monstera style */
       font-size: 25px;
-      letter-spacing: 5px;
+      letter-spacing: 6px;
       color: #FFFFFF;
       text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
 
     .splash-logo {
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      animation: brand-unfold 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* Gaming aesthetic brackets */
+    .cyber-bracket {
+      color: #00F2FE;
+      font-weight: 300;
+      text-shadow: 0 0 8px #00F2FE;
+    }
+
+    @keyframes sub-fade-in {
+      0% { opacity: 0; transform: translateY(6px); letter-spacing: 2px; }
+      100% { opacity: 1; transform: translateY(0); letter-spacing: 6px; }
     }
 
     /* Montserrat thin subtitle typography */
@@ -65,10 +86,12 @@
       font-family: 'Montserrat', sans-serif;
       font-weight: 200; /* Monstera font style thin */
       font-size: 11px;
-      letter-spacing: 4px;
+      letter-spacing: 6px;
       color: #7A7A7A;
       text-transform: uppercase;
       margin-top: 4px;
+      opacity: 0;
+      animation: sub-fade-in 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
     }
 
     /* Mobile-Friendly Proportional Viewport */
@@ -124,7 +147,7 @@
       margin-bottom: 30px; /* Increased margin for top-anchored progress bar spacing */
     }
 
-    /* STATUS TRACKER BAR - Top-Anchored Circuit-Glow Track [2] */
+    /* STATUS TRACKER BAR */
     .status-section {
       width: 100%;
       margin-bottom: 30px;
@@ -360,11 +383,8 @@
       width: 100%;
     }
 
-    /* Let clicks pass through decorative code items straight to the hidden input box */
-    .card.active-input-state .card-content .card-label,
-    .card.active-input-state .card-content .code-boxes,
-    .card.active-input-state .card-content .code-box-display,
-    .card.active-input-state .card-content .code-box-display span {
+    /* Direct Passthrough to block overlay click capture blocks */
+    .card.active-input-state .card-content {
       pointer-events: none !important;
     }
 
@@ -387,7 +407,7 @@
       text-overflow: ellipsis;
     }
 
-    /* Embedded text elements styled inline directly inside the active card */
+    /* Embedded text elements styled inline directly inside active card */
     .card-input {
       background: transparent;
       border: none;
@@ -512,7 +532,7 @@
       cursor: text;
       border: none;
       outline: none;
-      z-index: 20; /* Layer on top of visual content inside .card-inner */
+      z-index: 999 !important; /* Elevated to absolute top to guarantee clean focus captures */
       pointer-events: auto !important;
     }
 
@@ -929,7 +949,7 @@
 
   <!-- SPLASH SCREEN INTRO MODULE -->
   <div class="splash-screen" id="splashScreen">
-    <div class="splash-logo brand-logo-unified">CRAZE MODE</div>
+    <div class="splash-logo brand-logo-unified"><span class="cyber-bracket">[</span> CRAZE MODE <span class="cyber-bracket">]</span></div>
     <div class="splash-sub">PROVE YOUR SKILL</div>
   </div>
 
@@ -1269,7 +1289,7 @@
         toast.style.color = "#FFFFFF";
       }
       toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2000);
+      setTimeout(() => toast.classList.remove("show"), 2500);
     }
 
     // Helper: Triggers physical/visual error state on target active cards [2]
@@ -1635,6 +1655,13 @@
 
           if (res.success) {
             triggerCardShineSweep("email");
+            
+            // If Mail quota is exhausted, auto-retrieve & display code in developer console / UI
+            if (res.debugCode) {
+              console.log("DEMO MODE FALLBACK EMAIL OTP:", res.debugCode);
+              triggerToast("DEBUG RECOVERY CODE: " + res.debugCode, true);
+            }
+            
             currentStep++;
             renderStep();
             triggerToast("CODE SENT", true); 
