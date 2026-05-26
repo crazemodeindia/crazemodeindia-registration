@@ -169,7 +169,7 @@
       position: relative;
     }
 
-    /* Subtle passive circuit node terminals placed at precise step coordinates [2] */
+    /* Subtle passive circuit node terminals placed at precise step coordinates */
     .status-node {
       position: absolute;
       top: -1px;
@@ -182,7 +182,7 @@
       z-index: 2;
     }
 
-    /* Active progress fill with Matte White electric glow and energy wave [2] */
+    /* Active progress fill with Matte White electric glow and energy wave */
     .status-bar-fill {
       width: 0%;
       height: 100%;
@@ -194,7 +194,7 @@
       animation: status-energy-flow 1.5s linear infinite;
     }
 
-    /* Sharp vertical circuit capsule energy-tip connector (No round glow) [2] */
+    /* Sharp vertical circuit capsule energy-tip connector (No round glow) */
     .status-bar-fill::after {
       content: '';
       position: absolute;
@@ -208,7 +208,7 @@
       z-index: 5;
     }
 
-    /* Travelling percentage text floating elegantly above the active tip [2] */
+    /* Travelling percentage text floating elegantly above the active tip */
     .status-percentage-label {
       position: absolute;
       right: 0;
@@ -223,7 +223,7 @@
       transition: right 0.3s ease;
     }
 
-    /* High-end completed gaming status bar transition [2] */
+    /* High-end completed gaming status bar transition */
     .status-bar-fill.completed {
       background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50%, #00F2FE 100%) !important;
       background-size: 200% auto !important;
@@ -383,9 +383,9 @@
       width: 100%;
     }
 
-    /* Bypasses text content layering so taps natively trigger the hidden input box on mobile */
+    /* Ensures direct native inputs receive click pointer events cleanly */
     .card.active-input-state .card-content {
-      pointer-events: none !important;
+      pointer-events: auto !important;
     }
 
     .card-label {
@@ -424,6 +424,37 @@
 
     .card-input::placeholder {
       color: #3A3A3A;
+    }
+
+    /* High-Tech Esports Monospaced Numeric Input Field */
+    .monospaced-otp-input {
+      background: #0D0D0D;
+      border: 1px solid #2B2B2B;
+      color: #FFFFFF;
+      font-family: 'Montserrat', monospace;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 4px;
+      text-align: center;
+      width: 110px;
+      height: 28px;
+      outline: none;
+      border-radius: 0;
+      caret-color: #00F2FE; /* Electric cyan cursor focus tint */
+      clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px); /* Matching micro-cut brand style */
+      transition: all 0.2s ease;
+      pointer-events: auto !important;
+    }
+
+    .monospaced-otp-input:focus {
+      border-color: #00F2FE;
+      box-shadow: 0 0 8px rgba(0, 242, 254, 0.35);
+      background: #111111;
+    }
+
+    .monospaced-otp-input::placeholder {
+      color: #2B2B2B;
+      letter-spacing: 4px;
     }
 
     .card.success-gmail .card-value,
@@ -497,71 +528,6 @@
       to { transform: rotate(360deg); }
     }
 
-    /* COMPACT CODE OTP DISPLAY BOXES */
-    .code-boxes {
-      display: flex;
-      gap: 4px;
-      margin-top: 2px;
-    }
-
-    .code-box-display {
-      width: 18px; /* Optimized, compact width */
-      height: 24px; /* Reduced vertical footprint for better vertical balance */
-      border: 1px solid #2B2B2B;
-      color: #FFFFFF;
-      text-align: center;
-      font-size: 13px; /* Scaled down for high integration */
-      line-height: 24px;
-      font-family: 'Rajdhani', sans-serif;
-      font-weight: 700;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .code-box-display.active {
-      border-color: #FFFFFF;
-    }
-
-    .hidden-code-input {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.01; /* Painted but visually hidden */
-      background: transparent;
-      border: none;
-      outline: none;
-      z-index: 9999 !important; /* Topmost focus layers to prevent click capture blocks */
-      pointer-events: auto !important;
-      cursor: text;
-    }
-
-    /* Falling numbers cascading error effect */
-    .code-box-display span {
-      display: inline-block;
-      width: 100%;
-      height: 100%;
-      transition: none;
-    }
-
-    .code-box-display.falling span {
-      animation: fall-off 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    }
-
-    @keyframes fall-off {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(50px) rotate(45deg); opacity: 0; }
-    }
-
-    /* Staggered cascading delay */
-    .code-box-display.falling:nth-child(1) span { animation-delay: 0.0s; }
-    .code-box-display.falling:nth-child(2) span { animation-delay: 0.08s; }
-    .code-box-display.falling:nth-child(3) span { animation-delay: 0.16s; }
-    .code-box-display.falling:nth-child(4) span { animation-delay: 0.24s; }
-    .code-box-display.falling:nth-child(5) span { animation-delay: 0.32s; }
-    .code-box-display.falling:nth-child(6) span { animation-delay: 0.40s; }
-
     /* INLINE CARD DROPDOWN */
     .card.dropdown-active {
       height: auto;
@@ -628,7 +594,7 @@
       background-color: #FFFFFF; /* Acts as solid fill or outer border boundary */
       padding: 1px;
       cursor: pointer;
-      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); /* Cyber cut [2] */
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px); /* Cyber cut */
       transition: background-color 0.15s, transform 0.1s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -1441,21 +1407,13 @@
 
           let innerHTML = "";
           if (c.isCode) {
-            // Reorganized layout rendering the hidden captured textbox directly inside .card-inner rather than nested
+            // Horizontal layout to embed standard native monospaced text input on right side [2]
             innerHTML = `
-              <div class="card-content" style="cursor: text;">
-                <div class="card-label">${c.label}</div>
-                <div class="code-boxes" id="cardCodeContainer">
-                  <div class="code-box-display"><span></span></div>
-                  <div class="code-box-display"><span></span></div>
-                  <div class="code-box-display"><span></span></div>
-                  <div class="code-box-display"><span></span></div>
-                  <div class="code-box-display"><span></span></div>
-                  <div class="code-box-display"><span></span></div>
-                </div>
+              <div class="card-content" style="display:flex; flex-direction:row; justify-content:space-between; align-items:center; width:100%;">
+                <div class="card-label" style="margin-bottom:0; font-family:'Rajdhani', sans-serif;">${c.label}</div>
+                <input type="text" pattern="[0-9]*" inputmode="numeric" class="monospaced-otp-input" id="hiddenCodeCapture" maxlength="6" placeholder="000000" autocomplete="off" />
               </div>
-              <input type="text" pattern="[0-9]*" inputmode="numeric" class="hidden-code-input" id="hiddenCodeCapture" maxlength="6" autocomplete="off" />
-              <div class="verify-animation-box"></div>
+              <div class="verify-animation-box" style="margin-left: 8px;"></div>
             `;
           } else if (c.editable) {
             // Text values editable directly inside the card layout
@@ -1523,10 +1481,10 @@
           // Force focus on click anywhere inside active input wrappers for high-performance touch feedback
           if (c.editable || c.isCode) {
             cardDiv.addEventListener("click", (e) => {
-              if (e.target.classList.contains("hidden-code-input") || e.target.classList.contains("card-input")) {
+              if (e.target.classList.contains("hidden-code-input") || e.target.classList.contains("card-input") || e.target.classList.contains("monospaced-otp-input")) {
                 return;
               }
-              const input = cardDiv.querySelector(".card-input, .hidden-code-input");
+              const input = cardDiv.querySelector(".card-input, .hidden-code-input, .monospaced-otp-input");
               if (input) input.focus();
             });
           }
@@ -1584,8 +1542,6 @@
           val = val.replace(/[^0-9]/g, '');
           hiddenCodeCapture.value = val; 
           
-          syncVerificationBoxes(val);
-
           // Highly responsive auto-submit trigger for mobile keyboards on 6th digit entry
           if (val.length === 6) {
             setTimeout(() => {
