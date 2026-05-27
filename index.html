@@ -182,7 +182,7 @@
       z-index: 2;
     }
 
-    /* Active progress fill with Matte White electric glow and energy wave */
+    /* Active progress fill with Matte White electric glow and energy wave [2] */
     .status-bar-fill {
       width: 0%;
       height: 100%;
@@ -223,7 +223,7 @@
       transition: right 0.3s ease;
     }
 
-    /* High-end completed gaming status bar transition */
+    /* High-end completed gaming status bar transition [2] */
     .status-bar-fill.completed {
       background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50%, #00F2FE 100%) !important;
       background-size: 200% auto !important;
@@ -262,7 +262,7 @@
       display: none;
     }
 
-    /* Parent border container simulating flawless corner cuts */
+    /* Parent border container simulating flawless corner cuts [2] */
     .card {
       width: 100%;
       height: 52px;
@@ -270,7 +270,7 @@
       padding: 1px; /* 1px border width boundary */
       position: relative;
       flex-shrink: 0 !important; /* Strict lock preventing card compression on multi-stacks */
-      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut */
+      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut [2] */
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -590,7 +590,7 @@
     /* STATIONARY BOTTOM ZONE (Clean action area elevated for mobile safe limits) */
     .bottom-container {
       position: absolute;
-      bottom: 58px; /* Elevated to sit inside mobile borders safely */
+      bottom: 75px; /* Elevated to sit inside mobile borders safely */
       left: 32px;
       right: 32px;
       height: auto;
@@ -1276,7 +1276,7 @@
 
     // Helper: Triggers physical/visual error state on target active cards [2]
     function triggerCardError(cardId, errorMessage) {
-      actionLock = false; // Reset lock on error
+      setButtonState(false); // Reset loading and lock states immediately on failure
       const card = document.getElementById(`card-${cardId}`);
       if (card) {
         card.classList.add("error-state");
@@ -1311,6 +1311,22 @@
       } else {
         playErrorBeep();
         triggerToast(errorMessage);
+      }
+    }
+
+    // Helper: Controls button tactile locks and loading states during transitions
+    function setButtonState(loading, text) {
+      actionLock = loading;
+      if (loading) {
+        actionButton.style.pointerEvents = "none";
+        actionButton.style.opacity = "0.5";
+        actionButton.style.cursor = "not-allowed";
+        if (text) actionButtonInner.textContent = text;
+      } else {
+        actionButton.style.pointerEvents = "auto";
+        actionButton.style.opacity = "1";
+        actionButton.style.cursor = "pointer";
+        if (text) actionButtonInner.textContent = text;
       }
     }
 
@@ -1446,7 +1462,7 @@
             cardDiv.className += " dropdown-active";
             const displayVal = state.experienceLevel || "SELECT YOUR EXPERIENCE LEVEL";
             
-            // Render beautiful custom terminal option selectors inline inside card
+            // Render premium, full-width vertical stack list inside selection card with colored glyph icons
             innerHTML = `
               <div class="card-content" style="width:100%;">
                 <div class="card-label">${c.label}</div>
@@ -1454,16 +1470,16 @@
                 
                 <div class="dropdown-list-inline">
                   <div class="dropdown-option-inline ${state.experienceLevel === 'Beginner' ? 'selected' : ''}" onclick="setExperience('Beginner')">
-                    <span class="cyber-bracket">❖</span> Beginner Tier
+                    <span class="cyber-bracket" style="color: #CD7F32; text-shadow: 0 0 8px #CD7F32;">❖</span> Beginner Tier
                   </div>
                   <div class="dropdown-option-inline ${state.experienceLevel === 'Intermediate' ? 'selected' : ''}" onclick="setExperience('Intermediate')">
-                    <span class="cyber-bracket">✦</span> Intermediate Tier
+                    <span class="cyber-bracket" style="color: #A0B2C6; text-shadow: 0 0 8px #A0B2C6;">✦</span> Intermediate Tier
                   </div>
                   <div class="dropdown-option-inline ${state.experienceLevel === 'Advanced' ? 'selected' : ''}" onclick="setExperience('Advanced')">
-                    <span class="cyber-bracket">✪</span> Advanced Tier
+                    <span class="cyber-bracket" style="color: #FFD700; text-shadow: 0 0 8px #FFD700;">✪</span> Advanced Tier
                   </div>
                   <div class="dropdown-option-inline ${state.experienceLevel === 'Competitive' ? 'selected' : ''}" onclick="setExperience('Competitive')">
-                    <span class="cyber-bracket">✵</span> Competitive Tier
+                    <span class="cyber-bracket" style="color: #FF3D00; text-shadow: 0 0 8px #FF3D00;">✵</span> Competitive Tier
                   </div>
                 </div>
               </div>
@@ -1626,16 +1642,13 @@
           return;
         }
 
-        actionLock = true;
-        actionButton.style.pointerEvents = "none";
-        actionButtonInner.textContent = "SENDING...";
+        // Freeze button state instantly to prevent rapid continuous taps
+        setButtonState(true, "SENDING...");
 
         // Live API integration checking email uniqueness and dispatching actual verification code [1]
         callBackend({ action: "sendEmailOTP", email: state.email })
         .then(res => {
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "GET CODE";
-          actionLock = false; // Release lock
+          setButtonState(false, "GET CODE");
 
           if (res.success) {
             triggerCardShineSweep("email");
@@ -1660,9 +1673,7 @@
           state.demoEmailOTP = Math.floor(100000 + Math.random() * 900000).toString();
           console.log("RECOVERY PROTOCOL ACTIVE - LOCAL OTP:", state.demoEmailOTP);
           
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "GET CODE";
-          actionLock = false; // Release lock
+          setButtonState(false, "GET CODE");
           
           triggerCardShineSweep("email");
           currentStep++;
@@ -1681,11 +1692,9 @@
           return;
         }
 
-        actionLock = true;
+        setButtonState(true, "VERIFYING...");
         const card = document.getElementById("card-code");
         card.classList.add("verifying");
-        actionButton.style.pointerEvents = "none";
-        actionButtonInner.textContent = "VERIFYING...";
 
         // Intercept local fallbacks before attempting script queries
         if (state.demoEmailOTP && inputVal === state.demoEmailOTP) {
@@ -1703,9 +1712,7 @@
           }
           setTimeout(() => {
             card.classList.remove("verifying");
-            actionButton.style.pointerEvents = "auto";
-            actionButtonInner.textContent = "VERIFY";
-            actionLock = false; // Release lock
+            setButtonState(false, "VERIFY");
 
             currentStep++;
             renderStep();
@@ -1735,9 +1742,7 @@
             // Stagger transition slightly so user can admire the green validation micro-interaction
             setTimeout(() => {
               card.classList.remove("verifying");
-              actionButton.style.pointerEvents = "auto";
-              actionButtonInner.textContent = "VERIFY";
-              actionLock = false; // Release lock
+              setButtonState(false, "VERIFY");
               
               currentStep++;
               renderStep();
@@ -1745,15 +1750,13 @@
             }, 800);
           } else {
             card.classList.remove("verifying");
-            actionButton.style.pointerEvents = "auto";
-            actionButtonInner.textContent = "VERIFY";
+            setButtonState(false, "VERIFY");
             triggerCardError("code", res.message || "INVALID CODE. MUST BE 6 DIGITS");
           }
         })
         .catch(err => {
           card.classList.remove("verifying");
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "VERIFY";
+          setButtonState(false, "VERIFY");
           triggerCardError("code", "CONNECTION ERROR");
         });
 
@@ -1791,16 +1794,12 @@
           return;
         }
 
-        actionLock = true;
-        actionButton.style.pointerEvents = "none";
-        actionButtonInner.textContent = "GENERATING...";
+        setButtonState(true, "GENERATING...");
 
         // Live Telegram OTP verification session initialization [1]
         callBackend({ action: "requestTelegramOTP", telegramUser: state.telegramUser })
         .then(res => {
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "GET CODE";
-          actionLock = false; // Release lock
+          setButtonState(false, "GET CODE");
 
           if (res.success) {
             activeSessionToken = res.sessionToken;
@@ -1817,9 +1816,7 @@
         })
         .catch(err => {
           // Local fallback logic in case webviews intercept external popups/bot links
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "GET CODE";
-          actionLock = false; // Release lock
+          setButtonState(false, "GET CODE");
           activeSessionToken = "DEMO-SESSION-TOKEN";
           
           triggerCardShineSweep("tg");
@@ -1839,11 +1836,9 @@
           return;
         }
 
-        actionLock = true;
+        setButtonState(true, "VERIFYING...");
         const card = document.getElementById("card-tg_code");
         card.classList.add("verifying");
-        actionButton.style.pointerEvents = "none";
-        actionButtonInner.textContent = "VERIFYING...";
 
         // Live verification call checking code matches Telegram Bot session (Supports 123456 as fallback) [1]
         callBackend({ action: "verifyTelegramOTP", telegramUser: state.telegramUser, code: inputVal })
@@ -1866,9 +1861,7 @@
             // Stagger transition slightly so user can admire the blue validation feedback
             setTimeout(() => {
               card.classList.remove("verifying");
-              actionButton.style.pointerEvents = "auto";
-              actionButtonInner.textContent = "VERIFY";
-              actionLock = false; // Release lock
+              setButtonState(false, "VERIFY");
               
               currentStep++;
               renderStep();
@@ -1876,21 +1869,18 @@
             }, 800);
           } else {
             card.classList.remove("verifying");
-            actionButton.style.pointerEvents = "auto";
-            actionButtonInner.textContent = "VERIFY";
+            setButtonState(false, "VERIFY");
             triggerCardError("tg_code", res.message || "INVALID CODE. MUST BE 6 DIGITS");
           }
         })
         .catch(err => {
           card.classList.remove("verifying");
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "VERIFY";
+          setButtonState(false, "VERIFY");
           triggerCardError("tg_code", "CONNECTION ERROR");
         });
 
       } else if (step.id === "UNLOCK_PROMPT") {
-        actionButton.style.pointerEvents = "none";
-        actionButtonInner.textContent = "ACTIVATE ID";
+        setButtonState(true, "REGISTERING...");
 
         // Live API call committing verified player demographics to permanent Sheet rows [1]
         callBackend({
@@ -1903,8 +1893,7 @@
           telegramUser: state.telegramUser
         })
         .then(res => {
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "ACTIVATE ID";
+          setButtonState(false, "ACTIVATE ID");
 
           if (res.success) {
             state.gameId = res.gameId; // Stores highly unique generated game ID returned by Google Sheets
@@ -1919,8 +1908,7 @@
         })
         .catch(err => {
           // Graceful local generation mock in case Sheets cannot write rows
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "ACTIVATE ID";
+          setButtonState(false, "ACTIVATE ID");
           
           state.gameId = "CM-" + Math.floor(100 + Math.random() * 900) + "-XYZ";
           currentStep++;
@@ -1935,14 +1923,12 @@
           navigator.vibrate([100, 50, 100]); 
         }
 
-        actionButton.style.pointerEvents = "none";
-        actionButtonInner.textContent = "CONNECTING...";
+        setButtonState(true, "CONNECTING...");
 
         // Writes Checkbox "☑" inside final checklist column of Google Sheets matching generated ID row [1]
         callBackend({ action: "finalizeReview", gameId: state.gameId })
         .then(res => {
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "ENTER ARENA";
+          setButtonState(false, "ENTER ARENA");
           
           triggerToast("REDIRECTING...", true);
           setTimeout(() => {
@@ -1951,8 +1937,7 @@
         })
         .catch(err => {
           // Bypasses graceful fail to prevent bottlenecks on final routing stage
-          actionButton.style.pointerEvents = "auto";
-          actionButtonInner.textContent = "ENTER ARENA";
+          setButtonState(false, "ENTER ARENA");
           window.location.href = "https://t.me/+Ah8ZbN2eKKAzZWJl"; 
         });
       }
