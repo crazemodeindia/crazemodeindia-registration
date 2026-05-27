@@ -169,7 +169,7 @@
       position: relative;
     }
 
-    /* Subtle passive circuit node terminals placed at precise step coordinates */
+    /* Subtle passive circuit node terminals placed at precise step coordinates [2] */
     .status-node {
       position: absolute;
       top: -1px;
@@ -182,7 +182,7 @@
       z-index: 2;
     }
 
-    /* Active progress fill with Matte White electric glow and energy wave */
+    /* Active progress fill with Matte White electric glow and energy wave [2] */
     .status-bar-fill {
       width: 0%;
       height: 100%;
@@ -194,7 +194,7 @@
       animation: status-energy-flow 1.5s linear infinite;
     }
 
-    /* Sharp vertical circuit capsule energy-tip connector (No round glow) */
+    /* Sharp vertical circuit capsule energy-tip connector (No round glow) [2] */
     .status-bar-fill::after {
       content: '';
       position: absolute;
@@ -208,7 +208,7 @@
       z-index: 5;
     }
 
-    /* Travelling percentage text floating elegantly above the active tip */
+    /* Travelling percentage text floating elegantly above the active tip [2] */
     .status-percentage-label {
       position: absolute;
       right: 0;
@@ -223,7 +223,7 @@
       transition: right 0.3s ease;
     }
 
-    /* High-end completed gaming status bar transition */
+    /* High-end completed gaming status bar transition [2] */
     .status-bar-fill.completed {
       background: linear-gradient(90deg, #00F2FE 0%, #4FACFE 50%, #00F2FE 100%) !important;
       background-size: 200% auto !important;
@@ -262,7 +262,7 @@
       display: none;
     }
 
-    /* Parent border container simulating flawless corner cuts */
+    /* Parent border container simulating flawless corner cuts [2] */
     .card {
       width: 100%;
       height: 52px;
@@ -270,7 +270,7 @@
       padding: 1px; /* 1px border width boundary */
       position: relative;
       flex-shrink: 0 !important; /* Strict lock preventing card compression on multi-stacks */
-      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut */
+      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut [2] */
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -531,33 +531,43 @@
     /* INLINE CARD DROPDOWN (TERMINAL SELECTION MENU) */
     .card.dropdown-active {
       height: auto;
-      min-height: 250px; /* Sized to comfortably host option block grid inside safe limit */
+      min-height: 280px; /* Sized to comfortably host option block grid inside safe limit */
+    }
+
+    .card.dropdown-active .card-inner {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
     }
 
     .dropdown-list-inline {
       width: 100%;
       margin-top: 10px;
       border-top: 1px dashed #161616;
-      padding-top: 10px;
+      padding-top: 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px; 
+      gap: 8px; 
     }
 
     .dropdown-option-inline {
       font-family: 'Rajdhani', sans-serif;
       font-size: 14px; 
-      font-weight: 600;
+      font-weight: 700;
       color: #888888;
       cursor: pointer;
-      padding: 6px 12px;
+      width: 100%;
+      padding: 10px 16px;
       border: 1px solid #161616;
       background: #000000;
       transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       align-items: center;
-      gap: 10px;
-      clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+      gap: 12px;
+      clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
     }
 
     .dropdown-option-inline:hover {
@@ -574,7 +584,6 @@
       color: #00F2FE;
       border-color: #00F2FE;
       background: #05141A;
-      font-weight: 700;
       text-shadow: 0 0 8px rgba(0, 242, 254, 0.3);
     }
 
@@ -979,7 +988,7 @@
   </div>
 
   <script>
-    // Live Web App URL integration [1]
+    // Live Web App URL integration
     const API_URL = "https://script.google.com/macros/s/AKfycbwbV9DezZqLKTppdd-Rmdi2rmwhOoZjj3naQLXcxNBe3-q-8E1kp9cdfXuBXMG5jkrsKA/exec"; 
     
     let currentStep = 0;
@@ -1439,27 +1448,23 @@
             
             // Render beautiful custom terminal option selectors inline inside card
             innerHTML = `
-              <div style="display:flex; justify-content:space-between; width:100%; align-items:center; width:100%;">
-                <div class="card-content">
-                  <div class="card-label">${c.label}</div>
-                  <div class="card-value" style="color: ${state.experienceLevel ? '#FFFFFF' : '#888888'};">${displayVal}</div>
-                </div>
-                <div class="checkbox-icon">
-                  <span class="checkmark"></span>
-                </div>
-              </div>
-              <div class="dropdown-list-inline">
-                <div class="dropdown-option-inline ${state.experienceLevel === 'Beginner' ? 'selected' : ''}" onclick="setExperience('Beginner')">
-                  <span class="cyber-bracket">${state.experienceLevel === 'Beginner' ? '[X]' : '[ ]'}</span> Beginner
-                </div>
-                <div class="dropdown-option-inline ${state.experienceLevel === 'Intermediate' ? 'selected' : ''}" onclick="setExperience('Intermediate')">
-                  <span class="cyber-bracket">${state.experienceLevel === 'Intermediate' ? '[X]' : '[ ]'}</span> Intermediate
-                </div>
-                <div class="dropdown-option-inline ${state.experienceLevel === 'Advanced' ? 'selected' : ''}" onclick="setExperience('Advanced')">
-                  <span class="cyber-bracket">${state.experienceLevel === 'Advanced' ? '[X]' : '[ ]'}</span> Advanced
-                </div>
-                <div class="dropdown-option-inline ${state.experienceLevel === 'Competitive' ? 'selected' : ''}" onclick="setExperience('Competitive')">
-                  <span class="cyber-bracket">${state.experienceLevel === 'Competitive' ? '[X]' : '[ ]'}</span> Competitive
+              <div class="card-content" style="width:100%;">
+                <div class="card-label">${c.label}</div>
+                <div class="card-value" style="color: ${state.experienceLevel ? '#FFFFFF' : '#888888'}; margin-bottom: 8px;">${displayVal}</div>
+                
+                <div class="dropdown-list-inline">
+                  <div class="dropdown-option-inline ${state.experienceLevel === 'Beginner' ? 'selected' : ''}" onclick="setExperience('Beginner')">
+                    <span class="cyber-bracket">❖</span> Beginner Tier
+                  </div>
+                  <div class="dropdown-option-inline ${state.experienceLevel === 'Intermediate' ? 'selected' : ''}" onclick="setExperience('Intermediate')">
+                    <span class="cyber-bracket">✦</span> Intermediate Tier
+                  </div>
+                  <div class="dropdown-option-inline ${state.experienceLevel === 'Advanced' ? 'selected' : ''}" onclick="setExperience('Advanced')">
+                    <span class="cyber-bracket">✪</span> Advanced Tier
+                  </div>
+                  <div class="dropdown-option-inline ${state.experienceLevel === 'Competitive' ? 'selected' : ''}" onclick="setExperience('Competitive')">
+                    <span class="cyber-bracket">✵</span> Competitive Tier
+                  </div>
                 </div>
               </div>
             `;
@@ -1841,7 +1846,7 @@
         actionButtonInner.textContent = "VERIFYING...";
 
         // Live verification call checking code matches Telegram Bot session (Supports 123456 as fallback) [1]
-        callBackend({ action: "verifyTelegramOTP", sessionToken: activeSessionToken, code: inputVal })
+        callBackend({ action: "verifyTelegramOTP", telegramUser: state.telegramUser, code: inputVal })
         .then(res => {
           if (res.success) {
             state.telegramVerified = true;
