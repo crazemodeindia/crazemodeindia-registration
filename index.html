@@ -262,7 +262,7 @@
       display: none;
     }
 
-    /* Parent border container simulating flawless corner cuts [2] */
+    /* Parent border container simulating flawless corner cuts */
     .card {
       width: 100%;
       height: 52px;
@@ -270,7 +270,7 @@
       padding: 1px; /* 1px border width boundary */
       position: relative;
       flex-shrink: 0 !important; /* Strict lock preventing card compression on multi-stacks */
-      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut [2] */
+      clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px); /* Asymmetrical tech corner cut */
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -979,8 +979,8 @@
   </div>
 
   <script>
-    // Live Web App URL integration
-    const API_URL = "https://script.google.com/macros/s/AKfycbxuiAd_TMUG3YGKv9EgpTgedw--utmGtuhcPr9m5CqgcCswv77A8A9Wks0gjLP5QkHr/exec"; 
+    // Live Web App URL integration [1]
+    const API_URL = "https://script.google.com/macros/s/AKfycbwbV9DezZqLKTppdd-Rmdi2rmwhOoZjj3naQLXcxNBe3-q-8E1kp9cdfXuBXMG5jkrsKA/exec"; 
     
     let currentStep = 0;
     let audioCtx = null; 
